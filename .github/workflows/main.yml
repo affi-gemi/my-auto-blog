@@ -15,15 +15,13 @@ jobs:
       - name: 楽天APIの商品取得 ＆ Gemini 3.1 Proでの執筆・チェック
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          RAKUTEN_APP_ID: ${{ secrets.RAKUTEN_APPLICATION_ID }}
-          RAKUTEN_AFF_ID: ${{ secrets.RAKUTEN_AFFILIATE_ID }}
         run: |
           # 日本時間に設定
           export TZ="Asia/Tokyo"
           WEEKDAY=$(date +%w)
 
           case $WEEKDAY in
-            0) KEYWORD="ふるさと納税" ;;
+            0) KEYWORD="ふるさと納税 おすすめ 贅沢 返礼品" ;;
             1) KEYWORD="プログラミング 初心者 教材" ;;
             2) KEYWORD="Wi-Fiルーター 高速 おすすめ" ;;
             3) KEYWORD="英会話 教材 初心者 おすすめ" ;;
@@ -34,11 +32,11 @@ jobs:
 
           echo "検索キーワード: ${KEYWORD}"
 
-          # jqを使わず、curlの機能（-Gと-d）で安全にURLを組み立ててリクエストを送信
+          # テストコードで成功した方式（secretsを直接埋め込み）でリクエストを送る
           RAKUTEN_RES=$(curl -s -G "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601" \
             -d "format=json" \
-            -d "applicationId=${RAKUTEN_APP_ID}" \
-            -d "affiliateId=${RAKUTEN_AFF_ID}" \
+            -d "applicationId=${{ secrets.RAKUTEN_APPLICATION_ID }}" \
+            -d "affiliateId=${{ secrets.RAKUTEN_AFFILIATE_ID }}" \
             --data-urlencode "keyword=${KEYWORD}" \
             -d "hits=1" \
             -d "sort=standard")
