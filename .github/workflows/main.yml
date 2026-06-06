@@ -59,7 +59,7 @@ jobs:
           LINK="<p style='text-align: center; margin: 40px 0;'><a href='${ITEM_URL}' target='_blank' rel='nofollow' style='background: #d93025; color: white; padding: 18px 35px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; font-size: 20px; box-shadow: 0 4px 15px rgba(217,48,37,0.3);'>【楽天市場】「${BUTTON_TEXT}...」をチェックする</a></p>"
 
           # 4. 【第1フェーズ：Gemini 3.1 Proによる記事執筆】
-          PROMPT_WRITE="高度なマーケティングスキルを持つプロのインフルエンサー・ブロガーとして行動してください。以下の【ターゲット商品情報】を基に、読者の悩みを解決しつつ、自然に商品が欲しくなるような魅力的な解説記事を日本語のHTML形式（<body>の中身のみ、<h1>〜<h3>、<p>、<ul>タグ等で装飾）で1本作成してください。
+          PROMPT_WRITE="高度なマーケティングスキルを持つプロのインフルエンサー・ブロラーとして行動してください。以下の【ターゲット商品情報】を基に、読者の悩みを解決しつつ、自然に商品が欲しくなるような魅力的な解説記事を日本語のHTML形式（<body>の中身のみ、<h1>〜<h3>、<p>、<ul>タグ等で装飾）で1本作成してください。
           【ターゲット商品情報】
           商品名: ${ITEM_TITLE}
           価格: ${ITEM_PRICE}円
@@ -163,9 +163,9 @@ jobs:
             echo "        <h1>AI自動生成・おすすめ情報ブログ</h1>"
             echo "        <p>毎日、最新のおすすめ情報をAIが自動で発信しています。</p>"
             echo "        <h2>記事一覧</h2>"
-            <ul>
+            echo "        <ul>"
             echo "            ${LINKS}"
-            </ul>
+            echo "        </ul>"
             echo "    </div>"
             echo "</body>"
             echo "</html>"
