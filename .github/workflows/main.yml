@@ -23,7 +23,7 @@ jobs:
           WEEKDAY=$(date +%w)
 
           case $WEEKDAY in
-            0) KEYWORD="ふるさと納税 おすすめ 贅沢 返礼品" ;;
+            0) KEYWORD="ふるさと納税" ;;
             1) KEYWORD="プログラミング 初心者 教材" ;;
             2) KEYWORD="Wi-Fiルーター 高速 おすすめ" ;;
             3) KEYWORD="英会話 教材 初心者 おすすめ" ;;
