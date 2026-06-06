@@ -2,9 +2,8 @@ name: Auto Blog Writer
 
 on:
   schedule:
-    # 毎日朝7時（日本時間）に自動で実行
     - cron: '0 22 * * *'
-  workflow_dispatch: # 手動実行ボタンを表示
+  workflow_dispatch:
 
 jobs:
   write-blog:
@@ -21,9 +20,8 @@ jobs:
         run: |
           # 日本時間に設定
           export TZ="Asia/Tokyo"
-          WEEKDAY=$(date +%w) # 0=日, 1=月, 2=火, 3=水, 4=木, 5=金, 6=土
+          WEEKDAY=$(date +%w)
 
-          # 1. 曜日ごとの検索キーワードを設定
           case $WEEKDAY in
             0) KEYWORD="ふるさと納税 おすすめ 贅沢 返礼品" ;;
             1) KEYWORD="プログラミング 初心者 教材" ;;
@@ -34,20 +32,14 @@ jobs:
             6) KEYWORD="スマート家電 おすすめ ガジェット" ;;
           esac
 
-          # 2. 楽天API用にキーワードをURLエンコード
           ENCODED_KEYWORD=$(jq -rn --arg kw "$KEYWORD" '$kw | @uri')
 
-         # 3. 楽天API呼び出しの確実な記述
+          # 3. 楽天API呼び出しの確実な記述
           API_URL="https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601?format=json&applicationId=${RAKUTEN_APP_ID}&affiliateId=${RAKUTEN_AFF_ID}&keyword=${ENCODED_KEYWORD}&hits=1&sort=standard"
           RAKUTEN_RES=$(curl -s "${API_URL}")
 
-          # JSONから商品の詳細データを安全に抽出
           ITEM_TITLE=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemName // empty')
-          ITEM_URL=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.affiliateUrl // empty')
-          ITEM_PRICE=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemPrice // empty')
-          ITEM_CAPTION=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemCaption // empty')
-
-          # 万が一、楽天APIの取得に失敗した場合はエラー内容を出力して安全にストップ
+          
           if [ -z "$ITEM_TITLE" ]; then
             echo "--- 楽天APIからのレスポンスエラー詳細 ---"
             echo "$RAKUTEN_RES"
@@ -56,129 +48,5 @@ jobs:
             exit 1
           fi
 
-          # ボタン表示用に商品名を少し短くカット
-          BUTTON_TEXT=$(echo "$ITEM_TITLE" | cut -c 1-30)
-
-          # 動的に取得した商品の個別アフィリエイトリンクボタンを生成
-          LINK="<p style='text-align: center; margin: 40px 0;'><a href='${ITEM_URL}' target='_blank' rel='nofollow' style='background: #d93025; color: white; padding: 18px 35px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; font-size: 20px; box-shadow: 0 4px 15px rgba(217,48,37,0.3);'>【楽天市場】「${BUTTON_TEXT}...」をチェックする</a></p>"
-
-          # 4. 【第1フェーズ：Gemini 3.1 Proによる記事執筆】
-          PROMPT_WRITE="高度なマーケティングスキルを持つプロのインフルエンサー・ブロラーとして行動してください。以下の【ターゲット商品情報】を基に、読者の悩みを解決しつつ、自然に商品が欲しくなるような魅力的な解説記事を日本語のHTML形式（<body>の中身のみ、<h1>〜<h3>、<p>、<ul>タグ等で装飾）で1本作成してください。
-          【ターゲット商品情報】
-          商品名: ${ITEM_TITLE}
-          価格: ${ITEM_PRICE}円
-          商品説明: ${ITEM_CAPTION}
-          【必須要件（著作権・セールス）】
-          - 著作権侵害防止：他サイトの文章のコピペや、商品説明文をそのまま丸写しすることは絶対に避けてください。あなたの言葉でオリジナルの価値あるコンテンツとして執筆してください。
-          - 構成：読者の「悩みや願望（共感）」→「それを解決するこの商品のメリット」→「具体的な活用シーン」→「まとめ」のストーリー構成にしてください。
-          - 最後に必ず、次の商品リンクHTMLコードを『改行や変更を一切加えずにそのまま』記事の末尾（まとめの後）に貼り付けてください：${LINK}"
-
-          JSON_WRITE=$(jq -n --arg prompt "$PROMPT_WRITE" '{contents: [{parts: [{text: $prompt}]}]}')
-          
-          # モデルを最新の 3.1-pro に指定してリクエスト
-          RES_WRITE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-pro:generateContent?key=${GEMINI_API_KEY}" -H "Content-Type: application/json" -d "$JSON_WRITE")
-          DRAFT_ARTICLE=$(echo "$RES_WRITE" | jq -r '.candidates[0].content.parts[0].text // empty' | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
-
-          # 5. 【第2フェーズ：Gemini 3.1 Proによる見直し・厳重チェック】
-          PROMPT_CHECK="あなたは極めて厳格なプロの編集長、および法律・コンプライアンスの専門家です。先ほどAIが作成した以下の【ブログ記事のドラフト】を徹底的に見直し、問題点を修正した「最終版のHTML記事」を出力してください。
-          【ブログ記事のドラフト】
-          ${DRAFT_ARTICLE}
-          【チェック・見直し項目（最重要）】
-          1. 著作権と独自性：どこかのWebサイトのコピペのような不自然に定型的な表現はないか？一般の読者が本当に役立つオリジナルの視点が含まれているか？
-          2. 購買意欲：読者の心に刺さる魅力的なキャッチコピーや、感情を動かす表現になっているか？物足りない場合は、より魅力的な表現にブラッシュアップしてください。
-          3. 整合性：紹介している商品の情報（名前や特徴）が商品説明と矛盾していないか？
-          4. リンクの保持：末尾にある商品リンクのHTMLコード（${ITEM_URL} を含むaタグ全体）が、一切削られたり変形されたりせず、正しく配置されているか？
-          【出力のルール】
-          チェックプロセスを頭の中で行った上で、修正・ブラッシュアップが完了した「最終的なHTML（<body>の中身のみ）」だけを出力してください。解説や「修正しました」といった報告文は一切不要です。"
-
-          JSON_CHECK=$(jq -n --arg prompt "$PROMPT_CHECK" '{contents: [{parts: [{text: $prompt}]}]}')
-          
-          # 再度 3.1-pro で推敲・チェックを実行
-          RES_CHECK=$(curl -s -X POST "[https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-pro:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-pro:generateContent?key=$){GEMINI_API_KEY}" -H "Content-Type: application/json" -d "$JSON_CHECK")
-          FINAL_ARTICLE=$(echo "$RES_CHECK" | jq -r '.candidates[0].content.parts[0].text // empty' | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
-
-          # 万が一チェック側でエラーが出た場合はドラフトをそのまま救済利用
-          if [ -z "$FINAL_ARTICLE" ]; then
-            FINAL_ARTICLE=$DRAFT_ARTICLE
-          fi
-
-          # 6. HTMLファイルの保存
-          DATE=$(date '+%Y-%m-%d_%H-%M')
-          TITLE_DATE=$(date '+%Y年%m月%d日')
-          
-          mkdir -p posts
-          
-          (
-            echo "<!DOCTYPE html>"
-            echo "<html lang='ja'>"
-            echo "<head>"
-            echo "    <meta charset='UTF-8'>"
-            echo "    <meta name='viewport' content='width=device-width, initial-scale=1.0'>"
-            echo "    <title>${TITLE_DATE}のおすすめ記事</title>"
-            echo "    <style>"
-            echo "        body { font-family: sans-serif; line-height: 1.8; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; color: #333; }"
-            echo "        .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }"
-            echo "        h1 { color: #1a73e8; border-bottom: 3px solid #1a73e8; padding-bottom: 10px; font-size: 28px; }"
-            echo "        h2 { color: #202124; margin-top: 40px; border-left: 5px solid #1a73e8; padding-left: 10px; font-size: 22px; }"
-            echo "        h3 { color: #333; margin-top: 30px; font-size: 18px; }"
-            echo "        p { margin-bottom: 20px; text-align: justify; }"
-            echo "        ul { margin-bottom: 20px; padding-left: 20px; }"
-            echo "        li { margin-bottom: 8px; }"
-            echo "        .back-link { display: inline-block; margin-bottom: 30px; color: #1a73e8; text-decoration: none; }"
-            echo "    </style>"
-            echo "</head>"
-            echo "<body>"
-            echo "    <div class='container'>"
-            echo "        <a href='../index.html' class='back-link'>← 記事一覧（トップ）に戻る</a>"
-            echo "        ${FINAL_ARTICLE}"
-            echo "    </div>"
-            echo "</body>"
-            echo "</html>"
-          ) > posts/${DATE}.html
-
-          # 7. 記事一覧（インデックス）用のリンク集生成
-          LINKS=""
-          for file in $(ls -r posts/*.html 2>/dev/null); do
-              filename=$(basename "$file" .html)
-              display_name=$(echo "$filename" | sed -E 's/([0-9]{4})-([0-9]{2})-([0-9]{2})_([0-9]{2})-([0-9]{2})/\1年\2月\3日/')
-              LINKS="${LINKS}<li><a href='posts/${filename}.html'>${display_name} のおすすめ記事</a></li>"
-          done
-
-          # 8. トップページの作成
-          (
-            echo "<!DOCTYPE html>"
-            echo "<html lang='ja'>"
-            echo "<head>"
-            echo "    <meta charset='UTF-8'>"
-            echo "    <meta name='viewport' content='width=device-width, initial-scale=1.0'>"
-            echo "    <title>AI自動生成・おすすめ情報ブログ</title>"
-            echo "    <style>"
-            echo "        body { font-family: sans-serif; line-height: 1.8; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; color: #333; }"
-            echo "        .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }"
-            echo "        h1 { color: #1a73e8; border-bottom: 3px solid #1a73e8; padding-bottom: 10px; font-size: 28px; }"
-            echo "        ul { list-style: none; padding: 0; }"
-            echo "        li { padding: 15px; border-bottom: 1px solid #eee; font-size: 18px; }"
-            echo "        li a { color: #1a73e8; text-decoration: none; font-weight: bold; }"
-            echo "        li a:hover { text-decoration: underline; }"
-            echo "    </style>"
-            echo "</head>"
-            echo "<body>"
-            echo "    <div class='container'>"
-            echo "        <h1>AI自動生成・おすすめ情報ブログ</h1>"
-            echo "        <p>毎日、最新のおすすめ情報をAIが自動で発信しています。</p>"
-            echo "        <h2>記事一覧</h2>"
-            echo "        <ul>"
-            echo "            ${LINKS}"
-            echo "        </ul>"
-            echo "    </div>"
-            echo "</body>"
-            echo "</html>"
-          ) > index.html
-
-      - name: 完成した記事をお店に公開する
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add index.html posts/
-          git commit -m "Gemini 3.1 Proが自動執筆・チェック済みの新着記事を追加しました" || exit 0
-          git push
+          echo "商品取得成功！執筆を開始します。"
+          # （※以下、執筆・投稿処理は元のコードの続きをそのまま残してください）
