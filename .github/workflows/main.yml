@@ -32,15 +32,10 @@ jobs:
 
           echo "検索キーワード: ${KEYWORD}"
 
-          # テストコードで成功した方式（secretsを直接埋め込み）でリクエストを送る
-          RAKUTEN_RES=$(curl -s -G "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601" \
-            -d "format=json" \
-            -d "applicationId=${{ secrets.RAKUTEN_APPLICATION_ID }}" \
-            -d "affiliateId=${{ secrets.RAKUTEN_AFFILIATE_ID }}" \
-            --data-urlencode "keyword=${KEYWORD}" \
-            -d "hits=1" \
-            -d "sort=standard")
+          # 見えないスペースによるエラーを防ぐため、1行で一気にリクエストを送ります
+          RAKUTEN_RES=$(curl -s -G "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601" -d "format=json" -d "applicationId=${{ secrets.RAKUTEN_APPLICATION_ID }}" -d "affiliateId=${{ secrets.RAKUTEN_AFFILIATE_ID }}" --data-urlencode "keyword=${KEYWORD}" -d "hits=1" -d "sort=standard")
 
+          # レスポンスから1件目の商品名を抽出
           ITEM_TITLE=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemName // empty')
           
           if [ -z "$ITEM_TITLE" ]; then
@@ -52,4 +47,8 @@ jobs:
           fi
 
           echo "商品取得成功！執筆を開始します。: $ITEM_TITLE"
-          # （※以下、執筆・投稿処理は元のコードの続きをそのまま残してください）
+          
+          # =======================================================
+          # ここから下に、元々のコードにあった「Geminiへのプロンプト送信」や
+          # 「ブログへの投稿処理（WordPressやHatena等）」をそのまま貼り付けてください。
+          # =======================================================
