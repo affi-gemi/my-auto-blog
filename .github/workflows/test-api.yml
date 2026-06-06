@@ -1,0 +1,10 @@
+name: API Test
+on: workflow_dispatch
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: API接続テスト
+        run: |
+          # 楽天APIへの接続を確認するだけの単純なコマンド
+          curl -v "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601?format=json&applicationId=${{ secrets.RAKUTEN_APPLICATION_ID }}&affiliateId=${{ secrets.RAKUTEN_AFFILIATE_ID }}&keyword=test&hits=1"
