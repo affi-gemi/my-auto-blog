@@ -32,7 +32,9 @@ jobs:
             6) KEYWORD="スマート家電 おすすめ ガジェット" ;;
           esac
 
-          # curlの機能を使って安全にURLエンコードとパラメータ付与を行う
+          echo "検索キーワード: ${KEYWORD}"
+
+          # jqを使わず、curlの機能（-Gと-d）で安全にURLを組み立ててリクエストを送信
           RAKUTEN_RES=$(curl -s -G "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601" \
             -d "format=json" \
             -d "applicationId=${RAKUTEN_APP_ID}" \
@@ -47,9 +49,7 @@ jobs:
             echo "--- 楽天APIからのレスポンスエラー詳細 ---"
             echo "$RAKUTEN_RES"
             echo "----------------------------------------"
-            echo "楽天APIからの商品取得に失敗しました。設定を確認してください。"
-            # デバッグ用に変数が空欄になっていないか確認（機密情報なので本番稼働時は消すかマスク推奨）
-            echo "※デバッグ: APP_IDの文字数は ${#RAKUTEN_APP_ID} です"
+            echo "楽天APIからの商品取得に失敗しました。"
             exit 1
           fi
 
