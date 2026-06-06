@@ -31,9 +31,9 @@ jobs:
           esac
 
           echo "検索キーワード: ${KEYWORD}"
-          -d "applicationId=5e1e64aa-f0ff-4e9c-9dd1-d9d708d434d0"
+          
           # 見えないスペースによるエラーを防ぐため、1行で一気にリクエストを送ります
-          RAKUTEN_RES=$(curl -s -G "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601" -d "format=json" -d "applicationId=${{ secrets.RAKUTEN_APPLICATION_ID }}" -d "affiliateId=${{ secrets.RAKUTEN_AFFILIATE_ID }}" --data-urlencode "keyword=${KEYWORD}" -d "hits=1" -d "sort=standard")
+          RAKUTEN_RES=$(curl -s -G "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601" -d "format=json" -d "applicationId=5e1e64aa-f0ff-4e9c-9dd1-d9d708d434d0" -d "affiliateId=${{ secrets.RAKUTEN_AFFILIATE_ID }}" --data-urlencode "keyword=${KEYWORD}" -d "hits=1" -d "sort=standard")
 
           # レスポンスから1件目の商品名を抽出
           ITEM_TITLE=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemName // empty')
