@@ -104,33 +104,33 @@ jobs:
           
           mkdir -p posts
           
-          cat <<EOF > posts/${DATE}.html
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${TITLE_DATE}のおすすめ記事</title>
-    <style>
-        body { font-family: sans-serif; line-height: 1.8; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; color: #333; }
-        .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        h1 { color: #1a73e8; border-bottom: 3px solid #1a73e8; padding-bottom: 10px; font-size: 28px; }
-        h2 { color: #202124; margin-top: 40px; border-left: 5px solid #1a73e8; padding-left: 10px; font-size: 22px; }
-        h3 { color: #333; margin-top: 30px; font-size: 18px; }
-        p { margin-bottom: 20px; text-align: justify; }
-        ul { margin-bottom: 20px; padding-left: 20px; }
-        li { margin-bottom: 8px; }
-        .back-link { display: inline-block; margin-bottom: 30px; color: #1a73e8; text-decoration: none; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <a href="../index.html" class="back-link">← 記事一覧（トップ）に戻る</a>
-        ${FINAL_ARTICLE}
-    </div>
-</body>
-</html>
-EOF
+          (
+            echo "<!DOCTYPE html>"
+            echo "<html lang='ja'>"
+            echo "<head>"
+            echo "    <meta charset='UTF-8'>"
+            echo "    <meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+            echo "    <title>${TITLE_DATE}のおすすめ記事</title>"
+            echo "    <style>"
+            echo "        body { font-family: sans-serif; line-height: 1.8; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; color: #333; }"
+            echo "        .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }"
+            echo "        h1 { color: #1a73e8; border-bottom: 3px solid #1a73e8; padding-bottom: 10px; font-size: 28px; }"
+            echo "        h2 { color: #202124; margin-top: 40px; border-left: 5px solid #1a73e8; padding-left: 10px; font-size: 22px; }"
+            echo "        h3 { color: #333; margin-top: 30px; font-size: 18px; }"
+            echo "        p { margin-bottom: 20px; text-align: justify; }"
+            echo "        ul { margin-bottom: 20px; padding-left: 20px; }"
+            echo "        li { margin-bottom: 8px; }"
+            echo "        .back-link { display: inline-block; margin-bottom: 30px; color: #1a73e8; text-decoration: none; }"
+            echo "    </style>"
+            echo "</head>"
+            echo "<body>"
+            echo "    <div class='container'>"
+            echo "        <a href='../index.html' class='back-link'>← 記事一覧（トップ）に戻る</a>"
+            echo "        ${FINAL_ARTICLE}"
+            echo "    </div>"
+            echo "</body>"
+            echo "</html>"
+          ) > posts/${DATE}.html
 
           # 7. 記事一覧（インデックス）用のリンク集生成
           LINKS=""
@@ -141,35 +141,35 @@ EOF
           done
 
           # 8. トップページの作成
-          cat <<EOF > index.html
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI自動生成・おすすめ情報ブログ</title>
-    <style>
-        body { font-family: sans-serif; line-height: 1.8; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; color: #333; }
-        .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        h1 { color: #1a73e8; border-bottom: 3px solid #1a73e8; padding-bottom: 10px; font-size: 28px; }
-        ul { list-style: none; padding: 0; }
-        li { padding: 15px; border-bottom: 1px solid #eee; font-size: 18px; }
-        li a { color: #1a73e8; text-decoration: none; font-weight: bold; }
-        li a:hover { text-decoration: underline; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>AI自動生成・おすすめ情報ブログ</h1>
-        <p>毎日、最新のおすすめ情報をAIが自動で発信しています。</p>
-        <h2>記事一覧</h2>
-        <ul>
-            ${LINKS}
-        </ul>
-    </div>
-</body>
-</html>
-EOF
+          (
+            echo "<!DOCTYPE html>"
+            echo "<html lang='ja'>"
+            echo "<head>"
+            echo "    <meta charset='UTF-8'>"
+            echo "    <meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+            echo "    <title>AI自動生成・おすすめ情報ブログ</title>"
+            echo "    <style>"
+            echo "        body { font-family: sans-serif; line-height: 1.8; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; color: #333; }"
+            echo "        .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }"
+            echo "        h1 { color: #1a73e8; border-bottom: 3px solid #1a73e8; padding-bottom: 10px; font-size: 28px; }"
+            echo "        ul { list-style: none; padding: 0; }"
+            echo "        li { padding: 15px; border-bottom: 1px solid #eee; font-size: 18px; }"
+            echo "        li a { color: #1a73e8; text-decoration: none; font-weight: bold; }"
+            echo "        li a:hover { text-decoration: underline; }"
+            echo "    </style>"
+            echo "</head>"
+            echo "<body>"
+            echo "    <div class='container'>"
+            echo "        <h1>AI自動生成・おすすめ情報ブログ</h1>"
+            echo "        <p>毎日、最新のおすすめ情報をAIが自動で発信しています。</p>"
+            echo "        <h2>記事一覧</h2>"
+            <ul>
+            echo "            ${LINKS}"
+            </ul>
+            echo "    </div>"
+            echo "</body>"
+            echo "</html>"
+          ) > index.html
 
       - name: 完成した記事をお店に公開する
         run: |
