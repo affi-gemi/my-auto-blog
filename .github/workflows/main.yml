@@ -32,11 +32,14 @@ jobs:
             6) KEYWORD="スマート家電 おすすめ ガジェット" ;;
           esac
 
-          ENCODED_KEYWORD=$(jq -rn --arg kw "$KEYWORD" '$kw | @uri')
-
-          # 3. 楽天API呼び出しの確実な記述
-          API_URL="https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601?format=json&applicationId=${RAKUTEN_APP_ID}&affiliateId=${RAKUTEN_AFF_ID}&keyword=${ENCODED_KEYWORD}&hits=1&sort=standard"
-          RAKUTEN_RES=$(curl -s "${API_URL}")
+          # curlの機能を使って安全にURLエンコードとパラメータ付与を行う
+          RAKUTEN_RES=$(curl -s -G "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601" \
+            -d "format=json" \
+            -d "applicationId=${RAKUTEN_APP_ID}" \
+            -d "affiliateId=${RAKUTEN_AFF_ID}" \
+            --data-urlencode "keyword=${KEYWORD}" \
+            -d "hits=1" \
+            -d "sort=standard")
 
           ITEM_TITLE=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemName // empty')
           
@@ -45,8 +48,10 @@ jobs:
             echo "$RAKUTEN_RES"
             echo "----------------------------------------"
             echo "楽天APIからの商品取得に失敗しました。設定を確認してください。"
+            # デバッグ用に変数が空欄になっていないか確認（機密情報なので本番稼働時は消すかマスク推奨）
+            echo "※デバッグ: APP_IDの文字数は ${#RAKUTEN_APP_ID} です"
             exit 1
           fi
 
-          echo "商品取得成功！執筆を開始します。"
+          echo "商品取得成功！執筆を開始します。: $ITEM_TITLE"
           # （※以下、執筆・投稿処理は元のコードの続きをそのまま残してください）
