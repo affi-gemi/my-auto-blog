@@ -37,9 +37,9 @@ jobs:
           # 2. 楽天API用にキーワードをURLエンコード
           ENCODED_KEYWORD=$(jq -rn --arg kw "$KEYWORD" '$kw | @uri')
 
-          # 3. 楽天APIからリアルタイムの売れ筋商品を1件だけ自動取得（確実に変数を展開する記述に修正）
-          API_URL="https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601?applicationId=${RAKUTEN_APP_ID}&affiliateId=${RAKUTEN_AFF_ID}&keyword=${ENCODED_KEYWORD}&hits=1&sort=standard&format=json"
-          RAKUTEN_RES=$(curl -s "$API_URL")
+         # 3. 楽天API呼び出しの確実な記述
+          API_URL="https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601?format=json&applicationId=${RAKUTEN_APP_ID}&affiliateId=${RAKUTEN_AFF_ID}&keyword=${ENCODED_KEYWORD}&hits=1&sort=standard"
+          RAKUTEN_RES=$(curl -s "${API_URL}")
 
           # JSONから商品の詳細データを安全に抽出
           ITEM_TITLE=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemName // empty')
