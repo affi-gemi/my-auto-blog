@@ -40,16 +40,13 @@ jobs:
           # 楽天APIの設定エリア
           # ========================================================
           APP_ID="5e1e64aa-f0ff-4e9c-9dd1-d9d708d434d0"
-          
-          # ※★必ずご自身のアクセスキーに書き換えてください★
           ACCESS_KEY="pk_7Dvceb0JWiyKBHA4tjkjiO47cQm2Ku4DAgKbdZrGB7B"
-
-          REFERER_URL="https://affi-gemi.github.io/my-auto-blog/"
-          ORIGIN_URL="https://affi-gemi.github.io"
+          REFERER_URL="[https://affi-gemi.github.io/my-auto-blog/](https://affi-gemi.github.io/my-auto-blog/)"
+          ORIGIN_URL="[https://affi-gemi.github.io](https://affi-gemi.github.io)"
           AFFILIATE_ID="${{ secrets.RAKUTEN_AFFILIATE_ID }}"
           # ========================================================
 
-          RAKUTEN_RES=$(curl -s -X GET -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" -H "Referer: ${REFERER_URL}" -H "Origin: ${ORIGIN_URL}" "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401?format=json&applicationId=${APP_ID}&accessKey=${ACCESS_KEY}&affiliateId=${AFFILIATE_ID}&keyword=${ENCODED_KEYWORD}&hits=1&sort=standard")
+          RAKUTEN_RES=$(curl -s -X GET -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" -H "Referer: ${REFERER_URL}" -H "Origin: ${ORIGIN_URL}" "[https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401?format=json&applicationId=$](https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401?format=json&applicationId=$){APP_ID}&accessKey=${ACCESS_KEY}&affiliateId=${AFFILIATE_ID}&keyword=${ENCODED_KEYWORD}&hits=1&sort=standard")
 
           ITEM_TITLE=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemName // empty')
           
@@ -92,72 +89,42 @@ jobs:
           記事の最後に必ず、以下の広告リンクをHTMLタグごとそのまま末尾に設置してください。改変は一切禁止します:
           ${LINK}"
 
-          # 1回目：JSONをファイルに出力
           jq -n --arg prompt "$PROMPT_WRITE" '{contents: [{parts: [{text: $prompt}]}]}' > write.json
           
-          RES_WRITE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d @write.json)
+          # 1回目の結果を直接ファイル「response1.json」に保存する
+          curl -s -X POST "[https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$){CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d @write.json > response1.json
           
-          DRAFT_ARTICLE=$(echo "$RES_WRITE" | jq -r '.candidates[0].content.parts[0].text // empty' | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
-
-          if [ -z "$DRAFT_ARTICLE" ]; then
+          # 1回目が成功したか（エラーデータになっていないか）ファイルの記述を確認
+          CHECK_RESP1=$(jq -r '.candidates[0].content.parts[0].text // empty' response1.json)
+          if [ -z "$CHECK_RESP1" ]; then
             echo "--- Gemini API (1回目) エラーレスポンス詳細 ---"
-            echo "$RES_WRITE"
+            cat response1.json
             echo "---------------------------------------------"
             echo "Geminiでの下書き作成に失敗しました。"
             exit 1
           fi
 
-          # ⏱️ クォータ制限回避のため、60秒間待機
           echo "1回目の執筆が成功しました！クォータ制限を回避するため、60秒間待機します..."
           sleep 60
 
           # ─── Gemini API呼び出し (2回目: 推敲・チェック) ───
-          BASE_PROMPT_CHECK="あなたはWebマーケティング業界で名高い、非常に厳格な『鬼編集長』です。部下のライターが書いた以下のブログ記事（HTML形式）を厳しく査読・推敲し、最高品質の商業記事に仕上げてください。
+          BASE_PROMPT_CHECK="あなたはWebマーケティング業界で名高い、非常に厳格な『鬼編集長』です。部下のライターが書いた以下のブログ記事（HTML形式）を厳しく査読・推敲し、最高品質 of 商業記事に仕上げてください。
 
           【推敲・チェックの4大評価基準】
           以下の4点についてドラフトを厳しくチェックし、問題があれば必ず修正・加筆を行ってください。
 
-          1. 著作権チェック：
-             元の商品説明の安易なコピペ表現や、他者の著作権を侵害しそうなグレーな表現が残っていませんか？もし残っている場合は、より独創的で安全なオリジナル表現に徹底的に書き直してください。
-          2. 購入意欲のチェック：
-             読者が「今すぐ買いたい！」と思える文章体系になっていますか？ワクワク感や、購買意欲をそそるベネフィットの解説が足りない場合は、より魅力的な文章へブラッシュアップしてください。
-          3. 一貫性のチェック：
-             記事全体のテーマや主張、おすすめしている理由、読者ターゲット層にブレや矛盾はありませんか？論理が破綻している箇所は、一貫性を持たせるように修正してください。
-          4. 言葉尻（文末）の統一：
-             文章のトーン＆マナーを完璧に整えてください。「です・ます調（敬体）」または「だ・である調（常体）」のどちらかに、言葉尻を最初から最後まで美しく完全統一してください（途中で混ざることは絶対に不可）。
+          1. 著作権チェック：元の商品説明の安易なコピペ表現が残っていませんか？独創的なオリジナル表現に徹底的に書き直してください。
+          2. 購入意欲のチェック：読者が「今すぐ買いたい！」と思える文章体系になっていますか？魅力的な文章へブラッシュアップしてください。
+          3. 一貫性のチェック：記事全体のテーマや主張にブレや矛盾はありませんか？
+          4. 言葉尻（文末）の統一：「です・ます調」または「だ・である調」のどちらかに、最初から最後まで美しく完全統一してください。
 
           【注意事項】
-          記事の末尾にある楽天市場への広告リンク（<p style='text-align: center;'><a href=... から始まるHTMLタグ一式）は、絶対に削除したり、URLやテキストを改変したりせず、必ずそのまま最終出力の末尾に残してください。
+          記事の末尾にある楽天市場への広告リンク（<p style='text-align: center;'><a href=... から始まるHTMLタグ一式）は、絶対に削除したり改変したりせず、必ずそのまま最終出力の末尾に残してください。
 
           【修正対象のドラフト】
           "
 
-          # 2回目：jqで完全に独立した安全なファイルを作成
-          jq -n --arg base "$BASE_PROMPT_CHECK" --arg draft "$DRAFT_ARTICLE" '{contents: [{parts: [{text: ($base + $draft)}]}]}' > check.json
-          
-          # ★全角スペースと見えない制御文字を完全に排除し、手打ちで再構成したクリーンなcurlコマンドです
-          RES_CHECK=$(curl -s -X POST "[https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$){CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d @check.json)
-          
-          FINAL_ARTICLE=$(echo "$RES_CHECK" | jq -r '.candidates[0].content.parts[0].text // empty' | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
-
-          if [ -z "$FINAL_ARTICLE" ]; then
-            echo "--- Gemini API (2回目) エラーレスポンス詳細 ---"
-            echo "$RES_CHECK"
-            echo "---------------------------------------------"
-            echo "Geminiでの清書に失敗しました。"
-            exit 1
-          fi
-
-          # 保存とプッシュ
-          DATE=$(date '+%Y-%m-%d_%H-%M')
-          TITLE_DATE=$(date '+%Y年%m月%d日')
-          mkdir -p posts
-          
-          # HTML生成もクォーテーションの罠を踏まないよう、jq経由で安全にファイルに書き出します
-          jq -n --arg body "$FINAL_ARTICLE" --arg title "${TITLE_DATE}のおすすめ" '"<!DOCTYPE html><html lang=\"ja\"><head><meta charset=\"UTF-8\"><title>\($title)</title></head><body>\($body)</body></html>"' -r > posts/${DATE}.html
-
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add posts/
-          git commit -m "新着記事を追加" || exit 0
-          git push
+          # ★最重要：変数を一切使わず、ファイルを読み込んで安全に check.json を作成します
+          # 1回目のレスポンスからマークダウンの ```html などの余計な飾りを除去しつつ、プロンプトと合体
+          jq --arg base "$BASE_PROMPT_CHECK" '.candidates[0].content.parts[0].text | sub("^
+http://googleusercontent.com/immersive_entry_chip/0
