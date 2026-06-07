@@ -69,7 +69,7 @@ jobs:
 
           CLEAN_GEMINI_KEY=$(echo -n "${GEMINI_API_KEY}" | tr -d '\r\n ')
 
-          # ─── 1回目：プロンプトをファイルとして直接書き出す（変数を経由しない） ───
+          # ─── 1回目：プロンプトファイルの作成 ───
           cat << 'EOF' > prompt_write.txt
           高度なマーケティングスキルを持つプロのWebライターとして、提供された情報を基に、読者を惹きつける魅力的なHTMLブログ記事を執筆してください。
 
@@ -82,8 +82,8 @@ jobs:
              導入からまとめまで、誰に向けた記事なのか（ターゲット層）や、商品の最大の強み（テーマ）がブレないようにしてください。
           EOF
 
-          # 商品情報と広告リンクを統合して1回目のリクエストJSONを作成
-          jq -n \
+          # JSONを作成し、jq -c で「改行なしの1行」に完全圧縮
+          jq -n -c \
             --rawfile info prompt_write.txt \
             --arg title "$ITEM_TITLE" \
             --arg price "$ITEM_PRICE" \
@@ -91,8 +91,8 @@ jobs:
             --arg link "$LINK" \
             '{contents: [{parts: [{text: ($info + "\n\n【商品情報】\n商品名: " + $title + "\n価格: " + $price + "円\n商品説明: " + $caption + "\n\n【重要】\n記事の最後に必ず、以下の広告リンクをHTMLタグごとそのまま末尾に設置してください。:\n" + $link)}]}]}' > write.json
           
-          # 1回目のAPI実行
-          curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d @write.json > response1.json
+          # 1回目のAPI実行（モデル名を安定した最新の固定表記に変更）
+          curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d @write.json > response1.json
           
           CHECK_RESP1=$(jq -r '.candidates[0].content.parts[0].text // empty' response1.json)
           if [ -z "$CHECK_RESP1" ]; then
@@ -106,14 +106,14 @@ jobs:
           echo "1回目の執筆が成功しました！クォータ制限を回避するため、60秒間待機します..."
           sleep 60
 
-          # ─── 2回目：推敲プロンプトもファイルとして完全に独立して書き出す ───
+          # ─── 2回目：推敲プロンプトファイルの作成 ───
           cat << 'EOF' > prompt_check.txt
           あなたはWebマーケティング業界で名高い、非常に厳格な『鬼編集長』です。部下のライターが書いた以下のブログ記事（HTML形式）を厳しく査読・推敲し、最高品質の商業記事に仕上げてください。
 
           【推敲・チェックの4大評価基準】
           以下の4点についてドラフトを厳しくチェックし、問題があれば必ず修正・加筆を行ってください。
 
-          1. 著作権チェック：元の商品説明の安易なコピペ表現が残っていませんか？独創的なオリジナル表現に徹底的に書き直してください。
+          1. 著作権チェック：元の商品説明の安易なコピペ表現が残っていませんか？独創的なオリジナル表現に徹底的に書き重してください。
           2. 購入意欲のチェック：読者が「今すぐ買いたい！」と思える文章体系になっていますか？魅力的な文章へブラッシュアップしてください。
           3. 一貫性のチェック：記事全体のテーマや主張にブレや矛盾はありませんか？
           4. 言葉尻（文末）の統一：「です・ます調」または「だ・である調」のどちらかに、最初から最後まで美しく完全統一してください。
@@ -124,17 +124,17 @@ jobs:
           【修正対象のドラフト】
           EOF
 
-          # 下書きテキストを抽出し、マークダウン装飾を安全に落とす処理
+          # 下書きテキストの抽出と整形
           jq -r '.candidates[0].content.parts[0].text' response1.json | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//' > cleaned_draft.txt
 
-          # ★変数展開を1ミリも使わず、2つのファイル（プロンプトと下書き）を直接マージしてJSON化
-          jq -n \
+          # ★最重要：2回目も jq -c を使って「改行なしの完全な1行」に圧縮してjsonを生成
+          jq -n -c \
             --rawfile base prompt_check.txt \
             --rawfile draft cleaned_draft.txt \
             '{contents: [{parts: [{text: ($base + "\n" + $draft)}]}]}' > check.json
           
-          # 2回目のAPI実行（これで絶対にコマンドは崩壊しません）
-          curl -s -X POST "[https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$){CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d @check.json > response2.json
+          # 2回目のAPI実行（1行に圧縮された安全なJSONデータを送信）
+          curl -s -X POST "[https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$){CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d @check.json > response2.json
           
           # 最終成果物の抽出
           FINAL_ARTICLE=$(jq -r '.candidates[0].content.parts[0].text // empty' response2.json | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
