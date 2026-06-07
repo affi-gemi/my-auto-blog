@@ -100,7 +100,7 @@ jobs:
           </div>
           """
 
-          # 3. Gemini API 共通送信関数
+          # 3. Gemini API 共通送信関数（自動リトライ機能付き）
           api_key = os.environ.get("GEMINI_API_KEY", "").strip()
           gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={api_key}"
 
@@ -111,9 +111,21 @@ jobs:
                   data=json.dumps(payload).encode("utf-8"), 
                   headers={"Content-Type": "application/json"}
               )
-              with urllib.request.urlopen(req_gemini) as response:
-                  res_data = json.loads(response.read().decode("utf-8"))
-                  return res_data["candidates"][0]["content"]["parts"][0]["text"]
+              
+              # サーバー混雑対策：エラーが出たら10秒待って最大3回まで自動リトライ
+              for attempt in range(3):
+                  try:
+                      with urllib.request.urlopen(req_gemini) as response:
+                          res_data = json.loads(response.read().decode("utf-8"))
+                          return res_data["candidates"][0]["content"]["parts"][0]["text"]
+                  except Exception as e:
+                      if attempt < 2:
+                          print(f"Gemini APIが混雑または一時エラーのため、10秒後に自動で再チャレンジします...（試行 {attempt + 1}/3）: {e}")
+                          time.sleep(10)
+                      else:
+                          # 3回ダメだった場合はエラー詳細を出力してスクリプトを落とす
+                          print(f"Gemini APIへの接続に3回連続で失敗しました。最終エラー: {e}")
+                          raise e
 
           # ─── 1回目：下書き執筆 ───
           prompt1 = f"""トップアフィリエイター兼プロのWebライターとして、提供された【特定の1商品のみ】にスポットを当て、読者を惹きつける洗練されたモダンなHTMLブログ記事を1本執筆してください。
@@ -140,7 +152,7 @@ jobs:
           try:
               draft = ask_gemini(prompt1)
           except Exception as e:
-              print(f"Gemini 1回目でエラー: {e}")
+              print(f"Gemini 1回目で致命的なエラーが発生しました: {e}")
               sys.exit(1)
 
           print("1回目の下書きに成功しました。60秒待機します...")
@@ -167,7 +179,7 @@ jobs:
           try:
               final_article = ask_gemini(prompt2)
           except Exception as e:
-              print(f"Gemini 2回目でエラー: {e}")
+              print(f"Gemini 2回目で致命的なエラーが発生しました: {e}")
               sys.exit(1)
 
           # クリーニング
@@ -182,7 +194,6 @@ jobs:
           # タイトルの抽出（インデックス用）
           title_match = re.search(r'<h1[^>]*>(.*?)</h1>', final_article)
           article_title = title_match.group(1) if title_match else f"{now_dt.strftime('%Y年%m月%d日')}のおすすめ商品"
-          # タグの除去
           article_title = re.sub(r'<[^>]+>', '', article_title).strip()
 
           # 4. 個別記事ファイルの保存
@@ -206,36 +217,11 @@ jobs:
                   border-radius: 12px;
                   box-shadow: 0 4px 20px rgba(0,0,0,0.05);
               }
-              h1 {
-                  font-size: 28px;
-                  color: #111111;
-                  margin-bottom: 30px;
-                  line-height: 1.4;
-              }
-              h2 {
-                  font-size: 22px;
-                  position: relative;
-                  padding-left: 15px;
-                  border-left: 6px solid #d93025;
-                  color: #111111;
-                  margin-top: 40px;
-                  margin-bottom: 20px;
-              }
-              h3 {
-                  font-size: 18px;
-                  border-bottom: 2px solid #eaeaea;
-                  padding-bottom: 8px;
-                  color: #222222;
-                  margin-top: 30px;
-              }
+              h1 { font-size: 28px; color: #111111; margin-bottom: 30px; line-height: 1.4; }
+              h2 { font-size: 22px; position: relative; padding-left: 15px; border-left: 6px solid #d93025; color: #111111; margin-top: 40px; margin-bottom: 20px; }
+              h3 { font-size: 18px; border-bottom: 2px solid #eaeaea; padding-bottom: 8px; color: #222222; margin-top: 30px; }
               p { margin-bottom: 24px; font-size: 16px; }
-              .review-box {
-                  background-color: #fff8f8;
-                  border: 1px solid #fadbd8;
-                  border-radius: 8px;
-                  padding: 25px;
-                  margin: 30px 0;
-              }
+              .review-box { background-color: #fff8f8; border: 1px solid #fadbd8; border-radius: 8px; padding: 25px; margin: 30px 0; }
               .cta-button {
                   display: inline-block;
                   background: linear-gradient(135deg, #e53935 0%, #b71c1c 100%);
@@ -282,17 +268,14 @@ jobs:
           links_html = ""
           for post_path in all_posts:
               filename = os.path.basename(post_path)
-              # ファイルからタイトルタグの情報を簡易取得
               try:
                   with open(post_path, "r", encoding="utf-8") as pf:
                       content = pf.read()
                       t_match = re.search(r'<title>(.*?)</title>', content)
                       p_title = t_match.group(1) if t_match else filename
-                      # 「戻る」などの余計な文字が入るのを防ぐため抽出
               except:
                   p_title = filename
               
-              # 日付プレフィックスの整形 (YYYY-MM-DD)
               date_prefix = filename[:10]
               links_html += f"""
               <li class="post-item">
@@ -308,64 +291,15 @@ jobs:
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
               <title>AIアフィリエイトブログ</title>
               <style>
-                  body {{
-                      font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
-                      background-color: #f8f9fa;
-                      margin: 0;
-                      padding: 40px 20px;
-                      color: #333;
-                  }}
-                  .container {{
-                      max-width: 800px;
-                      margin: 0 auto;
-                      background: #ffffff;
-                      padding: 40px;
-                      border-radius: 12px;
-                      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-                  }}
-                  h1 {{
-                      font-size: 26px;
-                      text-align: center;
-                      color: #111;
-                      margin-bottom: 40px;
-                      border-bottom: 3px solid #d93025;
-                      padding-bottom: 15px;
-                  }}
-                  .post-list {{
-                      list-style: none;
-                      padding: 0;
-                      margin: 0;
-                  }}
-                  .post-item {{
-                      padding: 20px 0;
-                      border-bottom: 1px solid #eaeaea;
-                      display: flex;
-                      flex-direction: column;
-                  }}
-                  @media(min-width: 600px) {{
-                      .post-item {{
-                          flex-direction: row;
-                          align-items: center;
-                      }}
-                  }}
-                  .post-date {{
-                      font-size: 14px;
-                      color: #777;
-                      margin-right: 20px;
-                      min-width: 100px;
-                      margin-bottom: 5px;
-                      @media(min-width: 600px) {{ margin-bottom: 0; }}
-                  }}
-                  .post-link {{
-                      font-size: 18px;
-                      color: #111;
-                      text-decoration: none;
-                      font-weight: bold;
-                      transition: color 0.2s ease;
-                  }}
-                  .post-link:hover {{
-                      color: #d93025;
-                  }}
+                  body {{ font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif; background-color: #f8f9fa; margin: 0; padding: 40px 20px; color: #333; }}
+                  .container {{ max-width: 800px; margin: 0 auto; background: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }}
+                  h1 {{ font-size: 26px; text-align: center; color: #111; margin-bottom: 40px; border-bottom: 3px solid #d93025; padding-bottom: 15px; }}
+                  .post-list {{ list-style: none; padding: 0; margin: 0; }}
+                  .post-item {{ padding: 20px 0; border-bottom: 1px solid #eaeaea; display: flex; flex-direction: column; }}
+                  @media(min-width: 600px) {{ .post-item {{ flex-direction: row; align-items: center; }} }}
+                  .post-date {{ font-size: 14px; color: #777; margin-right: 20px; min-width: 100px; margin-bottom: 5px; }}
+                  .post-link {{ font-size: 18px; color: #111; text-decoration: none; font-weight: bold; transition: color 0.2s ease; }}
+                  .post-link:hover {{ color: #d93025; }}
               </style>
           </head>
           <body>
