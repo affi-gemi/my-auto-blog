@@ -9,7 +9,7 @@ jobs:
   write-blog:
     runs-on: ubuntu-latest
 
-    # 【重要】自動実行時にGitHub Actionsがリポジトリに記事をプッシュできるようにする権限
+    # 自動実行時にGitHub Actionsがリポジトリに記事をプッシュできるようにする権限
     permissions:
       contents: write
 
@@ -47,7 +47,7 @@ jobs:
           APP_ID="5e1e64aa-f0ff-4e9c-9dd1-d9d708d434d0"
 
           # 2. あなたの「アクセスキー」
-          # ※ご自身のアクセスキーに書き換えてください
+          # ※★必ずご自身のアクセスキーに書き換えてください★
           ACCESS_KEY="pk_7Dvceb0JWiyKBHA4tjkjiO47cQm2Ku4DAgKbdZrGB7B"
 
           # 3. 許可されたWebサイトのURL
@@ -58,8 +58,8 @@ jobs:
           # アフィリエイトIDはGitHub Secretsから読み込みます
           AFFILIATE_ID="${{ secrets.RAKUTEN_AFFILIATE_ID }}"
 
-          # 【エラーなしの実績版】ヘッダーをすべて詰め込んで1行で商品を取得
-          RAKUTEN_RES=$(curl -s -X GET -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" -H "Referer: ${REFERER_URL}" -H "referer: ${REFERER_URL}" -H "Origin: ${ORIGIN_URL}" --referer "${REFERER_URL}" "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401?format=json&applicationId=${APP_ID}&accessKey=${ACCESS_KEY}&affiliateId=${AFFILIATE_ID}&keyword=${ENCODED_KEYWORD}&hits=1&sort=standard")
+          # 【エラー対策版】重複していたヘッダーを標準の1通りのみに整理してすっきり送信
+          RAKUTEN_RES=$(curl -s -X GET -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" -H "Referer: ${REFERER_URL}" -H "Origin: ${ORIGIN_URL}" "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401?format=json&applicationId=${APP_ID}&accessKey=${ACCESS_KEY}&affiliateId=${AFFILIATE_ID}&keyword=${ENCODED_KEYWORD}&hits=1&sort=standard")
 
           # レスポンスから1件目の商品名を抽出
           ITEM_TITLE=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemName // empty')
@@ -107,13 +107,9 @@ jobs:
           DATE=$(date '+%Y-%m-%d_%H-%M')
           TITLE_DATE=$(date '+%Y年%m月%d日')
           mkdir -p posts
-          cat <<EOF > posts/${DATE}.html
-          <!DOCTYPE html>
-          <html lang='ja'>
-          <head><meta charset='UTF-8'><title>${TITLE_DATE}のおすすめ</title></head>
-          <body>${FINAL_ARTICLE}</body>
-          </html>
-EOF
+          
+          # 【YAMLエラー絶対回避】インデントを壊さないよう、echoを使って1行でHTMLを安全に書き出し
+          echo "<!DOCTYPE html><html lang='ja'><head><meta charset='UTF-8'><title>${TITLE_DATE}のおすすめ</title></head><body>${FINAL_ARTICLE}</body></html>" > posts/${DATE}.html
 
           # GitHubリポジトリへの自動コミット ＆ プッシュ
           git config --global user.name "github-actions[bot]"
