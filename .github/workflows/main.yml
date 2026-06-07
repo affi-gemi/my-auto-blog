@@ -94,43 +94,57 @@ jobs:
           button_text = item_title[:28]
           link_html = f'<div style="text-align: center; margin: 50px 0;"><a href="{item_url}" target="_blank" rel="nofollow" class="cta-button"><span class="cta-sub">＼ 楽天市場で今すぐチェック！ ／</span><span class="cta-main">「{button_text}...」のリアルタイム価格を見る</span></a></div>'
 
-          # 3. Gemini API 接続設定
+          # 3. Gemini API 接続＆エラー時自動リトライ関数
           api_key = os.environ.get("GEMINI_API_KEY", "").strip()
           gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={api_key}"
 
-          def ask_gemini(prompt_text):
+          def ask_gemini_with_retry(prompt_text, max_retries=4):
               payload = {"contents": [{"parts": [{"text": prompt_text}]}]}
-              req_gemini = urllib.request.Request(
-                  gemini_url, 
-                  data=json.dumps(payload).encode("utf-8"), 
-                  headers={"Content-Type": "application/json"}
-              )
-              with urllib.request.urlopen(req_gemini) as response:
-                  res_data = json.loads(response.read().decode("utf-8"))
-                  return res_data["candidates"][0]["content"]["parts"][0]["text"]
+              data_bytes = json.dumps(payload).encode("utf-8")
+              
+              for attempt in range(max_retries):
+                  try:
+                      req_gemini = urllib.request.Request(
+                          gemini_url, 
+                          data=data_bytes, 
+                          headers={"Content-Type": "application/json"}
+                      )
+                      with urllib.request.urlopen(req_gemini) as response:
+                          res_data = json.loads(response.read().decode("utf-8"))
+                          return res_data["candidates"][0]["content"]["parts"][0]["text"]
+                  except Exception as e:
+                      # 503や429が発生した場合、即死せずに少し待ってリトライ
+                      if attempt < max_retries - 1:
+                          wait_time = 40 if "503" in str(e) else 60
+                          print(f"Geminiがエラー（{e}）を返しました。サーバー混雑のため、{wait_time}秒待機して自動リトライします ({attempt + 1}/{max_retries})...")
+                          time.sleep(wait_time)
+                      else:
+                          # すべてのリトライが全滅した場合のみエラー終了
+                          print(f"Gemini APIが何度も混雑・制限エラーを起こしたため、処理を中断します。")
+                          raise e
 
           # ─── 1回目：下書き ───
           prompt1 = f"紹介商品: {item_title}\n価格: {item_price}円\n説明: {item_caption}\n\n上記の商品1つだけに特化したプロのHTMLブログ記事を下書きしてください。末尾に必ず次のコードをそのまま貼ること: {link_html}"
           print("Gemini 1回目の下書きをリクエスト中...")
           try:
-              draft = ask_gemini(prompt1)
+              draft = ask_gemini_with_retry(prompt1)
               print("1回目の下書き生成に成功しました。")
           except Exception as e:
-              print(f"Gemini 1回目でエラー: {e}")
+              print(f"Gemini 1回目で致命的エラー: {e}")
               sys.exit(1)
 
-          # ─── 💡 シンプルにここで60秒待たせる ───
-          print("APIの1分間制限をクリアするため、ここで60秒間待機します...")
+          # ─── 💡 1回目成功後、次のリクエストのために確実に60秒空ける ───
+          print("APIの1分間制限（429）を確実にクリアするため、ここで60秒間待機します...")
           time.sleep(60)
 
           # ─── 2回目：清書 ───
           prompt2 = f"以下のHTMLブログドラフトをプロの文章（です・ます調）に清書・推敲してください。余計な挨拶や解説文、マークダウン表記(```)などは一切出力せず、HTMLコードのみを出力してください。末尾の広告リンクは絶対に残してください。\n\n【ドラフト】\n{draft}"
           print("Gemini 2回目の清書・ブラッシュアップをリクエスト中...")
           try:
-              final_article = ask_gemini(prompt2)
+              final_article = ask_gemini_with_retry(prompt2)
               print("2回目の清書に成功しました。")
           except Exception as e:
-              print(f"Gemini 2回目でエラー（429）: {e}")
+              print(f"Gemini 2回目で致命的エラー: {e}")
               sys.exit(1)
 
           # 成形処理
