@@ -94,7 +94,7 @@ jobs:
 
           JSON_WRITE=$(jq -n --arg prompt "$PROMPT_WRITE" '{contents: [{parts: [{text: $prompt}]}]}')
           
-          # ★URLを常に最新の安定版(gemini-flash-latest)に変更
+          # 1回目：クリーンなURL（v1beta / gemini-flash-latest）
           RES_WRITE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d "$JSON_WRITE")
           
           DRAFT_ARTICLE=$(echo "$RES_WRITE" | jq -r '.candidates[0].content.parts[0].text // empty' | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
@@ -134,7 +134,7 @@ jobs:
 
           JSON_CHECK=$(jq -n --arg prompt "$PROMPT_CHECK" '{contents: [{parts: [{text: $prompt}]}]}')
           
-          # ★バグのあったURL部分を正しい最新版の記述に修正
+          # 2回目：見えないゴミ文字を完全に排除したクリーンなURL（v1beta / gemini-flash-latest）
           RES_CHECK=$(curl -s -X POST "[https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$){CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d "$JSON_CHECK")
           
           FINAL_ARTICLE=$(echo "$RES_CHECK" | jq -r '.candidates[0].content.parts[0].text // empty' | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
