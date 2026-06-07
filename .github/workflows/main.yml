@@ -9,7 +9,6 @@ jobs:
   write-blog:
     runs-on: ubuntu-latest
 
-    # 自動実行時にGitHub Actionsがリポジトリに記事をプッシュできるようにする権限
     permissions:
       contents: write
 
@@ -21,7 +20,6 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          # 日本時間に設定
           export TZ="Asia/Tokyo"
           WEEKDAY=$(date +%w)
 
@@ -36,32 +34,23 @@ jobs:
           esac
 
           echo "検索キーワード: ${KEYWORD}"
-
-          # キーワードを安全にURL用の文字に変換（スペース対策）
           ENCODED_KEYWORD=$(echo -n "${KEYWORD}" | jq -sRr @uri)
 
           # ========================================================
-          # 【重要】楽天APIの設定エリア
+          # 楽天APIの設定エリア
           # ========================================================
-          # あなたの「アプリケーションID」
           APP_ID="5e1e64aa-f0ff-4e9c-9dd1-d9d708d434d0"
-
-          # あなたの「アクセスキー」
+          
           # ※★必ずご自身のアクセスキーに書き換えてください★
           ACCESS_KEY="pk_7Dvceb0JWiyKBHA4tjkjiO47cQm2Ku4DAgKbdZrGB7B"
 
-          # 許可されたWebサイトのURL
           REFERER_URL="https://affi-gemi.github.io/my-auto-blog/"
           ORIGIN_URL="https://affi-gemi.github.io"
-          
-          # アフィリエイトID
           AFFILIATE_ID="${{ secrets.RAKUTEN_AFFILIATE_ID }}"
           # ========================================================
 
-          # 楽天APIの呼び出し
           RAKUTEN_RES=$(curl -s -X GET -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" -H "Referer: ${REFERER_URL}" -H "Origin: ${ORIGIN_URL}" "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401?format=json&applicationId=${APP_ID}&accessKey=${ACCESS_KEY}&affiliateId=${AFFILIATE_ID}&keyword=${ENCODED_KEYWORD}&hits=1&sort=standard")
 
-          # レスポンスから1件目の商品名を抽出
           ITEM_TITLE=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemName // empty')
           
           if [ -z "$ITEM_TITLE" ]; then
@@ -74,61 +63,78 @@ jobs:
 
           echo "商品取得成功！執筆を開始します。: $ITEM_TITLE"
 
-          # 記事作成に必要な残りの情報を抽出
           ITEM_URL=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.affiliateUrl // empty')
           ITEM_PRICE=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemPrice // empty')
           ITEM_CAPTION=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemCaption // empty')
 
-          # 広告リンク（ボタン）の作成
           BUTTON_TEXT=$(echo "$ITEM_TITLE" | cut -c 1-30)
           LINK="<p style='text-align: center; margin: 40px 0;'><a href='${ITEM_URL}' target='_blank' rel='nofollow' style='background: #d93025; color: white; padding: 18px 35px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; font-size: 20px; box-shadow: 0 4px 15px rgba(217,48,37,0.3);'>【楽天市場】「${BUTTON_TEXT}...」をチェックする</a></p>"
 
-          # ========================================================
-          # Gemini APIのキー整形（空白や改行の完全除去）
-          # ========================================================
           CLEAN_GEMINI_KEY=$(echo -n "${GEMINI_API_KEY}" | tr -d '\r\n ')
 
-          # Gemini API呼び出し (1回目: ドラフト作成)
-          PROMPT_WRITE="高度なマーケティングスキルを持つプロのインフルエンサーとして、以下の商品について魅力的なHTML記事を書いてください。
+          # ─── Gemini API呼び出し (1回目: ドラフト作成) ───
+          PROMPT_WRITE="高度なマーケティングスキルを持つプロのWebライターとして、提供された情報を基に、読者を惹きつける魅力的なHTMLブログ記事を執筆してください。
+
+          【執筆時の絶対ルール】
+          1. 著作権の侵害を完全に防ぐ：
+             提供された「商品説明（CAPTION）」の文章をそのまま丸写し・コピー＆ペーストすることは絶対に禁止します。内容やスペックを正確に理解した上で、完全にあなた自身のオリジナルの言葉、新しい表現、独自の切り口でリライト（書き直し）してください。
+          2. 購入意欲が湧く文章体系にする：
+             単なる機能の箇条書きではなく、「この商品を手に入れることで、読者の生活がどう豊かになるか、どんな悩みが解決するか（ベネフィット）」を感情に訴えかける文章で書いてください。思わず『欲しい！』『試してみたい！』と思わせる構成にしてください。
+          3. 記事に一貫性を持たせる：
+             導入からまとめまで、誰に向けた記事なのか（ターゲット層）や、商品の最大の強み（テーマ）がブレないように、一本の筋が通った論理展開で執筆してください。
+
+          【商品情報】
           商品名: ${ITEM_TITLE}
           価格: ${ITEM_PRICE}円
           商品説明: ${ITEM_CAPTION}
-          記事の最後に必ずこのリンクをHTMLタグごとそのまま末尾に貼ってください: ${LINK}"
+
+          【重要】
+          記事の最後に必ず、以下の広告リンクをHTMLタグごとそのまま末尾に設置してください。改変は一切禁止します:
+          ${LINK}"
 
           JSON_WRITE=$(jq -n --arg prompt "$PROMPT_WRITE" '{contents: [{parts: [{text: $prompt}]}]}')
           
-          # 最新鋭の gemini-2.0-flash を安定の v1 URLで呼び出します
-          RES_WRITE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d "$JSON_WRITE")
+          RES_WRITE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1/models/gemini-flash-latest:generateContent?key=${CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d "$JSON_WRITE")
           
-          # 応答からテキストを抽出
           DRAFT_ARTICLE=$(echo "$RES_WRITE" | jq -r '.candidates[0].content.parts[0].text // empty' | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
 
           if [ -z "$DRAFT_ARTICLE" ]; then
             echo "--- Gemini API (1回目) エラーレスポンス詳細 ---"
             echo "$RES_WRITE"
             echo "---------------------------------------------"
-            echo "Geminiでの下書き作成に失敗しました。上記のエラー内容を確認してください。"
+            echo "Geminiでの下書き作成に失敗しました。"
             exit 1
           fi
-          # ========================================================
-          # 【超重要】Googleの無料枠制限（RPM）を回避するための休憩
-          # ========================================================
-          echo "1回目の執筆が成功しました！無料枠の制限を回避するため、20秒間待機します..."
-          sleep 20
-          # ========================================================
 
-          # Gemini API呼び出し (2回目: 推敲・チェック)
-          PROMPT_CHECK="あなたは厳格な編集長です。以下の記事のドラフトを推敲し、より魅力的なHTML記事に仕上げてください。末尾のリンクは絶対に改変しないでください。
-          【ドラフト】
+          # ⏱️ Google無料枠制限を確実に回避するため、60秒間待機
+          echo "1回目の執筆が成功しました！クォータ制限を回避するため、60秒間待機します..."
+          sleep 60
+
+          # ─── Gemini API呼び出し (2回目: 推敲・チェック) ───
+          PROMPT_CHECK="あなたはWebマーケティング業界で名高い、非常に厳格な『鬼編集長』です。部下のライターが書いた以下のブログ記事（HTML形式）を厳しく査読・推敲し、最高品質の商業記事に仕上げてください。
+
+          【推敲・チェックの4大評価基準】
+          以下の4点についてドラフトを厳しくチェックし、問題があれば必ず修正・加筆を行ってください。
+
+          1. 著作権チェック：
+             元の商品説明の安易なコピペ表現や、他者の著作権を侵害しそうなグレーな表現が残っていませんか？もし残っている場合は、より独創的で安全なオリジナル表現に徹底的に書き直してください。
+          2. 購入意欲のチェック：
+             読者が「今すぐ買いたい！」と思える文章体系になっていますか？ワクワク感や、購買意欲をそそるベネフィットの解説が足りない場合は、より魅力的な文章へブラッシュアップしてください。
+          3. 一貫性のチェック：
+             記事全体のテーマや主張、おすすめしている理由、読者ターゲット層にブレや矛盾はありませんか？論理が破綻している箇所は、一貫性を持たせるように修正してください。
+          4. 言葉尻（文末）の統一：
+             文章のトーン＆マナーを完璧に整えてください。「です・ます調（敬体）」または「だ・である調（常体）」のどちらかに、言葉尻を最初から最後まで美しく完全統一してください（途中で混ざることは絶対に不可）。
+
+          【注意事項】
+          記事の末尾にある楽天市場への広告リンク（<p style='text-align: center;'><a href=... から始まるHTMLタグ一式）は、絶対に削除したり、URLやテキストを改変したりせず、必ずそのまま最終出力の末尾に残してください。
+
+          【修正対象のドラフト】
           ${DRAFT_ARTICLE}"
 
-          # 【バグ修正】閉じカッコの「}]}」を正しく修正しました
           JSON_CHECK=$(jq -n --arg prompt "$PROMPT_CHECK" '{contents: [{parts: [{text: $prompt}]}]}')
           
-          # 2回目も gemini-2.0-flash で実行
-          RES_CHECK=$(curl -s -X POST "[https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=$](https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=$){CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d "$JSON_CHECK")
+          RES_CHECK=$(curl -s -X POST "[https://generativelanguage.googleapis.com/v1/models/gemini-flash-latest:generateContent?key=$](https://generativelanguage.googleapis.com/v1/models/gemini-flash-latest:generateContent?key=$){CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d "$JSON_CHECK")
           
-          # 最終テキストを抽出
           FINAL_ARTICLE=$(echo "$RES_CHECK" | jq -r '.candidates[0].content.parts[0].text // empty' | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
 
           if [ -z "$FINAL_ARTICLE" ]; then
@@ -139,15 +145,13 @@ jobs:
             exit 1
           fi
 
-          # ファイル保存処理
+          # 保存とプッシュ
           DATE=$(date '+%Y-%m-%d_%H-%M')
           TITLE_DATE=$(date '+%Y年%m月%d日')
           mkdir -p posts
           
-          # 安全に1行でHTMLを書き出し
           echo "<!DOCTYPE html><html lang='ja'><head><meta charset='UTF-8'><title>${TITLE_DATE}のおすすめ</title></head><body>${FINAL_ARTICLE}</body></html>" > posts/${DATE}.html
 
-          # GitHubリポジトリへの自動コミット ＆ プッシュ
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add posts/
