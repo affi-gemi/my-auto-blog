@@ -3,13 +3,13 @@ name: Auto Blog Writer
 on:
   schedule:
     - cron: '0 22 * * *' # 毎日日本時間 朝7:00に自動実行
-  workflow_dispatch: # 手動実行ボタンも残しています
+  workflow_dispatch: # 手動実行ボタン
 
 jobs:
   write-blog:
     runs-on: ubuntu-latest
-    
-    # 【超重要】自動実行時にGitHub Actionsがリポジトリに記事を push できるようにする権限
+
+    # 【重要】自動実行時にGitHub Actionsがリポジトリに記事をプッシュできるようにする権限
     permissions:
       contents: write
 
@@ -20,8 +20,6 @@ jobs:
       - name: 楽天APIの商品取得 ＆ Gemini 3.1 Proでの執筆・チェック
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          RAKUTEN_APPLICATION_ID: ${{ secrets.RAKUTEN_APPLICATION_ID }}
-          RAKUTEN_AFFILIATE_ID: ${{ secrets.RAKUTEN_AFFILIATE_ID }}
         run: |
           # 日本時間に設定
           export TZ="Asia/Tokyo"
@@ -40,27 +38,48 @@ jobs:
           echo "検索キーワード: ${KEYWORD}"
 
           # キーワードを安全にURL用の文字に変換（スペース対策）
-          ENCODED_KEYWORD=$(jq -rn --arg kw "$KEYWORD" '$kw | @uri')
+          ENCODED_KEYWORD=$(echo -n "${KEYWORD}" | jq -sRr @uri)
 
-          # 楽天APIから商品取得
-          API_URL="https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601?format=json&applicationId=${RAKUTEN_APPLICATION_ID}&affiliateId=${RAKUTEN_AFFILIATE_ID}&keyword=${ENCODED_KEYWORD}&hits=1&sort=standard"
-          RAKUTEN_RES=$(curl -s "$API_URL")
+          # ========================================================
+          # 【重要】2026年最新仕様の入力エリア
+          # ========================================================
+          # 1. あなたの「アプリケーションID」
+          APP_ID="5e1e64aa-f0ff-4e9c-9dd1-d9d708d434d0"
 
-          # 【エラーチェック】まずは正しく商品名が取れているか最優先で確認
+          # 2. あなたの「アクセスキー」
+          # ※ご自身のアクセスキーに書き換えてください
+          ACCESS_KEY="pk_7Dvceb0JWiyKBHA4tjkjiO47cQm2Ku4DAgKbdZrGB7B"
+
+          # 3. 許可されたWebサイトのURL
+          REFERER_URL="https://affi-gemi.github.io/my-auto-blog/"
+          ORIGIN_URL="https://affi-gemi.github.io"
+          # ========================================================
+
+          # アフィリエイトIDはGitHub Secretsから読み込みます
+          AFFILIATE_ID="${{ secrets.RAKUTEN_AFFILIATE_ID }}"
+
+          # 【エラーなしの実績版】ヘッダーをすべて詰め込んで1行で商品を取得
+          RAKUTEN_RES=$(curl -s -X GET -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" -H "Referer: ${REFERER_URL}" -H "referer: ${REFERER_URL}" -H "Origin: ${ORIGIN_URL}" --referer "${REFERER_URL}" "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401?format=json&applicationId=${APP_ID}&accessKey=${ACCESS_KEY}&affiliateId=${AFFILIATE_ID}&keyword=${ENCODED_KEYWORD}&hits=1&sort=standard")
+
+          # レスポンスから1件目の商品名を抽出
           ITEM_TITLE=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemName // empty')
           
           if [ -z "$ITEM_TITLE" ]; then
-            echo "楽天APIからの商品取得に失敗しました。レスポンス詳細は以下です："
+            echo "--- 楽天APIからのレスポンスエラー詳細 ---"
             echo "$RAKUTEN_RES"
+            echo "----------------------------------------"
+            echo "楽天APIからの商品取得に失敗しました。"
             exit 1
           fi
 
-          # 正常に取得できていれば、その他の情報を抽出
+          echo "商品取得成功！執筆を開始します。: $ITEM_TITLE"
+
+          # 記事作成に必要な残りの情報を抽出
           ITEM_URL=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.affiliateUrl // empty')
           ITEM_PRICE=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemPrice // empty')
           ITEM_CAPTION=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemCaption // empty')
 
-          # 広告リンクの作成（文字数カットとスタイリング）
+          # 広告リンク（ボタン）の作成
           BUTTON_TEXT=$(echo "$ITEM_TITLE" | cut -c 1-30)
           LINK="<p style='text-align: center; margin: 40px 0;'><a href='${ITEM_URL}' target='_blank' rel='nofollow' style='background: #d93025; color: white; padding: 18px 35px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; font-size: 20px; box-shadow: 0 4px 15px rgba(217,48,37,0.3);'>【楽天市場】「${BUTTON_TEXT}...」をチェックする</a></p>"
 
@@ -75,7 +94,7 @@ jobs:
           RES_WRITE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-pro:generateContent?key=${GEMINI_API_KEY}" -H "Content-Type: application/json" -d "$JSON_WRITE")
           DRAFT_ARTICLE=$(echo "$RES_WRITE" | jq -r '.candidates[0].content.parts[0].text // empty' | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
 
-          # Gemini API呼び出し (2回目: 推敲・チェック) ※URL崩れを完全に修正
+          # Gemini API呼び出し (2回目: 推敲・チェック)
           PROMPT_CHECK="あなたは厳格な編集長です。以下の記事のドラフトを推敲し、より魅力的なHTML記事に仕上げてください。末尾のリンクは絶対に改変しないでください。
           【ドラフト】
           ${DRAFT_ARTICLE}"
@@ -94,7 +113,7 @@ jobs:
           <head><meta charset='UTF-8'><title>${TITLE_DATE}のおすすめ</title></head>
           <body>${FINAL_ARTICLE}</body>
           </html>
-          EOF
+EOF
 
           # GitHubリポジトリへの自動コミット ＆ プッシュ
           git config --global user.name "github-actions[bot]"
