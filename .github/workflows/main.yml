@@ -46,16 +46,15 @@ jobs:
           ACCESS_KEY="pk_7Dvceb0JWiyKBHA4tjkjiO47cQm2Ku4DAgKbdZrGB7B"
 
           # 3. 許可されたWebサイトのURL
-          # 楽天の管理画面の「アプリURL」に登録したURLを正確に入力してください（最後に / をつけるのをお忘れなく）
+          # 楽天の管理画面の「アプリURL」に登録したURLを正確に入力してください
           REFERER_URL="https://affi-gemi.github.io/my-auto-blog/"
           # ========================================================
 
           # アフィリエイトIDはGitHub Secretsから読み込みます
           AFFILIATE_ID="${{ secrets.RAKUTEN_AFFILIATE_ID }}"
 
-          # 2026年最新のエンドポイントURLへ、リファラー（--referer）を添えてリクエストを送信
-          RAKUTEN_RES=$(curl -s "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401?format=json&applicationId=${APP_ID}&accessKey=${ACCESS_KEY}&affiliateId=${AFFILIATE_ID}&keyword=${ENCODED_KEYWORD}&hits=1&sort=standard" \
-            --referer "${REFERER_URL}")
+          # 改行エラーを完全に防ぐため、すべての命令を1行にまとめ、ヘッダーとして確実にURLを送信します
+          RAKUTEN_RES=$(curl -s -H "Referer: ${REFERER_URL}" "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401?format=json&applicationId=${APP_ID}&accessKey=${ACCESS_KEY}&affiliateId=${AFFILIATE_ID}&keyword=${ENCODED_KEYWORD}&hits=1&sort=standard")
 
           # レスポンスから1件目の商品名を抽出
           ITEM_TITLE=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemName // empty')
