@@ -92,9 +92,10 @@ jobs:
           記事の最後に必ず、以下の広告リンクをHTMLタグごとそのまま末尾に設置してください。改変は一切禁止します:
           ${LINK}"
 
-          JSON_WRITE=$(jq -n --arg prompt "$PROMPT_WRITE" '{contents: [{parts: [{text: $prompt}]}]}')
+          # ★1回目も安全にファイル（write.json）に書き出し
+          jq -n --arg prompt "$PROMPT_WRITE" '{contents: [{parts: [{text: $prompt}]}]}' > write.json
           
-          RES_WRITE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d "$JSON_WRITE")
+          RES_WRITE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d @write.json)
           
           DRAFT_ARTICLE=$(echo "$RES_WRITE" | jq -r '.candidates[0].content.parts[0].text // empty' | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
 
@@ -111,7 +112,6 @@ jobs:
           sleep 60
 
           # ─── Gemini API呼び出し (2回目: 推敲・チェック) ───
-          # ★バグ回避：テキストの結合に jq を使い、シェルスクリプトのクォーテーション破壊を防ぎます
           BASE_PROMPT_CHECK="あなたはWebマーケティング業界で名高い、非常に厳格な『鬼編集長』です。部下のライターが書いた以下のブログ記事（HTML形式）を厳しく査読・推敲し、最高品質の商業記事に仕上げてください。
 
           【推敲・チェックの4大評価基準】
@@ -132,10 +132,11 @@ jobs:
           【修正対象のドラフト】
           "
 
-          # jqの引数機能を使って安全に2つのテキストを合体させ、JSONを構築します
-          JSON_CHECK=$(jq -n --arg base "$BASE_PROMPT_CHECK" --arg draft "$DRAFT_ARTICLE" '{contents: [{parts: [{text: ($base + $draft)}]}]}')
+          # ★バグの完全修正：JSONをシェル変数に入れず、直接ファイル（check.json）に保存
+          jq -n --arg base "$BASE_PROMPT_CHECK" --arg draft "$DRAFT_ARTICLE" '{contents: [{parts: [{text: ($base + $draft)}]}]}' > check.json
           
-          RES_CHECK=$(curl -s -X POST "[https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$){CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d "$JSON_CHECK")
+          # ★ファイルを指定（-d @check.json）して送信することで、シェルコマンドの崩壊を完全に防ぎます
+          RES_CHECK=$(curl -s -X POST "[https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$){CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d @check.json)
           
           FINAL_ARTICLE=$(echo "$RES_CHECK" | jq -r '.candidates[0].content.parts[0].text // empty' | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
 
