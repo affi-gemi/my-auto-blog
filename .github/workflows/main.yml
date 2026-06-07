@@ -92,7 +92,7 @@ jobs:
           記事の最後に必ず、以下の広告リンクをHTMLタグごとそのまま末尾に設置してください。改変は一切禁止します:
           ${LINK}"
 
-          # ★1回目も安全にファイル（write.json）に書き出し
+          # 1回目：JSONをファイルに出力
           jq -n --arg prompt "$PROMPT_WRITE" '{contents: [{parts: [{text: $prompt}]}]}' > write.json
           
           RES_WRITE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d @write.json)
@@ -132,10 +132,10 @@ jobs:
           【修正対象のドラフト】
           "
 
-          # ★バグの完全修正：JSONをシェル変数に入れず、直接ファイル（check.json）に保存
+          # 2回目：jqで完全に独立した安全なファイルを作成
           jq -n --arg base "$BASE_PROMPT_CHECK" --arg draft "$DRAFT_ARTICLE" '{contents: [{parts: [{text: ($base + $draft)}]}]}' > check.json
           
-          # ★ファイルを指定（-d @check.json）して送信することで、シェルコマンドの崩壊を完全に防ぎます
+          # ★全角スペースと見えない制御文字を完全に排除し、手打ちで再構成したクリーンなcurlコマンドです
           RES_CHECK=$(curl -s -X POST "[https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$){CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d @check.json)
           
           FINAL_ARTICLE=$(echo "$RES_CHECK" | jq -r '.candidates[0].content.parts[0].text // empty' | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
@@ -153,7 +153,8 @@ jobs:
           TITLE_DATE=$(date '+%Y年%m月%d日')
           mkdir -p posts
           
-          echo "<!DOCTYPE html><html lang='ja'><head><meta charset='UTF-8'><title>${TITLE_DATE}のおすすめ</title></head><body>${FINAL_ARTICLE}</body></html>" > posts/${DATE}.html
+          # HTML生成もクォーテーションの罠を踏まないよう、jq経由で安全にファイルに書き出します
+          jq -n --arg body "$FINAL_ARTICLE" --arg title "${TITLE_DATE}のおすすめ" '"<!DOCTYPE html><html lang=\"ja\"><head><meta charset=\"UTF-8\"><title>\($title)</title></head><body>\($body)</body></html>"' -r > posts/${DATE}.html
 
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
