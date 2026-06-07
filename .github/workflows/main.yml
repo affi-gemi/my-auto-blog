@@ -94,7 +94,6 @@ jobs:
 
           JSON_WRITE=$(jq -n --arg prompt "$PROMPT_WRITE" '{contents: [{parts: [{text: $prompt}]}]}')
           
-          # 1回目：クリーンなURL（v1beta / gemini-flash-latest）
           RES_WRITE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d "$JSON_WRITE")
           
           DRAFT_ARTICLE=$(echo "$RES_WRITE" | jq -r '.candidates[0].content.parts[0].text // empty' | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
@@ -107,12 +106,13 @@ jobs:
             exit 1
           fi
 
-          # ⏱️ Google無料枠制限を確実に回避するため、60秒間待機
+          # ⏱️ クォータ制限回避のため、60秒間待機
           echo "1回目の執筆が成功しました！クォータ制限を回避するため、60秒間待機します..."
           sleep 60
 
           # ─── Gemini API呼び出し (2回目: 推敲・チェック) ───
-          PROMPT_CHECK="あなたはWebマーケティング業界で名高い、非常に厳格な『鬼編集長』です。部下のライターが書いた以下のブログ記事（HTML形式）を厳しく査読・推敲し、最高品質の商業記事に仕上げてください。
+          # ★バグ回避：テキストの結合に jq を使い、シェルスクリプトのクォーテーション破壊を防ぎます
+          BASE_PROMPT_CHECK="あなたはWebマーケティング業界で名高い、非常に厳格な『鬼編集長』です。部下のライターが書いた以下のブログ記事（HTML形式）を厳しく査読・推敲し、最高品質の商業記事に仕上げてください。
 
           【推敲・チェックの4大評価基準】
           以下の4点についてドラフトを厳しくチェックし、問題があれば必ず修正・加筆を行ってください。
@@ -130,11 +130,11 @@ jobs:
           記事の末尾にある楽天市場への広告リンク（<p style='text-align: center;'><a href=... から始まるHTMLタグ一式）は、絶対に削除したり、URLやテキストを改変したりせず、必ずそのまま最終出力の末尾に残してください。
 
           【修正対象のドラフト】
-          ${DRAFT_ARTICLE}"
+          "
 
-          JSON_CHECK=$(jq -n --arg prompt "$PROMPT_CHECK" '{contents: [{parts: [{text: $prompt}]}]}')
+          # jqの引数機能を使って安全に2つのテキストを合体させ、JSONを構築します
+          JSON_CHECK=$(jq -n --arg base "$BASE_PROMPT_CHECK" --arg draft "$DRAFT_ARTICLE" '{contents: [{parts: [{text: ($base + $draft)}]}]}')
           
-          # 2回目：見えないゴミ文字を完全に排除したクリーンなURL（v1beta / gemini-flash-latest）
           RES_CHECK=$(curl -s -X POST "[https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$){CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d "$JSON_CHECK")
           
           FINAL_ARTICLE=$(echo "$RES_CHECK" | jq -r '.candidates[0].content.parts[0].text // empty' | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
