@@ -16,145 +16,175 @@ jobs:
       - name: コードのチェックアウト
         uses: actions/checkout@v4
 
-      - name: 楽天APIの商品取得 ＆ Geminiでの執筆・チェック
+      - name: Python環境のセットアップ
+        uses: actions/setup-python@v5
+        with:
+          python-toolkit: 'pip'
+
+      - name: ブログ自動執筆システム（Python制御版）
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          RAKUTEN_AFFILIATE_ID: ${{ secrets.RAKUTEN_AFFILIATE_ID }}
         run: |
-          export TZ="Asia/Tokyo"
-          WEEKDAY=$(date +%w)
+          cat << 'EOF' > generate_blog.py
+          import os
+          import sys
+          import datetime
+          import urllib.parse
+          import json
+          import time
+          import urllib.request
 
-          case $WEEKDAY in
-            0) KEYWORD="ふるさと納税 おすすめ 贅沢 返礼品" ;;
-            1) KEYWORD="プログラミング 初心者 教材" ;;
-            2) KEYWORD="Wi-Fiルーター 高速 おすすめ" ;;
-            3) KEYWORD="英会話 教材 初心者 おすすめ" ;;
-            4) KEYWORD="スキンケア 乾燥肌 敏感肌 人気 化粧品" ;;
-            5) KEYWORD="プロジェクター 小型 家庭用 おうち映画館" ;;
-            6) KEYWORD="スマート家電 おすすめ ガジェット" ;;
-          esac
-
-          echo "検索キーワード: ${KEYWORD}"
-          ENCODED_KEYWORD=$(echo -n "${KEYWORD}" | jq -sRr @uri)
-
-          # ========================================================
-          # 楽天APIの設定エリア
-          # ========================================================
-          APP_ID="5e1e64aa-f0ff-4e9c-9dd1-d9d708d434d0"
-          ACCESS_KEY="pk_7Dvceb0JWiyKBHA4tjkjiO47cQm2Ku4DAgKbdZrGB7B"
-          REFERER_URL="https://affi-gemi.github.io/my-auto-blog/"
-          ORIGIN_URL="https://affi-gemi.github.io"
-          AFFILIATE_ID="${{ secrets.RAKUTEN_AFFILIATE_ID }}"
-          # ========================================================
-
-          RAKUTEN_RES=$(curl -s -X GET -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" -H "Referer: ${REFERER_URL}" -H "Origin: ${ORIGIN_URL}" "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401?format=json&applicationId=${APP_ID}&accessKey=${ACCESS_KEY}&affiliateId=${AFFILIATE_ID}&keyword=${ENCODED_KEYWORD}&hits=1&sort=standard")
-
-          ITEM_TITLE=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemName // empty')
+          # 1. 曜日ごとのキーワード設定
+          tz_ja = datetime.timezone(datetime.timedelta(hours=9))
+          weekday = datetime.datetime.now(tz_ja).weekday()
           
-          if [ -z "$ITEM_TITLE" ]; then
-            echo "--- 楽天APIからのレスポンスエラー詳細 ---"
-            echo "$RAKUTEN_RES"
-            echo "----------------------------------------"
-            echo "楽天APIからの商品取得に失敗しました。"
-            exit 1
-          fi
+          # Pythonのweekdayは 0=月, 6=日
+          keywords = {
+              6: "ふるさと納税 おすすめ 贅沢 返礼品", # 日
+              0: "プログラミング 初心者 教材",        # 月
+              1: "Wi-Fiルーター 高速 おすすめ",       # 火
+              2: "英会話 教材 初心者 おすすめ",       # 水
+              3: "スキンケア 乾燥肌 敏感肌 人気 化粧品", # 木
+              4: "プロジェクター 小型 家庭用 おうち映画館", # 金
+              5: "スマート家電 おすすめ ガジェット"     # 土
+          }
+          keyword = keywords.get(weekday, "ガジェット おすすめ")
+          print(f"検索キーワード: {keyword}")
 
-          echo "商品取得成功！執筆を開始します。: $ITEM_TITLE"
+          # 2. 楽天APIリクエスト
+          app_id = "5e1e64aa-f0ff-4e9c-9dd1-d9d708d434d0"
+          access_key = "pk_7Dvceb0JWiyKBHA4tjkjiO47cQm2Ku4DAgKbdZrGB7B"
+          referer = "https://affi-gemi.github.io/my-auto-blog/"
+          origin = "https://affi-gemi.github.io"
+          affiliate_id = os.environ.get("RAKUTEN_AFFILIATE_ID", "")
+          encoded_keyword = urllib.parse.quote(keyword)
 
-          ITEM_URL=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.affiliateUrl // empty')
-          ITEM_PRICE=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemPrice // empty')
-          ITEM_CAPTION=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemCaption // empty')
+          rakuten_url = f"https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401?format=json&applicationId={app_id}&accessKey={access_key}&affiliateId={affiliate_id}&keyword={encoded_keyword}&hits=1&sort=standard"
+          
+          req = urllib.request.Request(rakuten_url)
+          req.add_header("User-Agent", "Mozilla/5.0")
+          req.add_header("Referer", referer)
+          req.add_header("Origin", origin)
 
-          BUTTON_TEXT=$(echo "$ITEM_TITLE" | cut -c 1-30)
-          LINK="<p style='text-align: center; margin: 40px 0;'><a href='${ITEM_URL}' target='_blank' rel='nofollow' style='background: #d93025; color: white; padding: 18px 35px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; font-size: 20px; box-shadow: 0 4px 15px rgba(217,48,37,0.3);'>【楽天市場】「${BUTTON_TEXT}...」をチェックする</a></p>"
+          try:
+              with urllib.request.urlopen(req) as res:
+                  rakuten_data = json.loads(res.read().decode("utf-8"))
+          except Exception as e:
+              print(f"楽天API通信エラー: {e}")
+              sys.exit(1)
 
-          CLEAN_GEMINI_KEY=$(echo -n "${GEMINI_API_KEY}" | tr -d '\r\n ')
+          items = rakuten_data.get("Items", [])
+          if not items:
+              print("楽天APIから商品を取得できませんでした。")
+              print(json.dumps(rakuten_data, ensure_ascii=False, indent=2))
+              sys.exit(1)
 
-          # ─── 1回目：プロンプトファイルの作成 ───
-          cat << 'EOF' > prompt_write.txt
-          高度なマーケティングスキルを持つプロのWebライターとして、提供された情報を基に、読者を惹きつける魅力的なHTMLブログ記事を執筆してください。
+          item = items[0]["Item"]
+          item_title = item.get("itemName", "")
+          item_url = item.get("affiliateUrl", "")
+          item_price = item.get("itemPrice", "")
+          item_caption = item.get("itemCaption", "")
+
+          print(f"商品取得成功: {item_title}")
+
+          # 広告リンク生成
+          button_text = item_title[:30]
+          link_html = f"<p style='text-align: center; margin: 40px 0;'><a href='{item_url}' target='_blank' rel='nofollow' style='background: #d93025; color: white; padding: 18px 35px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; font-size: 20px; box-shadow: 0 4px 15px rgba(217,48,37,0.3);'>【楽天市場】「{button_text}...」をチェックする</a></p>"
+
+          # 3. Gemini API 共通送信関数
+          api_key = os.environ.get("GEMINI_API_KEY", "").strip()
+          gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={api_key}"
+
+          def ask_gemini(prompt_text):
+              payload = {"contents": [{"parts": [{"text": prompt_text}]}]}
+              req_gemini = urllib.request.Request(
+                  gemini_url, 
+                  data=json.dumps(payload).encode("utf-8"), 
+                  headers={"Content-Type": "application/json"}
+              )
+              with urllib.request.urlopen(req_gemini) as response:
+                  res_data = json.loads(response.read().decode("utf-8"))
+                  return res_data["candidates"][0]["content"]["parts"][0]["text"]
+
+          # ─── 1回目：下書き執筆 ───
+          prompt1 = f"""高度なマーケティングスキルを持つプロのWebライターとして、提供された情報を基に、読者を惹きつける魅力的なHTMLブログ記事を執筆してください。
 
           【執筆時の絶対ルール】
-          1. 著作権の侵害を完全に防ぐ：
-             提供された「商品説明（CAPTION）」の文章をそのまま丸写し・コピー＆ペーストすることは絶対に禁止します内容やスペックを正確に理解した上で、完全にあなた自身のオリジナルの言葉、新しい表現、独自の切り口でリライト（書き直し）してください。
-          2. 購入意欲が湧く文章体系にする：
-             単なる機能の箇条書きではなく、「この商品を手に入れることで、読者の生活がどう豊かになるか、どんな悩みが解決するか（ベネフィット）」を感情に訴えかける文章で書いてください。
-          3. 記事に一貫性を持たせる：
-             導入からまとめまで、誰に向けた記事なのか（ターゲット層）や、商品の最大の強み（テーマ）がブレないようにしてください。
-          EOF
+          1. 著作権の侵害を完全に防ぐ：商品説明（CAPTION）のコピペは厳禁。オリジナルの言葉でリライトしてください。
+          2. 購入意欲が湧く文章体系：ベネフィットを感情に訴えかける文章で書いてください。
+          3. 一貫性を持たせる。
 
-          # JSONを作成し、jq -c で「改行なしの1行」に完全圧縮
-          jq -n -c \
-            --rawfile info prompt_write.txt \
-            --arg title "$ITEM_TITLE" \
-            --arg price "$ITEM_PRICE" \
-            --arg caption "$ITEM_CAPTION" \
-            --arg link "$LINK" \
-            '{contents: [{parts: [{text: ($info + "\n\n【商品情報】\n商品名: " + $title + "\n価格: " + $price + "円\n商品説明: " + $caption + "\n\n【重要】\n記事の最後に必ず、以下の広告リンクをHTMLタグごとそのまま末尾に設置してください。:\n" + $link)}]}]}' > write.json
-          
-          # ★確実に通る元のエンドポイント（v1beta/models/gemini-flash-latest）に完全復旧
-          curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d @write.json > response1.json
-          
-          CHECK_RESP1=$(jq -r '.candidates[0].content.parts[0].text // empty' response1.json)
-          if [ -z "$CHECK_RESP1" ]; then
-            echo "--- Gemini API (1回目) エラーレスポンス詳細 ---"
-            cat response1.json
-            echo "---------------------------------------------"
-            echo "Geminiでの下書き作成に失敗しました。"
-            exit 1
-          fi
+          【商品情報】
+          商品名: {item_title}
+          価格: {item_price}円
+          商品説明: {item_caption}
 
-          echo "1回目の執筆が成功しました！クォータ制限を回避するため、60秒間待機します..."
-          sleep 60
+          【重要】
+          記事の最後に必ず、以下の広告リンクをHTMLタグごとそのまま末尾に設置してください。:
+          {link_html}
+          """
 
-          # ─── 2回目：推敲プロンプトファイルの作成 ───
-          cat << 'EOF' > prompt_check.txt
-          あなたはWebマーケティング業界で名高い、非常に厳格な『鬼編集長』です。部下のライターが書いた以下のブログ記事（HTML形式）を厳しく査読・推敲し、最高品質の商業記事に仕上げてください。
+          print("Gemini 1回目の執筆をリクエスト中...")
+          try:
+              draft = ask_gemini(prompt1)
+          except Exception as e:
+              print(f"Gemini 1回目でエラー: {e}")
+              sys.exit(1)
+
+          print("1回目の執筆に成功しました。クォータ制限回避のため60秒待機します...")
+          time.sleep(60)
+
+          # ─── 2回目：鬼編集長の推敲 ───
+          prompt2 = f"""あなたはWebマーケティング業界で名高い、非常に厳格な『鬼編集長』です。部下のライターが書いた以下のブログ記事（HTML形式）を厳しく査読・推敲し、最高品質の商業記事に仕上げてください。
 
           【推敲・チェックの4大評価基準】
-          以下の4点についてドラフトを厳しくチェックし、問題があれば必ず修正・加筆を行ってください。
-
-          1. 著作権チェック：元の商品説明の安易なコピペ表現が残っていませんか？独創的なオリジナル表現に徹底的に書き直してください。
-          2. 購入意欲のチェック：読者が「今すぐ買いたい！」と思える文章体系になっていますか？魅力的な文章へブラッシュアップしてください。
-          3. 一貫性のチェック：記事全体のテーマや主張にブレや矛盾はありませんか？
-          4. 言葉尻（文末）の統一：「です・ます調」または「だ・である調」のどちらかに、最初から最後まで美しく完全統一してください。
+          1. 著作権チェック（安易なコピペ表現の排除と独創的表現への変更）
+          2. 購入意欲のチェック（魅力的な文章へのブラッシュアップ）
+          3. 一貫性のチェック
+          4. 言葉尻（文末）の統一（「です・ます」または「だ・である」に完全統一）
 
           【注意事項】
-          記事の末尾にある楽天市場への広告リンク（<p style='text-align: center;'><a href=... から始まるHTMLタグ一式）は、絶対に削除したり改変したりせず、必ずそのまま最終出力の末尾に残してください。
+          記事の末尾にある楽天市場への広告リンク（HTMLタグ一式）は絶対に削除・改変せず、必ずそのまま最終出力の末尾に残してください。
 
           【修正対象のドラフト】
+          {draft}
+          """
+
+          print("Gemini 2回目の推敲をリクエスト中...")
+          try:
+              final_article = ask_gemini(prompt2)
+          except Exception as e:
+              print(f"Gemini 2回目でエラー: {e}")
+              sys.exit(1)
+
+          # クリーニング（マークダウンの除去）
+          if final_article.startswith("```html"):
+              final_article = final_article[7:]
+          elif final_article.startswith("```"):
+              final_article = final_article[3:]
+          if final_article.endswith("```"):
+              final_article = final_article[:-3]
+          final_article = final_article.strip()
+
+          # 4. ファイル保存
+          now_str = datetime.datetime.now(tz_ja).strftime("%Y-%m-%d_%H-%M")
+          title_str = datetime.datetime.now(tz_ja).strftime("%Y年%m月%d日")
+          
+          os.makedirs("posts", exist_ok=True)
+          html_content = f"<!DOCTYPE html><html lang='ja'><head><meta charset='UTF-8'><title>{title_str}のおすすめ</title></head><body>{final_article}</body></html>"
+          
+          with open(f"posts/{now_str}.html", "w", encoding="utf-8") as f:
+              f.write(html_content)
+          
+          print("記事の生成がすべて正常に完了しました！")
           EOF
-
-          # 下書きテキストの抽出と整形
-          jq -r '.candidates[0].content.parts[0].text' response1.json | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//' > cleaned_draft.txt
-
-          # 2回目も jq -c を使って「改行なしの完全な1行」に圧縮してjsonを生成
-          jq -n -c \
-            --rawfile base prompt_check.txt \
-            --rawfile draft cleaned_draft.txt \
-            '{contents: [{parts: [{text: ($base + "\n" + $draft)}]}]}' > check.json
           
-          # ★2回目も確実に動作する元のエンドポイント（v1beta/models/gemini-flash-latest）を使用
-          curl -s -X POST "[https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$){CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d @check.json > response2.json
-          
-          # 最終成果物の抽出
-          FINAL_ARTICLE=$(jq -r '.candidates[0].content.parts[0].text // empty' response2.json | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
+          # Pythonスクリプトの実行
+          python generate_blog.py
 
-          if [ -z "$FINAL_ARTICLE" ]; then
-            echo "--- Gemini API (2回目) エラーレスポンス詳細 ---"
-            cat response2.json
-            echo "---------------------------------------------"
-            echo "Geminiでの清書に失敗しました。"
-            exit 1
-          fi
-
-          # 保存とプッシュ
-          DATE=$(date '+%Y-%m-%d_%H-%M')
-          TITLE_DATE=$(date '+%Y年%m月%d日')
-          mkdir -p posts
-          
-          # HTMLファイル生成
-          jq -n --arg body "$FINAL_ARTICLE" --arg title "${TITLE_DATE}のおすすめ" '"<!DOCTYPE html><html lang=\"ja\"><head><meta charset=\"UTF-8\"><title>\($title)</title></head><body>\($body)</body></html>"' -r > posts/${DATE}.html
-
+      - name: GitHubレポジトリへのコミットとプッシュ
+        run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add posts/
