@@ -69,8 +69,9 @@ jobs:
 
           CLEAN_GEMINI_KEY=$(echo -n "${GEMINI_API_KEY}" | tr -d '\r\n ')
 
-          # ─── Gemini API呼び出し (1回目: ドラフト作成) ───
-          PROMPT_WRITE="高度なマーケティングスキルを持つプロのWebライターとして、提供された情報を基に、読者を惹きつける魅力的なHTMLブログ記事を執筆してください。
+          # ─── 1回目：プロンプトをファイルとして直接書き出す（変数を経由しない） ───
+          cat << 'EOF' > prompt_write.txt
+          高度なマーケティングスキルを持つプロのWebライターとして、提供された情報を基に、読者を惹きつける魅力的なHTMLブログ記事を執筆してください。
 
           【執筆時の絶対ルール】
           1. 著作権の侵害を完全に防ぐ：
@@ -79,20 +80,18 @@ jobs:
              単なる機能の箇条書きではなく、「この商品を手に入れることで、読者の生活がどう豊かになるか、どんな悩みが解決するか（ベネフィット）」を感情に訴えかける文章で書いてください。
           3. 記事に一貫性を持たせる：
              導入からまとめまで、誰に向けた記事なのか（ターゲット層）や、商品の最大の強み（テーマ）がブレないようにしてください。
+          EOF
 
-          【商品情報】
-          商品名: ${ITEM_TITLE}
-          価格: ${ITEM_PRICE}円
-          商品説明: ${ITEM_CAPTION}
-
-          【重要】
-          記事の最後に必ず、以下の広告リンクをHTMLタグごとそのまま末尾に設置してください。改変は一切禁止します:
-          ${LINK}"
-
-          # 1回目用のJSONファイルを安全に作成
-          jq -n --arg prompt "$PROMPT_WRITE" '{contents: [{parts: [{text: $prompt}]}]}' > write.json
+          # 商品情報と広告リンクを統合して1回目のリクエストJSONを作成
+          jq -n \
+            --rawfile info prompt_write.txt \
+            --arg title "$ITEM_TITLE" \
+            --arg price "$ITEM_PRICE" \
+            --arg caption "$ITEM_CAPTION" \
+            --arg link "$LINK" \
+            '{contents: [{parts: [{text: ($info + "\n\n【商品情報】\n商品名: " + $title + "\n価格: " + $price + "円\n商品説明: " + $caption + "\n\n【重要】\n記事の最後に必ず、以下の広告リンクをHTMLタグごとそのまま末尾に設置してください。:\n" + $link)}]}]}' > write.json
           
-          # 1回目のAPI実行（結果をファイルに直接保存）
+          # 1回目のAPI実行
           curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d @write.json > response1.json
           
           CHECK_RESP1=$(jq -r '.candidates[0].content.parts[0].text // empty' response1.json)
@@ -107,8 +106,9 @@ jobs:
           echo "1回目の執筆が成功しました！クォータ制限を回避するため、60秒間待機します..."
           sleep 60
 
-          # ─── Gemini API呼び出し (2回目: 推敲・チェック) ───
-          BASE_PROMPT_CHECK="あなたはWebマーケティング業界で名高い、非常に厳格な『鬼編集長』です。部下のライターが書いた以下のブログ記事（HTML形式）を厳しく査読・推敲し、最高品質の商業記事に仕上げてください。
+          # ─── 2回目：推敲プロンプトもファイルとして完全に独立して書き出す ───
+          cat << 'EOF' > prompt_check.txt
+          あなたはWebマーケティング業界で名高い、非常に厳格な『鬼編集長』です。部下のライターが書いた以下のブログ記事（HTML形式）を厳しく査読・推敲し、最高品質の商業記事に仕上げてください。
 
           【推敲・チェックの4大評価基準】
           以下の4点についてドラフトを厳しくチェックし、問題があれば必ず修正・加筆を行ってください。
@@ -122,16 +122,18 @@ jobs:
           記事の末尾にある楽天市場への広告リンク（<p style='text-align: center;'><a href=... から始まるHTMLタグ一式）は、絶対に削除したり改変したりせず、必ずそのまま最終出力の末尾に残してください。
 
           【修正対象のドラフト】
-          "
+          EOF
 
-          # YAML文法エラー（\nなど）を完全に回避するため、テキスト抽出と不要なマークダウン飾りの除去を sed で実施
-          DRAFT_TEXT=$(jq -r '.candidates[0].content.parts[0].text' response1.json)
-          DRAFT_TEXT=$(echo "$DRAFT_TEXT" | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
+          # 下書きテキストを抽出し、マークダウン装飾を安全に落とす処理
+          jq -r '.candidates[0].content.parts[0].text' response1.json | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//' > cleaned_draft.txt
 
-          # 安全に合体したJSONを作成（変数展開の崩壊を防ぐため、jqの引数機能を使用）
-          jq -n --arg base "$BASE_PROMPT_CHECK" --arg draft "$DRAFT_TEXT" '{contents: [{parts: [{text: ($base + $draft)}]}]}' > check.json
+          # ★変数展開を1ミリも使わず、2つのファイル（プロンプトと下書き）を直接マージしてJSON化
+          jq -n \
+            --rawfile base prompt_check.txt \
+            --rawfile draft cleaned_draft.txt \
+            '{contents: [{parts: [{text: ($base + "\n" + $draft)}]}]}' > check.json
           
-          # 2回目のAPI実行（全角スペースなどのゴミ文字を完全に排除したクリーンなリクエスト）
+          # 2回目のAPI実行（これで絶対にコマンドは崩壊しません）
           curl -s -X POST "[https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=$){CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d @check.json > response2.json
           
           # 最終成果物の抽出
@@ -150,7 +152,7 @@ jobs:
           TITLE_DATE=$(date '+%Y年%m月%d日')
           mkdir -p posts
           
-          # 最終HTMLファイル生成も特殊文字の干渉を防ぐため jq 経由で安全に出力
+          # HTMLファイル生成
           jq -n --arg body "$FINAL_ARTICLE" --arg title "${TITLE_DATE}のおすすめ" '"<!DOCTYPE html><html lang=\"ja\"><head><meta charset=\"UTF-8\"><title>\($title)</title></head><body>\($body)</body></html>"' -r > posts/${DATE}.html
 
           git config --global user.name "github-actions[bot]"
