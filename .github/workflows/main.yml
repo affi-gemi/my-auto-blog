@@ -17,7 +17,7 @@ jobs:
       - name: コードのチェックアウト
         uses: actions/checkout@v4
 
-      - name: 楽天APIの商品取得 ＆ Gemini 3.1 Proでの執筆・チェック
+      - name: 楽天APIの商品取得 ＆ Geminiでの執筆・チェック
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
@@ -41,24 +41,24 @@ jobs:
           ENCODED_KEYWORD=$(echo -n "${KEYWORD}" | jq -sRr @uri)
 
           # ========================================================
-          # 【重要】2026年最新仕様の入力エリア
+          # 【重要】楽天APIの設定エリア
           # ========================================================
-          # 1. あなたの「アプリケーションID」
+          # あなたの「アプリケーションID」
           APP_ID="5e1e64aa-f0ff-4e9c-9dd1-d9d708d434d0"
 
-          # 2. あなたの「アクセスキー」
+          # あなたの「アクセスキー」
           # ※★必ずご自身のアクセスキーに書き換えてください★
           ACCESS_KEY="pk_7Dvceb0JWiyKBHA4tjkjiO47cQm2Ku4DAgKbdZrGB7B"
 
-          # 3. 許可されたWebサイトのURL
+          # 許可されたWebサイトのURL
           REFERER_URL="https://affi-gemi.github.io/my-auto-blog/"
           ORIGIN_URL="https://affi-gemi.github.io"
+          
+          # アフィリエイトID
+          AFFILIATE_ID="${{ secrets.RAKUTEN_AFFILIATE_ID }}"
           # ========================================================
 
-          # アフィリエイトIDはGitHub Secretsから読み込みます
-          AFFILIATE_ID="${{ secrets.RAKUTEN_AFFILIATE_ID }}"
-
-          # 【エラー対策版】重複していたヘッダーを標準の1通りのみに整理してすっきり送信
+          # 楽天APIの呼び出し
           RAKUTEN_RES=$(curl -s -X GET -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" -H "Referer: ${REFERER_URL}" -H "Origin: ${ORIGIN_URL}" "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401?format=json&applicationId=${APP_ID}&accessKey=${ACCESS_KEY}&affiliateId=${AFFILIATE_ID}&keyword=${ENCODED_KEYWORD}&hits=1&sort=standard")
 
           # レスポンスから1件目の商品名を抽出
@@ -83,6 +83,16 @@ jobs:
           BUTTON_TEXT=$(echo "$ITEM_TITLE" | cut -c 1-30)
           LINK="<p style='text-align: center; margin: 40px 0;'><a href='${ITEM_URL}' target='_blank' rel='nofollow' style='background: #d93025; color: white; padding: 18px 35px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; font-size: 20px; box-shadow: 0 4px 15px rgba(217,48,37,0.3);'>【楽天市場】「${BUTTON_TEXT}...」をチェックする</a></p>"
 
+          # ========================================================
+          # 【安全対策】Gemini APIキーの自動クレンジング ＆ モデル名修正
+          # ========================================================
+          # シークレットの末尾に改行や空白が混ざっていても、ここで完全に消し去ってURL破損を防ぎます
+          CLEAN_GEMINI_KEY=$(echo -n "${GEMINI_API_KEY}" | tr -d '\r\n ')
+          
+          # 正しい最新の安定版モデル名に指定
+          GEMINI_MODEL="gemini-1.5-pro"
+          # ========================================================
+
           # Gemini API呼び出し (1回目: ドラフト作成)
           PROMPT_WRITE="高度なマーケティングスキルを持つプロのインフルエンサーとして、以下の商品について魅力的なHTML記事を書いてください。
           商品名: ${ITEM_TITLE}
@@ -91,8 +101,18 @@ jobs:
           記事の最後に必ずこのリンクをHTMLタグごとそのまま末尾に貼ってください: ${LINK}"
 
           JSON_WRITE=$(jq -n --arg prompt "$PROMPT_WRITE" '{contents: [{parts: [{text: $prompt}]}]}')
-          RES_WRITE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-pro:generateContent?key=${GEMINI_API_KEY}" -H "Content-Type: application/json" -d "$JSON_WRITE")
+          RES_WRITE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d "$JSON_WRITE")
+          
+          # 応答からテキストを抽出
           DRAFT_ARTICLE=$(echo "$RES_WRITE" | jq -r '.candidates[0].content.parts[0].text // empty' | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
+
+          if [ -z "$DRAFT_ARTICLE" ]; then
+            echo "--- Gemini API (1回目) エラーレスポンス詳細 ---"
+            echo "$RES_WRITE"
+            echo "---------------------------------------------/n"
+            echo "Geminiでの下書き作成に失敗しました。上記のエラー内容を確認してください。"
+            exit 1
+          fi
 
           # Gemini API呼び出し (2回目: 推敲・チェック)
           PROMPT_CHECK="あなたは厳格な編集長です。以下の記事のドラフトを推敲し、より魅力的なHTML記事に仕上げてください。末尾のリンクは絶対に改変しないでください。
@@ -100,15 +120,25 @@ jobs:
           ${DRAFT_ARTICLE}"
 
           JSON_CHECK=$(jq -n --arg prompt "$PROMPT_CHECK" '{contents: [{parts: [{text: $prompt}]}]}')
-          RES_CHECK=$(curl -s -X POST "[https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-pro:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-pro:generateContent?key=$){GEMINI_API_KEY}" -H "Content-Type: application/json" -d "$JSON_CHECK")
+          RES_CHECK=$(curl -s -X POST "[https://generativelanguage.googleapis.com/v1beta/models/$](https://generativelanguage.googleapis.com/v1beta/models/$){GEMINI_MODEL}:generateContent?key=${CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d "$JSON_CHECK")
+          
+          # 最終テキストを抽出
           FINAL_ARTICLE=$(echo "$RES_CHECK" | jq -r '.candidates[0].content.parts[0].text // empty' | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
+
+          if [ -z "$FINAL_ARTICLE" ]; then
+            echo "--- Gemini API (2回目) エラーレスポンス詳細 ---"
+            echo "$RES_CHECK"
+            echo "---------------------------------------------/n"
+            echo "Geminiでの清書に失敗しました。"
+            exit 1
+          fi
 
           # ファイル保存処理
           DATE=$(date '+%Y-%m-%d_%H-%M')
           TITLE_DATE=$(date '+%Y年%m月%d日')
           mkdir -p posts
           
-          # 【YAMLエラー絶対回避】インデントを壊さないよう、echoを使って1行でHTMLを安全に書き出し
+          # 安全に1行でHTMLを書き出し
           echo "<!DOCTYPE html><html lang='ja'><head><meta charset='UTF-8'><title>${TITLE_DATE}のおすすめ</title></head><body>${FINAL_ARTICLE}</body></html>" > posts/${DATE}.html
 
           # GitHubリポジトリへの自動コミット ＆ プッシュ
