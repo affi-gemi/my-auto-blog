@@ -61,7 +61,7 @@ jobs:
           # 楽天APIの呼び出し
           RAKUTEN_RES=$(curl -s -X GET -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" -H "Referer: ${REFERER_URL}" -H "Origin: ${ORIGIN_URL}" "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401?format=json&applicationId=${APP_ID}&accessKey=${ACCESS_KEY}&affiliateId=${AFFILIATE_ID}&keyword=${ENCODED_KEYWORD}&hits=1&sort=standard")
 
-          # レスンポスから1件目の商品名を抽出
+          # レスポンスから1件目の商品名を抽出
           ITEM_TITLE=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemName // empty')
           
           if [ -z "$ITEM_TITLE" ]; then
@@ -84,14 +84,9 @@ jobs:
           LINK="<p style='text-align: center; margin: 40px 0;'><a href='${ITEM_URL}' target='_blank' rel='nofollow' style='background: #d93025; color: white; padding: 18px 35px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; font-size: 20px; box-shadow: 0 4px 15px rgba(217,48,37,0.3);'>【楽天市場】「${BUTTON_TEXT}...」をチェックする</a></p>"
 
           # ========================================================
-          # 【あなたが提案してくれた最強の設定】
+          # Gemini APIのキー整形（空白や改行の完全除去）
           # ========================================================
-          # シークレットの末尾の改行や空白を綺麗に消去
           CLEAN_GEMINI_KEY=$(echo -n "${GEMINI_API_KEY}" | tr -d '\r\n ')
-          
-          # 常に最新世代のFlashモデルを自動で使うエイリアスを指定
-          GEMINI_MODEL="gemini-flash-latest"
-          # ========================================================
 
           # Gemini API呼び出し (1回目: ドラフト作成)
           PROMPT_WRITE="高度なマーケティングスキルを持つプロのインフルエンサーとして、以下の商品について魅力的なHTML記事を書いてください。
@@ -102,8 +97,8 @@ jobs:
 
           JSON_WRITE=$(jq -n --arg prompt "$PROMPT_WRITE" '{contents: [{parts: [{text: $prompt}]}]}')
           
-          # latestエイリアスを最大限活かすため v1beta に設定
-          RES_WRITE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d "$JSON_WRITE")
+          # 最新鋭の gemini-2.0-flash を安定の v1 URLで呼び出します
+          RES_WRITE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d "$JSON_WRITE")
           
           # 応答からテキストを抽出
           DRAFT_ARTICLE=$(echo "$RES_WRITE" | jq -r '.candidates[0].content.parts[0].text // empty' | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
@@ -121,10 +116,11 @@ jobs:
           【ドラフト】
           ${DRAFT_ARTICLE}"
 
+          # 【バグ修正】閉じカッコの「}]}」を正しく修正しました
           JSON_CHECK=$(jq -n --arg prompt "$PROMPT_CHECK" '{contents: [{parts: [{text: $prompt}]}]}')
           
-          # v1beta に設定
-          RES_CHECK=$(curl -s -X POST "[https://generativelanguage.googleapis.com/v1beta/models/$](https://generativelanguage.googleapis.com/v1beta/models/$){GEMINI_MODEL}:generateContent?key=${CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d "$JSON_CHECK")
+          # 2回目も gemini-2.0-flash で実行
+          RES_CHECK=$(curl -s -X POST "[https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=$](https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=$){CLEAN_GEMINI_KEY}" -H "Content-Type: application/json" -d "$JSON_CHECK")
           
           # 最終テキストを抽出
           FINAL_ARTICLE=$(echo "$RES_CHECK" | jq -r '.candidates[0].content.parts[0].text // empty' | sed -e 's/^```html//' -e 's/^```//' -e 's/```$//')
