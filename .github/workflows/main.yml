@@ -54,32 +54,27 @@ jobs:
           keyword = keywords.get(weekday, "ガジェット おすすめ")
           print(f"検索キーワード: {keyword}")
 
-          # 2. 楽天APIリクエスト
+          # 2. 楽天APIリクエスト（実績のある安定版URL形式）
           app_id = "5e1e64aa-f0ff-4e9c-9dd1-d9d708d434d0"
-          access_key = "pk_7Dvceb0JWiyKBHA4tjkjiO47cQm2Ku4DAgKbdZrGB7B"
-          referer = "https://affi-gemi.github.io/my-auto-blog/"
-          origin = "https://affi-gemi.github.io"
-          affiliate_id = os.environ.get("RAKUTEN_AFFILIATE_ID", "")
+          affiliate_id = os.environ.get("RAKUTEN_AFFILIATE_ID", "").strip()
           encoded_keyword = urllib.parse.quote(keyword)
 
-          rakuten_url = f"https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401?format=json&applicationId={app_id}&accessKey={access_key}&affiliateId={affiliate_id}&keyword={encoded_keyword}&hits=1&sort=standard"
+          rakuten_url = f"https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170426?format=json&applicationId={app_id}&affiliateId={affiliate_id}&keyword={encoded_keyword}&hits=1&sort=standard"
           
           req = urllib.request.Request(rakuten_url)
           req.add_header("User-Agent", "Mozilla/5.0")
-          req.add_header("Referer", referer)
-          req.add_header("Origin", origin)
 
           try:
               with urllib.request.urlopen(req) as res:
                   rakuten_data = json.loads(res.read().decode("utf-8"))
           except Exception as e:
               print(f"楽天API通信エラー: {e}")
-              sys.exit(1)
+              sys.exit(3)
 
           items = rakuten_data.get("Items", [])
           if not items:
-              print("楽天APIから商品を取得できませんでした。")
-              sys.exit(1)
+              print("楽天APIから商品データを取得できませんでした。レスポンスを確認してください。")
+              sys.exit(3)
 
           item = items[0]["Item"]
           item_title = item.get("itemName", "")
@@ -89,7 +84,7 @@ jobs:
 
           print(f"商品取得成功: {item_title}")
 
-          # 広告リンクのプレミアムモダンデザインボタン
+          # 広告リンクボタンの生成
           button_text = item_title[:28]
           link_html = f"""
           <div style="text-align: center; margin: 50px 0;">
@@ -100,11 +95,11 @@ jobs:
           </div>
           """
 
-          # 3. Gemini API 共通送信関数（自動リトライ機能付き）
+          # 3. Gemini API 送信関数（503等のエラー時に10秒待って最大3回リトライする仕組み）
           api_key = os.environ.get("GEMINI_API_KEY", "").strip()
           gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={api_key}"
 
-          def ask_gemini(prompt_text):
+          def ask_gemini_with_retry(prompt_text):
               payload = {"contents": [{"parts": [{"text": prompt_text}]}]}
               req_gemini = urllib.request.Request(
                   gemini_url, 
@@ -112,7 +107,6 @@ jobs:
                   headers={"Content-Type": "application/json"}
               )
               
-              # サーバー混雑対策：エラーが出たら10秒待って最大3回まで自動リトライ
               for attempt in range(3):
                   try:
                       with urllib.request.urlopen(req_gemini) as response:
@@ -120,11 +114,10 @@ jobs:
                           return res_data["candidates"][0]["content"]["parts"][0]["text"]
                   except Exception as e:
                       if attempt < 2:
-                          print(f"Gemini APIが混雑または一時エラーのため、10秒後に自動で再チャレンジします...（試行 {attempt + 1}/3）: {e}")
+                          print(f"Gemini APIエラーが発生したため、10秒後に自動で再チャレンジします（試行 {attempt + 1}/3）: {e}")
                           time.sleep(10)
                       else:
-                          # 3回ダメだった場合はエラー詳細を出力してスクリプトを落とす
-                          print(f"Gemini APIへの接続に3回連続で失敗しました。最終エラー: {e}")
+                          print("3回リトライしましたがGemini APIに接続できませんでした。")
                           raise e
 
           # ─── 1回目：下書き執筆 ───
@@ -150,13 +143,13 @@ jobs:
 
           print("Gemini 1回目の下書きをリクエスト中...")
           try:
-              draft = ask_gemini(prompt1)
+              draft = ask_gemini_with_retry(prompt1)
           except Exception as e:
-              print(f"Gemini 1回目で致命的なエラーが発生しました: {e}")
-              sys.exit(1)
+              print(f"Gemini 1回目で致命的なエラー: {e}")
+              sys.exit(3)
 
-          print("1回目の下書きに成功しました。60秒待機します...")
-          time.sleep(60)
+          print("1回目の下書きに成功しました。30秒待機して推敲に入ります...")
+          time.sleep(30)
 
           # ─── 2回目：純粋な推敲・校正 ───
           prompt2 = f"""あなたはプロのWebディレクターです。提供されたブログ記事（HTMLドラフト）を最高品質に仕上げてください。
@@ -177,12 +170,12 @@ jobs:
 
           print("Gemini 2回目の清書・ブラッシュアップをリクエスト中...")
           try:
-              final_article = ask_gemini(prompt2)
+              final_article = ask_gemini_with_retry(prompt2)
           except Exception as e:
-              print(f"Gemini 2回目で致命的なエラーが発生しました: {e}")
-              sys.exit(1)
+              print(f"Gemini 2回目で致命的なエラー: {e}")
+              sys.exit(3)
 
-          # クリーニング
+          # クリーニング処理
           if final_article.startswith("```html"):
               final_article = final_article[7:]
           elif final_article.startswith("```"):
@@ -201,22 +194,8 @@ jobs:
           
           modern_style = """
           <style>
-              body {
-                  font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
-                  line-height: 1.8;
-                  color: #333333;
-                  background-color: #f8f9fa;
-                  margin: 0;
-                  padding: 40px 20px;
-              }
-              .container {
-                  max-width: 760px;
-                  margin: 0 auto;
-                  background: #ffffff;
-                  padding: 40px;
-                  border-radius: 12px;
-                  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-              }
+              body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif; line-height: 1.8; color: #333333; background-color: #f8f9fa; margin: 0; padding: 40px 20px; }
+              .container { max-width: 760px; margin: 0 auto; background: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
               h1 { font-size: 28px; color: #111111; margin-bottom: 30px; line-height: 1.4; }
               h2 { font-size: 22px; position: relative; padding-left: 15px; border-left: 6px solid #d93025; color: #111111; margin-top: 40px; margin-bottom: 20px; }
               h3 { font-size: 18px; border-bottom: 2px solid #eaeaea; padding-bottom: 8px; color: #222222; margin-top: 30px; }
