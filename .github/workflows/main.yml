@@ -5,12 +5,15 @@ on:
     - cron: '0 22 * * *' # 毎日日本時間 朝7:00に自動実行
   workflow_dispatch: # 手動実行ボタン
 
+# サイトの強制公開（デプロイ）に必要な権限を追加
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   write-blog:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
 
     steps:
       - name: コードのチェックアウト
@@ -54,7 +57,7 @@ jobs:
           keyword = keywords.get(weekday, "ガジェット おすすめ")
           print(f"検索キーワード: {keyword}")
 
-          # 2. 楽天APIリクエスト (実行#57で成功していた最新版URLとヘッダー構造)
+          # 2. 楽天APIリクエスト
           app_id = "5e1e64aa-f0ff-4e9c-9dd1-d9d708d434d0"
           access_key = "pk_7Dvceb0JWiyKBHA4tjkjiO47cQm2Ku4DAgKbdZrGB7B"
           referer = "https://affi-gemi.github.io/my-auto-blog/"
@@ -89,7 +92,7 @@ jobs:
 
           print(f"商品取得成功: {item_title}")
 
-          # 広告リンクのプレミアムモダンデザインボタン
+          # 広告リンクボタン
           button_text = item_title[:28]
           link_html = f"""
           <div style="text-align: center; margin: 50px 0;">
@@ -100,7 +103,7 @@ jobs:
           </div>
           """
 
-          # 3. Gemini API 共通送信関数（エラー時に最大3回自動リトライ）
+          # 3. Gemini API 共通送信関数（最大3回リトライ）
           api_key = os.environ.get("GEMINI_API_KEY", "").strip()
           gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={api_key}"
 
@@ -119,7 +122,7 @@ jobs:
                           return res_data["candidates"][0]["content"]["parts"][0]["text"]
                   except Exception as e:
                       if attempt < 2:
-                          print(f"Gemini APIで一時的なエラー（503等）が発生しました。10秒後に自動リトライします（試行 {attempt + 1}/3）: {e}")
+                          print(f"Gemini APIエラーのため、10秒後に自動リトライします（試行 {attempt + 1}/3）: {e}")
                           time.sleep(10)
                       else:
                           raise e
@@ -128,7 +131,7 @@ jobs:
           prompt1 = f"""トップアフィリエイター兼プロのWebライターとして、提供された【特定の1商品のみ】にスポットを当て、読者を惹きつける洗練されたモダンなHTMLブログ記事を1本執筆してください。
 
           【執筆・デザインの絶対ルール】
-          1. ターゲット商品に特化する：紹介する商品は、以下に提供する「商品名」の商品ただ1つのみです。無関係な商品の箇取りは厳禁。
+          1. ターゲット商品に特化する：紹介する商品は、以下に提供する「商品名」の商品ただ1つのみです。無関係な商品の箇条書きは厳禁。
           2. コピペ厳禁＆シズル感：商品説明（CAPTION）の丸写しは絶対にNG。スペックを噛み砕き、読者の生活がどう豊かになるか（ベネフィット）を感情に訴えかける言葉で執筆してください。
           3. 洗練されたモダンデザイン：
              - 重要なポイントや箇条書きをする箇所は、必ず `<div class="review-box">` などの枠線ボックスで囲んで可視性を高めてください。
@@ -188,7 +191,7 @@ jobs:
               final_article = final_article[:-3]
           final_article = final_article.strip()
 
-          # タイトルの抽出（インデックス用）
+          # タイトルの抽出
           title_match = re.search(r'<h1[^>]*>(.*?)</h1>', final_article)
           article_title = title_match.group(1) if title_match else f"{now_dt.strftime('%Y年%m月%d日')}のおすすめ商品"
           article_title = re.sub(r'<[^>]+>', '', article_title).strip()
@@ -198,22 +201,8 @@ jobs:
           
           modern_style = """
           <style>
-              body {
-                  font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
-                  line-height: 1.8;
-                  color: #333333;
-                  background-color: #f8f9fa;
-                  margin: 0;
-                  padding: 40px 20px;
-              }
-              .container {
-                  max-width: 760px;
-                  margin: 0 auto;
-                  background: #ffffff;
-                  padding: 40px;
-                  border-radius: 12px;
-                  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-              }
+              body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif; line-height: 1.8; color: #333333; background-color: #f8f9fa; margin: 0; padding: 40px 20px; }
+              .container { max-width: 760px; margin: 0 auto; background: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
               h1 { font-size: 28px; color: #111111; margin-bottom: 30px; line-height: 1.4; }
               h2 { font-size: 22px; position: relative; padding-left: 15px; border-left: 6px solid #d93025; color: #111111; margin-top: 40px; margin-bottom: 20px; }
               h3 { font-size: 18px; border-bottom: 2px solid #eaeaea; padding-bottom: 8px; color: #222222; margin-top: 30px; }
@@ -322,5 +311,17 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add posts/ index.html
-          git commit -m "記事追加およびトップページ更新" || exit 0
+          git commit -m "新着記事を追加" || exit 0
           git push
+
+      # ─── ここから下を追加：強制的に公開を反映させる ───
+      - name: GitHub Pages のセットアップ
+        uses: actions/configure-pages@v5
+
+      - name: ページ資産のアップロード
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: サイトを強制公開（デプロイ）
+        uses: actions/deploy-pages@v4
