@@ -86,9 +86,16 @@ jobs:
 
           print(f"商品取得成功: {item_title}")
 
-          # HTML形式の専用リンクボタンを正確に生成
-          button_text = item_title[:30]
-          link_html = f"<p style='text-align: center; margin: 40px 0;'><a href='{item_url}' target='_blank' rel='nofollow' style='background: #d93025; color: white; padding: 18px 35px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; font-size: 20px; box-shadow: 0 4px 15px rgba(217,48,37,0.3);'>【楽天市場】「{button_text}...」の現在の価格をチェックする</a></p>"
+          # 広告リンクのプレミアムモダンデザインボタン
+          button_text = item_title[:28]
+          link_html = f"""
+          <div style="text-align: center; margin: 50px 0;">
+              <a href="{item_url}" target="_blank" rel="nofollow" class="cta-button">
+                  <span class="cta-sub">＼ 楽天市場で今すぐチェック！ ／</span>
+                  <span class="cta-main">「{button_text}...」のリアルタイム価格を見る</span>
+              </a>
+          </div>
+          """
 
           # 3. Gemini API 共通送信関数
           api_key = os.environ.get("GEMINI_API_KEY", "").strip()
@@ -105,15 +112,15 @@ jobs:
                   res_data = json.loads(response.read().decode("utf-8"))
                   return res_data["candidates"][0]["content"]["parts"][0]["text"]
 
-          # ─── 1回目：下書き執筆 ───
-          prompt1 = f"""高度なマーケティングスキルを持つプロのWebライターとして、提供された【特定の1商品のみ】にスポットを当て、読者を惹きつける魅力的なHTMLブログ記事を1本執筆してください。
-          無関係な他の商品や、複数の商品を勝手に並べることは絶対に禁止します。
+          # ─── 1回目：下書き執筆（デザインとタグ構造の大幅強化） ───
+          prompt1 = f"""トップアフィリエイター兼プロのWebライターとして、提供された【特定の1商品のみ】にスポットを当て、読者を惹きつける洗練されたモダンなHTMLブログ記事を1本執筆してください。
 
-          【執筆時の絶対ルール】
-          1. ターゲット商品に特化する：紹介する商品は、以下に提供する「商品名」の商品ただ1つのみです。
-          2. 著作権の侵害を完全に防ぐ：提供された「商品説明（CAPTION）」の文章をそのまま丸写しすることは厳禁です。スペックや特徴を正しく理解した上で、完全にあなた自身の言葉、独自の切り口で魅力的な紹介文へとリライトしてください。
-          3. ベネフィットを伝える：単なる機能の箇取りではなく、「この商品を購入することで、読者の生活がどう快適になるか、どんな悩みが解決するか」を感情に訴えかける文章（シズル感のある表現）で書いてください。
-          4. 構成：HTMLのタグ（h2, h3, pなど）を使って、見出しのある読みやすいブログ記事にしてください。
+          【執筆・デザインの絶対ルール】
+          1. ターゲット商品に特化する：紹介する商品は、以下に提供する「商品名」の商品ただ1つのみです。無関係な商品の箇条書きは厳禁。
+          2. コピペ厳禁＆シズル感：商品説明（CAPTION）の丸写しは絶対にNG。スペックを噛み砕き、読者の生活がどう豊かになるか（ベネフィット）を感情に訴えかける言葉で執筆してください。
+          3. 洗練されたモダンデザイン（最重要）：
+             - 重要なポイントや箇条書きをする箇所は、ただの「ulタグ」ではなく、必ず `<div class="review-box">` などの枠線ボックスで囲んで可視性を高めてください。
+             - 見出し（h2, h3）や段落（p）を適切に使い、単調な文字の羅列を避けてください。
 
           【提供された商品情報】
           商品名: {item_title}
@@ -121,7 +128,7 @@ jobs:
           商品説明: {item_caption}
 
           【重要・広告リンクの設置】
-          記事の最後（まとめの後）に、必ず以下のHTMLリンクコードを、文字一つ変えずにそのまま配置して記事を締めくくってください。ダミーのテキストリンク等に置き換えることは絶対に禁止します。
+          記事の最後（まとめの後）に、必ず以下のHTMLリンクコードを、文字一つ変えずにそのまま配置して記事を締めくくってください。
           {link_html}
           """
 
@@ -135,19 +142,17 @@ jobs:
           print("1回目の下書きに成功しました。60秒待機します...")
           time.sleep(60)
 
-          # ─── 2回目：純粋な推敲・校正（余計な台詞を完全禁止するプロンプト） ───
-          prompt2 = f"""あなたはプロのWebディレクターおよび校正担当者です。
-          提供されたブログ記事（HTMLドラフト）の文章を精査し、より商業的に魅力が高く、不自然なコピペ表現のない、洗練された最高品質の記事へブラッシュアップ（清書）してください。
+          # ─── 2回目：純粋な推敲・校正 ───
+          prompt2 = f"""あなたは敏腕Webサイトディレクターです。
+          提供されたブログ記事（HTMLドラフト）の文章とマークアップを精査し、より商業的にデザインが美しく、洗練された最高品質の記事へブラッシュアップ（清書）してください。
 
-          【ブラッシュアップの4大基準】
-          1. 著作権・コピペチェック（元の商品説明の直接的な丸写し表現があれば、独創的で魅力的な表現へ書き直す）
-          2. 購入意欲の最大化（シズル感を高め、読者が楽天市場で今すぐ買いたいと思える文章へブラッシュアップ）
-          3. 文末の完全統一（記事全体の文末を「です・ます調」に完全統一する）
-          4. 無関係な話題の削除（ターゲットである1商品以外の無関係な情報はすべて排除する）
+          【ブラッシュアップ基準】
+          1. 徹底したコピペ排除と、読者の「今すぐ欲しい」を引き出すエモーショナルな文章への昇華。
+          2. 文末の完全統一（「です・ます調」に完全統一）。
+          3. デザイン性の向上（h2、h3見出しが活きる美しい構成、重要な解説部分へのレビューボックスdivの積極的活用）。
 
           【⚠️出力に関する絶対厳守ルール】
-          ・あなた自身のコメント、アドバイス、解説、自己紹介、挨拶、思考プロセスなどは【絶対に1文字も出力しないでください】。
-          ・「以下に修正した記事を示します」や「修正ポイント」などの前置き・後書きも【完全に禁止】します。
+          ・あなた自身のコメント、解説、挨拶などは【絶対に1文字も出力しないでください】。
           ・出力する内容は、ブラッシュアップが完了した【HTMLのブログ本文（タグ含むテキスト）のみ】としてください。
           ・末尾にある楽天市場への広告リンク（{link_html}）は、絶対に削除・改変せず、必ずそのまま最終出力の最末尾に残してください。
 
@@ -171,17 +176,115 @@ jobs:
               final_article = final_article[:-3]
           final_article = final_article.strip()
 
-          # 4. ファイル保存
+          # 4. ファイル保存（超モダンな共通CSSスタイルシートをここで注入）
           now_str = datetime.datetime.now(tz_ja).strftime("%Y-%m-%d_%H-%M")
           title_str = datetime.datetime.now(tz_ja).strftime("%Y年%m月%d日")
           
+          modern_style = """
+          <style>
+              body {
+                  font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+                  line-height: 1.8;
+                  color: #333333;
+                  background-color: #f8f9fa;
+                  margin: 0;
+                  padding: 40px 20px;
+              }
+              .container {
+                  max-width: 760px;
+                  margin: 0 auto;
+                  background: #ffffff;
+                  padding: 40px;
+                  border-radius: 12px;
+                  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+              }
+              h2 {
+                  font-size: 24px;
+                  position: relative;
+                  padding-left: 15px;
+                  border-left: 6px solid #d93025;
+                  color: #111111;
+                  margin-top: 40px;
+                  margin-bottom: 20px;
+              }
+              h3 {
+                  font-size: 20px;
+                  border-bottom: 2px solid #eaeaea;
+                  padding-bottom: 8px;
+                  color: #222222;
+                  margin-top: 30px;
+              }
+              p {
+                  margin-bottom: 24px;
+                  font-size: 16px;
+              }
+              .review-box {
+                  background-color: #fff8f8;
+                  border: 1px solid #fadbd8;
+                  border-radius: 8px;
+                  padding: 25px;
+                  margin: 30px 0;
+              }
+              .review-box-title {
+                  font-weight: bold;
+                  color: #d93025;
+                  margin-top: 0;
+                  margin-bottom: 15px;
+                  font-size: 18px;
+                  display: flex;
+                  align-items: center;
+              }
+              .cta-button {
+                  display: inline-block;
+                  background: linear-gradient(135deg, #e53935 0%, #b71c1c 100%);
+                  color: #ffffff !important;
+                  text-decoration: none !important;
+                  padding: 15px 35px;
+                  border-radius: 50px;
+                  font-weight: bold;
+                  box-shadow: 0 6px 20px rgba(229,57,53,0.4);
+                  transition: all 0.3s ease;
+                  max-width: 90%;
+              }
+              .cta-button:hover {
+                  transform: translateY(-3px);
+                  box-shadow: 0 10px 25px rgba(229,57,53,0.5);
+              }
+              .cta-sub {
+                  display: block;
+                  font-size: 12px;
+                  text-transform: uppercase;
+                  letter-spacing: 1px;
+                  margin-bottom: 4px;
+                  color: #ffcdd2;
+              }
+              .cta-main {
+                  display: block;
+                  font-size: 18px;
+              }
+          </style>
+          """
+          
           os.makedirs("posts", exist_ok=True)
-          html_content = f"<!DOCTYPE html><html lang='ja'><head><meta charset='UTF-8'><title>{title_str}のおすすめ</title></head><body>{final_article}</body></html>"
+          html_content = f"""<!DOCTYPE html>
+          <html lang='ja'>
+          <head>
+              <meta charset='UTF-8'>
+              <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+              <title>{title_str}のおすすめ</title>
+              {modern_style}
+          </head>
+          <body>
+              <div class="container">
+                  {final_article}
+              </div>
+          </body>
+          </html>"""
           
           with open(f"posts/{now_str}.html", "w", encoding="utf-8") as f:
               f.write(html_content)
           
-          print("余計なセリフを完全に排除した特化記事の生成が完了しました！")
+          print("モダンな美しいデザインが適用された記事の生成が完了しました！")
           EOF
           
           python generate_blog.py
