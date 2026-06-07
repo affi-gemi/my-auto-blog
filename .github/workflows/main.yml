@@ -34,10 +34,13 @@ jobs:
           import json
           import time
           import urllib.request
+          import glob
+          import re
 
           # 1. 曜日ごとのキーワード設定
           tz_ja = datetime.timezone(datetime.timedelta(hours=9))
-          weekday = datetime.datetime.now(tz_ja).weekday()
+          now_dt = datetime.datetime.now(tz_ja)
+          weekday = now_dt.weekday()
           
           keywords = {
               6: "ふるさと納税 おすすめ 贅沢 返礼品", # 日
@@ -112,15 +115,16 @@ jobs:
                   res_data = json.loads(response.read().decode("utf-8"))
                   return res_data["candidates"][0]["content"]["parts"][0]["text"]
 
-          # ─── 1回目：下書き執筆（デザインとタグ構造の大幅強化） ───
+          # ─── 1回目：下書き執筆 ───
           prompt1 = f"""トップアフィリエイター兼プロのWebライターとして、提供された【特定の1商品のみ】にスポットを当て、読者を惹きつける洗練されたモダンなHTMLブログ記事を1本執筆してください。
 
           【執筆・デザインの絶対ルール】
           1. ターゲット商品に特化する：紹介する商品は、以下に提供する「商品名」の商品ただ1つのみです。無関係な商品の箇条書きは厳禁。
           2. コピペ厳禁＆シズル感：商品説明（CAPTION）の丸写しは絶対にNG。スペックを噛み砕き、読者の生活がどう豊かになるか（ベネフィット）を感情に訴えかける言葉で執筆してください。
-          3. 洗練されたモダンデザイン（最重要）：
-             - 重要なポイントや箇条書きをする箇所は、ただの「ulタグ」ではなく、必ず `<div class="review-box">` などの枠線ボックスで囲んで可視性を高めてください。
+          3. 洗練されたモダンデザイン：
+             - 重要なポイントや箇条書きをする箇所は、必ず `<div class="review-box">` などの枠線ボックスで囲んで可視性を高めてください。
              - 見出し（h2, h3）や段落（p）を適切に使い、単調な文字の羅列を避けてください。
+             - 記事の冒頭に、パッと目を引くキャッチーな「記事のタイトル（見出しではなく、シンプルな文字列またはh1）」を必ず1つ考えて配置してください。
 
           【提供された商品情報】
           商品名: {item_title}
@@ -143,13 +147,12 @@ jobs:
           time.sleep(60)
 
           # ─── 2回目：純粋な推敲・校正 ───
-          prompt2 = f"""あなたは敏腕Webサイトディレクターです。
-          提供されたブログ記事（HTMLドラフト）の文章とマークアップを精査し、より商業的にデザインが美しく、洗練された最高品質の記事へブラッシュアップ（清書）してください。
+          prompt2 = f"""あなたはプロのWebディレクターです。提供されたブログ記事（HTMLドラフト）を最高品質に仕上げてください。
 
           【ブラッシュアップ基準】
-          1. 徹底したコピペ排除と、読者の「今すぐ欲しい」を引き出すエモーショナルな文章への昇華。
+          1. 徹底したコピペ排除と、エモーショナルな文章への昇華。
           2. 文末の完全統一（「です・ます調」に完全統一）。
-          3. デザイン性の向上（h2、h3見出しが活きる美しい構成、重要な解説部分へのレビューボックスdivの積極的活用）。
+          3. 記事の最上部に、魅力的で洗練されたタイトル（h1タグなど）が必ず存在することを確認・修正。
 
           【⚠️出力に関する絶対厳守ルール】
           ・あなた自身のコメント、解説、挨拶などは【絶対に1文字も出力しないでください】。
@@ -176,9 +179,14 @@ jobs:
               final_article = final_article[:-3]
           final_article = final_article.strip()
 
-          # 4. ファイル保存（超モダンな共通CSSスタイルシートをここで注入）
-          now_str = datetime.datetime.now(tz_ja).strftime("%Y-%m-%d_%H-%M")
-          title_str = datetime.datetime.now(tz_ja).strftime("%Y年%m月%d日")
+          # タイトルの抽出（インデックス用）
+          title_match = re.search(r'<h1[^>]*>(.*?)</h1>', final_article)
+          article_title = title_match.group(1) if title_match else f"{now_dt.strftime('%Y年%m月%d日')}のおすすめ商品"
+          # タグの除去
+          article_title = re.sub(r'<[^>]+>', '', article_title).strip()
+
+          # 4. 個別記事ファイルの保存
+          now_str = now_dt.strftime("%Y-%m-%d_%H-%M")
           
           modern_style = """
           <style>
@@ -198,8 +206,14 @@ jobs:
                   border-radius: 12px;
                   box-shadow: 0 4px 20px rgba(0,0,0,0.05);
               }
+              h1 {
+                  font-size: 28px;
+                  color: #111111;
+                  margin-bottom: 30px;
+                  line-height: 1.4;
+              }
               h2 {
-                  font-size: 24px;
+                  font-size: 22px;
                   position: relative;
                   padding-left: 15px;
                   border-left: 6px solid #d93025;
@@ -208,31 +222,19 @@ jobs:
                   margin-bottom: 20px;
               }
               h3 {
-                  font-size: 20px;
+                  font-size: 18px;
                   border-bottom: 2px solid #eaeaea;
                   padding-bottom: 8px;
                   color: #222222;
                   margin-top: 30px;
               }
-              p {
-                  margin-bottom: 24px;
-                  font-size: 16px;
-              }
+              p { margin-bottom: 24px; font-size: 16px; }
               .review-box {
                   background-color: #fff8f8;
                   border: 1px solid #fadbd8;
                   border-radius: 8px;
                   padding: 25px;
                   margin: 30px 0;
-              }
-              .review-box-title {
-                  font-weight: bold;
-                  color: #d93025;
-                  margin-top: 0;
-                  margin-bottom: 15px;
-                  font-size: 18px;
-                  display: flex;
-                  align-items: center;
               }
               .cta-button {
                   display: inline-block;
@@ -246,22 +248,10 @@ jobs:
                   transition: all 0.3s ease;
                   max-width: 90%;
               }
-              .cta-button:hover {
-                  transform: translateY(-3px);
-                  box-shadow: 0 10px 25px rgba(229,57,53,0.5);
-              }
-              .cta-sub {
-                  display: block;
-                  font-size: 12px;
-                  text-transform: uppercase;
-                  letter-spacing: 1px;
-                  margin-bottom: 4px;
-                  color: #ffcdd2;
-              }
-              .cta-main {
-                  display: block;
-                  font-size: 18px;
-              }
+              .cta-button:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(229,57,53,0.5); }
+              .cta-sub { display: block; font-size: 12px; margin-bottom: 4px; color: #ffcdd2; }
+              .cta-main { display: block; font-size: 18px; }
+              .back-link { display: inline-block; margin-bottom: 20px; color: #d93025; text-decoration: none; font-weight: bold; }
           </style>
           """
           
@@ -271,11 +261,12 @@ jobs:
           <head>
               <meta charset='UTF-8'>
               <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-              <title>{title_str}のおすすめ</title>
+              <title>{article_title}</title>
               {modern_style}
           </head>
           <body>
               <div class="container">
+                  <a href="../" class="back-link">← トップページに戻る</a>
                   {final_article}
               </div>
           </body>
@@ -283,8 +274,114 @@ jobs:
           
           with open(f"posts/{now_str}.html", "w", encoding="utf-8") as f:
               f.write(html_content)
+
+          # ─── 5. トップページ(index.html)の自動生成・更新 ───
+          print("トップページ(index.html)を自動生成中...")
+          all_posts = sorted(glob.glob("posts/*.html"), reverse=True)
           
-          print("モダンな美しいデザインが適用された記事の生成が完了しました！")
+          links_html = ""
+          for post_path in all_posts:
+              filename = os.path.basename(post_path)
+              # ファイルからタイトルタグの情報を簡易取得
+              try:
+                  with open(post_path, "r", encoding="utf-8") as pf:
+                      content = pf.read()
+                      t_match = re.search(r'<title>(.*?)</title>', content)
+                      p_title = t_match.group(1) if t_match else filename
+                      # 「戻る」などの余計な文字が入るのを防ぐため抽出
+              except:
+                  p_title = filename
+              
+              # 日付プレフィックスの整形 (YYYY-MM-DD)
+              date_prefix = filename[:10]
+              links_html += f"""
+              <li class="post-item">
+                  <span class="post-date">{date_prefix}</span>
+                  <a class="post-link" href="posts/{filename}">{p_title}</a>
+              </li>
+              """
+
+          index_content = f"""<!DOCTYPE html>
+          <html lang="ja">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>AIアフィリエイトブログ</title>
+              <style>
+                  body {{
+                      font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+                      background-color: #f8f9fa;
+                      margin: 0;
+                      padding: 40px 20px;
+                      color: #333;
+                  }}
+                  .container {{
+                      max-width: 800px;
+                      margin: 0 auto;
+                      background: #ffffff;
+                      padding: 40px;
+                      border-radius: 12px;
+                      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+                  }}
+                  h1 {{
+                      font-size: 26px;
+                      text-align: center;
+                      color: #111;
+                      margin-bottom: 40px;
+                      border-bottom: 3px solid #d93025;
+                      padding-bottom: 15px;
+                  }}
+                  .post-list {{
+                      list-style: none;
+                      padding: 0;
+                      margin: 0;
+                  }}
+                  .post-item {{
+                      padding: 20px 0;
+                      border-bottom: 1px solid #eaeaea;
+                      display: flex;
+                      flex-direction: column;
+                  }}
+                  @media(min-width: 600px) {{
+                      .post-item {{
+                          flex-direction: row;
+                          align-items: center;
+                      }}
+                  }}
+                  .post-date {{
+                      font-size: 14px;
+                      color: #777;
+                      margin-right: 20px;
+                      min-width: 100px;
+                      margin-bottom: 5px;
+                      @media(min-width: 600px) {{ margin-bottom: 0; }}
+                  }}
+                  .post-link {{
+                      font-size: 18px;
+                      color: #111;
+                      text-decoration: none;
+                      font-weight: bold;
+                      transition: color 0.2s ease;
+                  }}
+                  .post-link:hover {{
+                      color: #d93025;
+                  }}
+              </style>
+          </head>
+          <body>
+              <div class="container">
+                  <h1>毎日自動更新！おすすめトレンド商品レビュー</h1>
+                  <ul class="post-list">
+                      {links_html}
+                  </ul>
+              </div>
+          </body>
+          </html>"""
+
+          with open("index.html", "w", encoding="utf-8") as f:
+              f.write(index_content)
+
+          print("すべてのビルドが正常に完了しました！")
           EOF
           
           python generate_blog.py
@@ -293,6 +390,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add posts/
-          git commit -m "新着記事を追加" || exit 0
+          git add posts/ index.html
+          git commit -m "記事追加およびトップページ更新" || exit 0
           git push
