@@ -31,9 +31,31 @@ jobs:
           esac
 
           echo "検索キーワード: ${KEYWORD}"
-          
-          # 見えないスペースによるエラーを防ぐため、1行で一気にリクエストを送ります
-          RAKUTEN_RES=$(curl -s -G "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601" -d "format=json" -d "applicationId=5e1e64aa-f0ff-4e9c-9dd1-d9d708d434d0" -d "affiliateId=${{ secrets.RAKUTEN_AFFILIATE_ID }}" --data-urlencode "keyword=${KEYWORD}" -d "hits=1" -d "sort=standard")
+
+          # キーワードを安全にURL用の文字に変換（スペース対策）
+          ENCODED_KEYWORD=$(echo -n "${KEYWORD}" | jq -sRr @uri)
+
+          # ========================================================
+          # 【重要】2026年最新仕様の入力エリア（ここを書き換えてください）
+          # ========================================================
+          # 1. あなたの「アプリケーションID」（そのままでOKです）
+          APP_ID="5e1e64aa-f0ff-4e9c-9dd1-d9d708d434d0"
+
+          # 2. あなたの「アクセスキー」
+          # 楽天デベロッパーズの管理画面で、IDの近くにある「アクセスキー」をここに貼り付けてください
+          ACCESS_KEY="pk_7Dvceb0JWiyKBHA4tjkjiO47cQm2Ku4DAgKbdZrGB7B"
+
+          # 3. 許可されたWebサイトのURL
+          # 楽天の管理画面の「アプリURL」に登録したURLを正確に入力してください（最後に / をつけるのをお忘れなく）
+          REFERER_URL="https://affi-gemi.github.io/my-auto-blog/"
+          # ========================================================
+
+          # アフィリエイトIDはGitHub Secretsから読み込みます
+          AFFILIATE_ID="${{ secrets.RAKUTEN_AFFILIATE_ID }}"
+
+          # 2026年最新のエンドポイントURLへ、リファラー（--referer）を添えてリクエストを送信
+          RAKUTEN_RES=$(curl -s "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401?format=json&applicationId=${APP_ID}&accessKey=${ACCESS_KEY}&affiliateId=${AFFILIATE_ID}&keyword=${ENCODED_KEYWORD}&hits=1&sort=standard" \
+            --referer "${REFERER_URL}")
 
           # レスポンスから1件目の商品名を抽出
           ITEM_TITLE=$(echo "$RAKUTEN_RES" | jq -r '.Items[0].Item.itemName // empty')
@@ -47,8 +69,3 @@ jobs:
           fi
 
           echo "商品取得成功！執筆を開始します。: $ITEM_TITLE"
-          
-          # =======================================================
-          # ここから下に、元々のコードにあった「Geminiへのプロンプト送信」や
-          # 「ブログへの投稿処理（WordPressやHatena等）」をそのまま貼り付けてください。
-          # =======================================================
