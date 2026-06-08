@@ -56,25 +56,17 @@ jobs:
           keyword = keywords.get(weekday, "ガジェット おすすめ")
           print(f"検索キーワード: {keyword}")
 
-          # 2. 楽天API接続（400エラーを絶対に防ぐ安全なURLパラメーター構築）
+          # 2. 楽天API接続（元のシンプルな接続方式に戻しました）
           app_id = "5e1e64aa-f0ff-4e9c-9dd1-d9d708d434d0"
           access_key = "pk_7Dvceb0JWiyKBHA4tjkjiO47cQm2Ku4DAgKbdZrGB7B"
           referer = "https://affi-gemi.github.io/my-auto-blog/"
           origin = "https://affi-gemi.github.io"
           affiliate_id = os.environ.get("RAKUTEN_AFFILIATE_ID", "").strip()
 
-          # スペース区切りの複数キーワードを楽天API仕様（+結合）に安全に変換
-          params = {
-              "format": "json",
-              "applicationId": app_id,
-              "accessKey": access_key,
-              "affiliateId": affiliate_id,
-              "keyword": keyword,
-              "hits": 1,
-              "sort": "standard"
-          }
-          # urlencodeを使うことで、スペースが自動的に「+」に変換され、400 Bad Requestが完全に防げます
-          rakuten_url = f"https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20170426?{urllib.parse.urlencode(params)}"
+          # 元のコード通り、スペースを全角に変換することで400エラーを回避します
+          safe_keyword = keyword.replace(' ', ' ')
+          encoded_keyword = urllib.parse.quote(safe_keyword)
+          rakuten_url = f"https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20170426?format=json&applicationId={app_id}&accessKey={access_key}&affiliateId={affiliate_id}&keyword={encoded_keyword}&hits=1&sort=standard"
 
           req = urllib.request.Request(rakuten_url)
           req.add_header("User-Agent", "Mozilla/5.0")
@@ -108,68 +100,40 @@ jobs:
           api_key = os.environ.get("GEMINI_API_KEY", "").strip()
           gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={api_key}"
 
-          def ask_gemini_with_retry(prompt_text, max_retries=4):
-              payload = {"contents": [{"parts": [{"text": prompt_text}]}]}
-              data_bytes = json.dumps(payload).encode("utf-8")
-              for attempt in range(max_retries):
-                  try:
-                      req_gemini = urllib.request.Request(gemini_url, data=data_bytes, headers={"Content-Type": "application/json"})
-                      with urllib.request.urlopen(req_gemini) as response:
-                          res_data = json.loads(response.read().decode("utf-8"))
-                          return res_data["candidates"][0]["content"]["parts"][0]["text"]
-                  except Exception as e:
-                      if attempt < max_retries - 1:
-                          wait_time = 40 if "503" in str(e) else 60
-                          print(f"Geminiエラー（{e}）。{wait_time}秒待機して自動リトライします...")
-                          time.sleep(wait_time)
-                      else:
-                          raise e
+          # 元のプロンプト構成に、ご要望の「デザイン指示」と「SEOタイトル指示」のみを追加
+          prompt = f"""
+紹介商品: {item_title}
+価格: {item_price}円
+説明: {item_caption}
 
-          # ─── 1回目：下書き（YAMLエラーを避けるためPython内でパーツ結合） ───
-          prompt1 = "紹介商品: " + item_title + "\n"
-          prompt1 += "価格: " + str(item_price) + "円\n"
-          prompt1 += "説明: " + item_caption + "\n"
-          prompt1 += "本日の検索キーワード: " + keyword + "\n\n"
-          prompt1 += "上記商品の紹介記事を、読者が欲しくなるWebブログ下書きとして作成してください。\n"
-          prompt1 += "【SEOタイトル規則】\n"
-          prompt1 += "・<h1>タグのタイトルには、検索キーワード（" + keyword + "）に含まれる単語を【必ずすべて】含めてください。\n"
-          prompt1 += "・商品名（主要な部分）をタイトルに含め、30文字〜40文字程度で魅力的にしてください。\n\n"
-          prompt1 += "【構成案】\n"
-          prompt1 += "1. <h1>タグで上記のSEOタイトルを満たした記事タイトル\n"
-          prompt1 += "2. 商品の概要や魅力を200文字程度で導入文として記載\n"
-          prompt1 += "3. <div class='point-box'>の中に「注目ポイント3選」を箇条書き(ul/li)で記載\n"
-          prompt1 += "4. <h2>タグで実用シーンを詳しく解説\n"
-          prompt1 += "5. <div class='comparison'>の中に「メリット(class='comp-box good')」と「デメリット(class='comp-box bad')」の2つのボックスを配置して比較\n"
-          prompt1 += "6. 最後に、どんな人にこの商品がおすすめかをまとめる\n\n"
-          prompt1 += "末尾に必ず次のコードをそのまま貼ること: " + link_html
+上記商品の紹介記事を、読者が欲しくなるWebブログ用のHTMLコードとして作成してください。
 
-          print("Gemini 1回目の下書きをリクエスト中...")
+【重要：タイトルルール】
+・記事の最上部にある <h1> タグのタイトルには、本日の検索キーワード（{keyword}）に含まれる単語を必ずすべて含め、検索されやすい魅力的なタイトル（30〜40文字程度）を考えて作成してください。
+
+【重要：デザインルール】
+・文章の要所には、以下のHTMLクラスを使用したデザイン（枠等）を適用させてください。
+  - 特徴のまとめ枠: <div class="point-box">
+  - メリット・デメリットの比較枠: <div class="comparison"> の中に、メリット枠として <div class="comp-box good">、デメリット枠として <div class="comp-box bad"> を配置
+
+【注意】
+・余計な解説文やマークダウン表記(```html )などは一切出力せず、<body>内側のクリーンなHTMLコードのみを出力してください。
+・記事の末尾には必ず次の広告リンクコードをそのまま配置してください：{link_html}
+"""
+
+          payload = {"contents": [{"parts": [{"text": prompt}]}]}
+          data_bytes = json.dumps(payload).encode("utf-8")
+
+          req_gemini = urllib.request.Request(gemini_url, data=data_bytes, headers={"Content-Type": "application/json"})
           try:
-              draft = ask_gemini_with_retry(prompt1)
-              print("1回目の下書き生成に成功しました。")
+              with urllib.request.urlopen(req_gemini) as response:
+                  res_data = json.loads(response.read().decode("utf-8"))
+                  final_article = res_data["candidates"][0]["content"]["parts"][0]["text"]
           except Exception as e:
-              print(f"Gemini 1回目で致命的エラー: {e}")
+              print(f"Gemini API通信エラー: {e}")
               sys.exit(1)
 
-          print("API制限回避のため、ここで60秒間待機します...")
-          time.sleep(60)
-
-          # ─── 2回目：清書 ───
-          prompt2 = "以下のHTMLブログ下書きを、読者が読みやすいプロの文章（です・ます調）に清書・推敲してください。\n\n"
-          prompt2 += "【厳守事項】\n"
-          prompt2 += "・提供されたHTMLタグ（h1, h2, div class='point-box', div class='comparison'など）の構造やクラス名は絶対に壊さず、そのまま維持してください。\n"
-          prompt2 += "・余計な挨拶や解説文、マークダウン表記(```)などは一切出力せず、<body>内側のクリーンなHTMLコードのみを出力してください。\n"
-          prompt2 += "・末尾の広告リンクは絶対に残してください。\n\n"
-          prompt2 += "【ドラフト】\n" + draft
-
-          print("Gemini 2回目の清書・ブラッシュアップをリクエスト中...")
-          try:
-              final_article = ask_gemini_with_retry(prompt2)
-              print("2回目の清書に成功しました。")
-          except Exception as e:
-              print(f"Gemini 2回目で致命的エラー: {e}")
-              sys.exit(1)
-
+          # 不要な記号のクレンジング
           final_article = final_article.replace("```html", "").replace("```", "").strip()
 
           title_match = re.search(r'<h1[^>]*>(.*?)</h1>', final_article)
@@ -180,22 +144,8 @@ jobs:
           now_str = now_dt.strftime("%Y-%m-%d_%H-%M")
           os.makedirs("posts", exist_ok=True)
 
-          modern_style = "<style>"
-          modern_style += "@import url('[https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap](https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap)');"
-          modern_style += "body { font-family: 'Noto Sans JP', sans-serif; line-height: 1.8; color: #333; background-color: #f0f2f5; padding: 40px 20px; margin: 0; }"
-          modern_style += ".container { max-width: 800px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }"
-          modern_style += "h1 { font-size: 26px; color: #1a1a1a; border-bottom: 4px solid #ffde59; padding-bottom: 10px; margin-bottom: 30px; }"
-          modern_style += "h2 { font-size: 20px; position: relative; padding-left: 15px; border-left: 5px solid #ff914d; margin-top: 40px; }"
-          modern_style += ".point-box { background: #eef9fe; border-left: 5px solid #38b6ff; padding: 20px; border-radius: 8px; margin: 25px 0; }"
-          modern_style += ".point-box ul { padding-left: 20px; margin: 0; } .point-box li { margin: 8px 0; }"
-          modern_style += ".comparison { display: flex; gap: 20px; flex-wrap: wrap; margin: 25px 0; }"
-          modern_style += ".comp-box { flex: 1; min-width: 280px; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }"
-          modern_style += ".good { background-color: #e8f5e9; border: 1px solid #c8e6c9; } .bad { background-color: #ffebee; border: 1px solid #ffcdd2; }"
-          modern_style += ".cta-button { display: block; background: #ff914d; color: #fff; text-decoration: none; padding: 20px; border-radius: 12px; text-align: center; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 15px rgba(255,145,77,0.3); margin: 40px 0; }"
-          modern_style += ".cta-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,145,77,0.4); }"
-          modern_style += ".cta-sub { display: block; font-size: 13px; margin-bottom: 5px; opacity: 0.9; } .cta-main { font-size: 19px; }"
-          modern_style += ".back-link { display: inline-block; margin-bottom: 25px; color: #ff914d; text-decoration: none; font-weight: bold; font-size: 14px; }"
-          modern_style += "</style>"
+          # クラスを適用するためのCSSスタイル
+          modern_style = """<style>@import url('[https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap](https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap)');body { font-family: 'Noto Sans JP', sans-serif; line-height: 1.8; color: #333; background-color: #f0f2f5; padding: 40px 20px; margin: 0; }.container { max-width: 800px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }h1 { font-size: 26px; color: #1a1a1a; border-bottom: 4px solid #ffde59; padding-bottom: 10px; margin-bottom: 30px; }h2 { font-size: 20px; position: relative; padding-left: 15px; border-left: 5px solid #ff914d; margin-top: 40px; }.point-box { background: #eef9fe; border-left: 5px solid #38b6ff; padding: 20px; border-radius: 8px; margin: 25px 0; }.point-box ul { padding-left: 20px; margin: 0; }.point-box li { margin: 8px 0; }.comparison { display: flex; gap: 20px; flex-wrap: wrap; margin: 25px 0; }.comp-box { flex: 1; min-width: 280px; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }.good { background-color: #e8f5e9; border: 1px solid #c8e6c9; }.bad { background-color: #ffebee; border: 1px solid #ffcdd2; }.cta-button { display: block; background: #ff914d; color: #fff; text-decoration: none; padding: 20px; border-radius: 12px; text-align: center; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 15px rgba(255,145,77,0.3); margin: 40px 0; }.cta-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,145,77,0.4); }.cta-sub { display: block; font-size: 13px; margin-bottom: 5px; opacity: 0.9; }.cta-main { font-size: 19px; }.back-link { display: inline-block; margin-bottom: 25px; color: #ff914d; text-decoration: none; font-weight: bold; font-size: 14px; }</style>"""
 
           html_content = f"<!DOCTYPE html><html lang='ja'><head><meta charset='UTF-8'><title>{article_title}</title>{modern_style}</head><body><div class='container'><a href='../' class='back-link'>← トップページに戻る</a>{final_article}</div></body></html>"
 
