@@ -98,8 +98,15 @@ jobs:
           api_key = os.environ.get("GEMINI_API_KEY", "").strip()
           gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={api_key}"
 
-          # 元のシンプルなプロンプトに、要求された指示テキストだけを純粋に追加
-          prompt = f"紹介商品: {item_title}\n価格: {item_price}円\n説明: {item_caption}\n\n上記商品の紹介記事を、読者が欲しくなるWebブログ用のHTMLコードとして作成してください。\n\n【追加指示：タイトルルール】\n・記事最上部の <h1> タグには、本日の検索キーワード「{keyword}」に含まれる単語を【必ずすべて含めた】、検索エンジンに引っかかりやすく魅力的なタイトル（30〜40文字程度）を考えて作成してください。\n\n【追加指示：デザインルール】\n・文章の要所には、指定のHTMLクラス（特徴のまとめ枠として <div class=\"point-box\">、メリット・デメリットの比較枠として <div class=\"comparison\"><div class=\"comp-box good\">...</div><div class=\"comp-box bad\">...</div></div>）を使用したデザインを適用させて出力してください。\n\n【注意】\n・余計な解説文やマークダウン表記(```html )などは一切出力せず、<body>内側のクリーンなHTMLコードのみを出力してください。\n・記事の末尾には必ず次の広告リンクコードをそのまま配置してください：{link_html}"
+          # 元のベースプロンプト（エラーなしで動いていた形）
+          base_prompt = f"紹介商品: {item_title}\n価格: {item_price}円\n説明: {item_caption}\n\n上記商品の紹介記事を、読者が欲しくなるWebブログ用のHTMLコードとして作成してください。\n\n【注意】\n・余計な解説文やマークダウン表記(```html )などは一切出力せず、<body>内側のクリーンなHTMLコードのみを出力してください。\n・記事の末尾には必ず次の広告リンクコードをそのまま配置してください：{link_html}"
+
+          # クォートエラーを絶対に防ぐため、追加の指示テキストは「シングルクォートで完全に隔離」して最後にドッキングします
+          seo_instruction = '【重要：タイトルルール】記事の最上部にある h1 タグのタイトルには、本日の検索キーワード（' + keyword + '）に含まれる単語を必ずすべて含め、検索されやすい魅力的なSEOタイトル（30〜40文字程度）を考えて作成してください。'
+          design_instruction = '【重要：デザインルール】文章の要所には、以下のHTMLクラスを使用したデザイン（枠等）を適用させてください。特徴のまとめ枠には class=point-box を使い、メリット・デメリットの比較枠には class=comparison の中に class=comp-box good と class=comp-box bad を配置してください。'
+
+          # 元の文章の最後に、安全にテキストを付け足す
+          prompt = base_prompt + "\n\n" + seo_instruction + "\n\n" + design_instruction
 
           payload = {"contents": [{"parts": [{"text": prompt}]}]}
           data_bytes = json.dumps(payload).encode("utf-8")
