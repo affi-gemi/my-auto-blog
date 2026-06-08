@@ -32,7 +32,8 @@ referer = "https://affi-gemi.github.io/my-auto-blog/"
 origin = "https://affi-gemi.github.io"
 affiliate_id = os.environ.get("RAKUTEN_AFFILIATE_ID", "").strip()
 
-encoded_keyword = urllib.parse.quote(keyword)
+# 【修正】スペースを楽天APIが認識できる形式（%20）に安全にエンコード
+encoded_keyword = urllib.parse.quote(keyword).replace(' ', '%20')
 rakuten_url = f"https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20170426?format=json&applicationId={app_id}&accessKey={access_key}&affiliateId={affiliate_id}&keyword={encoded_keyword}&hits=1&sort=standard"
 
 req = urllib.request.Request(rakuten_url)
@@ -135,6 +136,7 @@ prompt2 = f"""
 【厳守事項】
 ・提供されたHTMLタグ（h1, h2, div class="point-box", div class="comparison", class="comp-box good", class="comp-box bad"等）の構造やクラス名は絶対に壊さず、そのまま維持してください。
 ・特に <h1> タグ内のタイトルは、SEOキーワードが含まれているため文章を大幅に変更しないでください。
+--------------
 ・余計な挨拶や解説文、マークダウン表記(```)などは一切出力せず、<html>タグ等を含まない<body>内側のクリーンなHTMLコードのみを出力してください。
 ・末尾の広告リンクは絶対に残してください。
 
