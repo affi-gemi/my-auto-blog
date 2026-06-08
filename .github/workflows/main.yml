@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: ブログ自動執筆システム
+      - name: ブログ自動執筆システムを実行
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           RAKUTEN_AFFILIATE_ID: ${{ secrets.RAKUTEN_AFFILIATE_ID }}
@@ -43,7 +43,7 @@ jobs:
           tz_ja = datetime.timezone(datetime.timedelta(hours=9))
           now_dt = datetime.datetime.now(tz_ja)
           weekday = now_dt.weekday()
-          
+
           keywords = {
               6: "ふるさと納税 おすすめ 贅沢 返礼品",
               0: "プログラミング 初心者 教材",
@@ -56,16 +56,16 @@ jobs:
           keyword = keywords.get(weekday, "ガジェット おすすめ")
           print(f"検索キーワード: {keyword}")
 
-          # 2. 楽天API接続
+          # 2. 楽天API接続（スペース対応版）
           app_id = "5e1e64aa-f0ff-4e9c-9dd1-d9d708d434d0"
           access_key = "pk_7Dvceb0JWiyKBHA4tjkjiO47cQm2Ku4DAgKbdZrGB7B"
           referer = "https://affi-gemi.github.io/my-auto-blog/"
           origin = "https://affi-gemi.github.io"
           affiliate_id = os.environ.get("RAKUTEN_AFFILIATE_ID", "").strip()
-          
-          encoded_keyword = urllib.parse.quote(keyword).replace(' ', '%20')
+
+          encoded_keyword = urllib.parse.quote(keyword)
           rakuten_url = f"https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20170426?format=json&applicationId={app_id}&accessKey={access_key}&affiliateId={affiliate_id}&keyword={encoded_keyword}&hits=1&sort=standard"
-          
+
           req = urllib.request.Request(rakuten_url)
           req.add_header("User-Agent", "Mozilla/5.0")
           req.add_header("Referer", referer)
@@ -101,54 +101,37 @@ jobs:
           def ask_gemini_with_retry(prompt_text, max_retries=4):
               payload = {"contents": [{"parts": [{"text": prompt_text}]}]}
               data_bytes = json.dumps(payload).encode("utf-8")
-              
               for attempt in range(max_retries):
                   try:
-                      req_gemini = urllib.request.Request(
-                          gemini_url, 
-                          data=data_bytes, 
-                          headers={"Content-Type": "application/json"}
-                      )
+                      req_gemini = urllib.request.Request(gemini_url, data=data_bytes, headers={"Content-Type": "application/json"})
                       with urllib.request.urlopen(req_gemini) as response:
                           res_data = json.loads(response.read().decode("utf-8"))
                           return res_data["candidates"][0]["content"]["parts"][0]["text"]
                   except Exception as e:
                       if attempt < max_retries - 1:
                           wait_time = 40 if "503" in str(e) else 60
-                          print(f"Geminiがエラー（{e}）を返しました。サーバー混雑のため、{wait_time}秒待機して自動リトライします ({attempt + 1}/{max_retries})...")
+                          print(f"Geminiがエラー（{e}）を返しました。{wait_time}秒待機して自動リトライします ({attempt + 1}/{max_retries})...")
                           time.sleep(wait_time)
                       else:
-                          print(f"Gemini APIが何度も混雑・制限エラーを起こしたため、処理を中断します。")
                           raise e
 
-          # ─── 1回目：下書き（SEOタイトル規則を組み込み） ───
-          # YAMLのパースエラーを絶対に出さないよう、Pythonの「f文字列」を使用せず、
-          # あとから .format() で安全に値を流し込む方式に修正しました。
-          prompt1 = """
-紹介商品: {0}
-価格: {1}円
-説明: {2}
-本日の検索キーワード: {3}
-
-上記商品の紹介記事を、以下の【構成案】とHTMLクラス、および【SEOタイトル規則】を必ず遵守して、読者が欲しくなるWebブログ下書きとして作成してください。
-
-【SEOタイトル規則（最重要）】
-・記事のトップにある <h1> タグのタイトルは、検索エンジンでヒットしやすいように設計してください。
-・タイトルには「本日の検索キーワード」に含まれるすべての単語（{3}）を必ずすべて含めてください。
-・商品名（型番やブランド名など、主要な部分を抜粋）をタイトルに含めてください。
-・「口コミ」「レビュー」「違い」「選び方」など、検索されやすい掛け合わせワードを適宜補ってください。
-・文字数は30文字〜40文字程度で、読者の目を引く魅力的なキャッチコピーにしてください。
-
-【構成案】
-1. <h1>タグで上記の【SEOタイトル規則】を満たした記事タイトル
-2. 商品の概要や魅力を200文字程度で導入文として記載
-3. <div class="point-box">の中に「この記事の注目ポイント3選」を箇著書き(ul/li)で記載
-4. <h2>タグで「実際に使うと生活がどう変わる？」という実用シーンを詳しく解説
-5. <div class="comparison">の中に「メリット(class='comp-box good')」と「デメリット(class='comp-box bad')」の2つのボックスを配置して比較
-6. 最後に、どんな人にこの商品がおすすめかをまとめる
-
-末尾に必ず次のコードをそのまま貼ること: {4}
-""".format(item_title, item_price, item_caption, keyword, link_html)
+          # ─── 1回目：下書き（デザインとSEOタイトルルールをPython内で指示） ───
+          prompt1 = "紹介商品: " + item_title + "\n"
+          prompt1 += "価格: " + str(item_price) + "円\n"
+          prompt1 += "説明: " + item_caption + "\n"
+          prompt1 += "本日の検索キーワード: " + keyword + "\n\n"
+          prompt1 += "上記商品の紹介記事を、読者が欲しくなるWebブログ下書きとして作成してください。\n"
+          prompt1 += "【SEOタイトル規則】\n"
+          prompt1 += "・<h1>タグのタイトルには、検索キーワード（" + keyword + "）に含まれる単語を【必ずすべて】含めてください。\n"
+          prompt1 += "・商品名（主要な部分）をタイトルに含め、30文字〜40文字程度で魅力的にしてください。\n\n"
+          prompt1 += "【構成案】\n"
+          prompt1 += "1. <h1>タグで上記のSEOタイトルを満たした記事タイトル\n"
+          prompt1 += "2. 商品の概要や魅力を200文字程度で導入文として記載\n"
+          prompt1 += "3. <div class='point-box'>の中に「注目ポイント3選」を箇条書き(ul/li)で記載\n"
+          prompt1 += "4. <h2>タグで実用シーンを詳しく解説\n"
+          prompt1 += "5. <div class='comparison'>の中に「メリット(class='comp-box good')」と「デメリット(class='comp-box bad')」の2つのボックスを配置して比較\n"
+          prompt1 += "6. 最後に、どんな人にこの商品がおすすめかをまとめる\n\n"
+          prompt1 += "末尾に必ず次のコードをそのまま貼ること: " + link_html
 
           print("Gemini 1回目の下書きをリクエスト中...")
           try:
@@ -158,23 +141,17 @@ jobs:
               print(f"Gemini 1回目で致命的エラー: {e}")
               sys.exit(1)
 
-          # ─── 💡 1回目成功後、次のリクエストのために確実に60秒空ける ───
-          print("APIの1分間制限（429）を確実にクリアするため、ここで60秒間待機します...")
+          # 1分間制限（429）を確実にクリアするため60秒待機
+          print("API制限回避のため、ここで60秒間待機します...")
           time.sleep(60)
 
           # ─── 2回目：清書 ───
-          prompt2 = """
-以下のHTMLブログ下書きを、読者が読みやすいプロの文章（です・ます調）に清書・推敲してください。
-
-【厳守事項】
-・提供されたHTMLタグ（h1, h2, div class="point-box", div class="comparison", class="comp-box good", class="comp-box bad"等）の構造やクラス名は絶対に壊さず、そのまま維持してください。
-・特に <h1> タグ内のタイトルは、SEOキーワードが含まれているため文章を大幅に変更しないでください。
-・余計な挨拶や解説文、マークダウン表記(```)などは一切出力せず、<html>タグ等を含まない<body>内側のクリーンなHTMLコードのみを出力してください。
-・末尾の広告リンクは絶対に残してください。
-
-【ドラフト】
-{0}
-""".format(draft)
+          prompt2 = "以下のHTMLブログ下書きを、読者が読みやすいプロの文章（です・ます調）に清書・推敲してください。\n\n"
+          prompt2 += "【厳守事項】\n"
+          prompt2 += "・提供されたHTMLタグ（h1, h2, div class='point-box', div class='comparison'など）の構造やクラス名は絶対に壊さず、そのまま維持してください。\n"
+          prompt2 += "・余計な挨拶や解説文、マークダウン表記(```)などは一切出力せず、<body>内側のクリーンなHTMLコードのみを出力してください。\n"
+          prompt2 += "・末尾の広告リンクは絶対に残してください。\n\n"
+          prompt2 += "【ドラフト】\n" + draft
 
           print("Gemini 2回目の清書・ブラッシュアップをリクエスト中...")
           try:
@@ -185,8 +162,7 @@ jobs:
               sys.exit(1)
 
           # 成形処理
-          final_article = final_article.replace("
-```html", "").replace("```", "").strip()
+          final_article = final_article.replace("```html", "").replace("```", "").strip()
 
           title_match = re.search(r'<h1[^>]*>(.*?)</h1>', final_article)
           article_title = title_match.group(1) if title_match else f"{now_dt.strftime('%Y年%m月%d日')}のおすすめ商品"
@@ -195,12 +171,27 @@ jobs:
           # 4. 保存処理
           now_str = now_dt.strftime("%Y-%m-%d_%H-%M")
           os.makedirs("posts", exist_ok=True)
-          
-          # 特殊記号が完全に平坦化されたモダンデザインCSS
-          modern_style = """<style>@import url('[https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');body](https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');body) { font-family: 'Noto Sans JP', sans-serif; line-height: 1.8; color: #333; background-color: #f0f2f5; padding: 40px 20px; margin: 0; }.container { max-width: 800px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }h1 { font-size: 26px; color: #1a1a1a; border-bottom: 4px solid #ffde59; padding-bottom: 10px; margin-bottom: 30px; }h2 { font-size: 20px; position: relative; padding-left: 15px; border-left: 5px solid #ff914d; margin-top: 40px; }.point-box { background: #eef9fe; border-left: 5px solid #38b6ff; padding: 20px; border-radius: 8px; margin: 25px 0; }.point-box ul { padding-left: 20px; margin: 0; }.point-box li { margin: 8px 0; }.comparison { display: flex; gap: 20px; flex-wrap: wrap; margin: 25px 0; }.comp-box { flex: 1; min-width: 280px; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }.good { background-color: #e8f5e9; border: 1px solid #c8e6c9; }.bad { background-color: #ffebee; border: 1px solid #ffcdd2; }.cta-button { display: block; background: #ff914d; color: #fff; text-decoration: none; padding: 20px; border-radius: 12px; text-align: center; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 15px rgba(255,145,77,0.3); margin: 40px 0; }.cta-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,145,77,0.4); }.cta-sub { display: block; font-size: 13px; margin-bottom: 5px; opacity: 0.9; }.cta-main { font-size: 19px; }.back-link { display: inline-block; margin-bottom: 25px; color: #ff914d; text-decoration: none; font-weight: bold; font-size: 14px; }</style>"""
-          
+
+          # YAMLを絶対にバグらせないように、スタイルシートもシンプルに記述
+          modern_style = "<style>"
+          modern_style += "@import url('[https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap](https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap)');"
+          modern_style += "body { font-family: 'Noto Sans JP', sans-serif; line-height: 1.8; color: #333; background-color: #f0f2f5; padding: 40px 20px; margin: 0; }"
+          modern_style += ".container { max-width: 800px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }"
+          modern_style += "h1 { font-size: 26px; color: #1a1a1a; border-bottom: 4px solid #ffde59; padding-bottom: 10px; margin-bottom: 30px; }"
+          modern_style += "h2 { font-size: 20px; position: relative; padding-left: 15px; border-left: 5px solid #ff914d; margin-top: 40px; }"
+          modern_style += ".point-box { background: #eef9fe; border-left: 5px solid #38b6ff; padding: 20px; border-radius: 8px; margin: 25px 0; }"
+          modern_style += ".point-box ul { padding-left: 20px; margin: 0; } .point-box li { margin: 8px 0; }"
+          modern_style += ".comparison { display: flex; gap: 20px; flex-wrap: wrap; margin: 25px 0; }"
+          modern_style += ".comp-box { flex: 1; min-width: 280px; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }"
+          modern_style += ".good { background-color: #e8f5e9; border: 1px solid #c8e6c9; } .bad { background-color: #ffebee; border: 1px solid #ffcdd2; }"
+          modern_style += ".cta-button { display: block; background: #ff914d; color: #fff; text-decoration: none; padding: 20px; border-radius: 12px; text-align: center; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 15px rgba(255,145,77,0.3); margin: 40px 0; }"
+          modern_style += ".cta-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,145,77,0.4); }"
+          modern_style += ".cta-sub { display: block; font-size: 13px; margin-bottom: 5px; opacity: 0.9; } .cta-main { font-size: 19px; }"
+          modern_style += ".back-link { display: inline-block; margin-bottom: 25px; color: #ff914d; text-decoration: none; font-weight: bold; font-size: 14px; }"
+          modern_style += "</style>"
+
           html_content = f"<!DOCTYPE html><html lang='ja'><head><meta charset='UTF-8'><title>{article_title}</title>{modern_style}</head><body><div class='container'><a href='../' class='back-link'>← トップページに戻る</a>{final_article}</div></body></html>"
-          
+
           with open(f"posts/{now_str}.html", "w", encoding="utf-8") as f:
               f.write(html_content)
 
@@ -219,13 +210,12 @@ jobs:
               links_html += f'<li style="margin: 15px 0;"><span style="color:#777; margin-right:15px;">{filename[:10]}</span><a href="posts/{filename}" style="color:#111; font-weight:bold; text-decoration:none;">{p_title}</a></li>'
 
           index_content = f"<!DOCTYPE html><html lang='ja'><head><meta charset='UTF-8'><title>AI自動更新ブログ</title></head><body style='font-family:sans-serif; background:#f8f9fa; padding:40px 20px;'><div style='max-width:800px; margin:0 auto; background:#fff; padding:40px; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.05);'><h1 style='border-bottom:3px solid #d93025; padding-bottom:15px;'>毎日自動更新！おすすめトレンド商品レビュー</h1><ul style='list-style:none; padding:0;'>{links_html}</ul></div></body></html>"
-          
+
           with open("index.html", "w", encoding="utf-8") as f:
               f.write(index_content)
-              
           print("すべてのビルドが正常に完了しました。")
           EOF
-          
+
           python generate_blog.py
 
       - name: GitHubレポジトリへのコミットとプッシュ
