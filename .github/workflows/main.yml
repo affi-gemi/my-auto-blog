@@ -2,7 +2,7 @@ name: Auto Blog Writer
 
 on:
   schedule:
-    - cron: '0 22 * * *' # 毎日日本時間 朝7:00に自動更新
+    - cron: '23 22 * * *'
   workflow_dispatch: # 手動実行ボタン
 
 permissions:
