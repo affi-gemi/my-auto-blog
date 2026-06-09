@@ -2,7 +2,7 @@ name: Auto Blog Writer
 
 on:
   schedule:
-    - cron: '23 22 * * *'
+    - cron: '23 22 * * *' # 日本時間 朝7:23に実行（混雑回避の23分）
   workflow_dispatch: # 手動実行ボタン
 
 permissions:
@@ -98,11 +98,18 @@ jobs:
           api_key = os.environ.get("GEMINI_API_KEY", "").strip()
           gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={api_key}"
 
-          def ask_gemini_with_retry(prompt_text, max_retries=4):
+          def ask_gemini_with_retry(prompt_text, max_retries=5):
               payload = {"contents": [{"parts": [{"text": prompt_text}]}]}
               data_bytes = json.dumps(payload).encode("utf-8")
               
               for attempt in range(max_retries):
+                  # 連投制限(429)を事前に防止するため、リクエスト直前に一律で少し待機を入れる
+                  if attempt > 0:
+                      print(f"リトライのため、少し間隔を空けます...")
+                  else:
+                      print("API制限回避のため、実行前に15秒間待機します...")
+                      time.sleep(15)
+
                   try:
                       req_gemini = urllib.request.Request(
                           gemini_url, 
@@ -113,9 +120,11 @@ jobs:
                           res_data = json.loads(response.read().decode("utf-8"))
                           return res_data["candidates"][0]["content"]["parts"][0]["text"]
                   except Exception as e:
+                      err_msg = str(e)
                       if attempt < max_retries - 1:
-                          wait_time = 40 if "503" in str(e) else 60
-                          print(f"Geminiがエラー（{e}）を返しました。サーバー混雑のため、{wait_time}秒待機して自動リトライします ({attempt + 1}/{max_retries})...")
+                          # 429(制限)や503(混雑)の場合は、回数を重ねるごとに待ち時間を長くする（指数バックオフ）
+                          wait_time = (attempt + 1) * 45
+                          print(f"Geminiがエラー（{err_msg}）を返しました。{wait_time}秒待機して自動リトライします ({attempt + 1}/{max_retries})...")
                           time.sleep(wait_time)
                       else:
                           print(f"Gemini APIが何度も混雑・制限エラーを起こしたため、処理を中断します。")
@@ -145,14 +154,14 @@ jobs:
               print(f"Gemini 1回目で致命的エラー: {e}")
               sys.exit(1)
 
-          # ─── 💡 1回目成功後、次のリクエストのために確実に60秒空ける ───
-          print("APIの1分間制限（429）を確実にクリアするため、ここで60秒間待機します...")
-          time.sleep(60)
+          # ─── 💡 1回目成功後、長文生成によるトークン制限（429）を確実に解除するため90秒空ける ───
+          print("大量トークン消費による制限（429）をリセットするため、ここで90秒間しっかりと待機します...")
+          time.sleep(90)
 
           # ─── 2回目：清書（校正・購入意欲の向上・デザイン維持ルールを強化） ───
           prompt2 = f"以下のHTMLブログドラフトを、プロの文章（です・ます調）に清書・推敲してください。\n\n" \
                     f"【清書・校正の絶対ルール】\n" \
-                    f"1. 文章構成・文法の修正: ドラフト内の日本語表現に不自然な点や、文章のつながり・文法がおかしい箇所があれば、スムーズで読みやすい論理的な文章にすべて修正してください。\n" \
+                    f"1. 文章構成・文法的の修正: ドラフト内の日本語表現に不自然な点や、文章のつながり・文法がおかしい箇所があれば、スムーズで読みやすい論理的な文章にすべて修正してください。\n" \
                     f"2. 購入意欲を引き上げる推敲: 読者が商品の魅力をより強く実感し、より欲しくなるようなポジティブで説得力のある表現へとブラッシュアップしてください。\n" \
                     f"3. デザイン等は一切変更しない: ドラフトに組み込まれている <img> タグや、<div class=\"review-box\"> などのHTML構造・CSSクラス、および末尾の広告リンクは絶対に削除・改変せず、そのまま100%残してください。デザインレイアウトの変更は禁止します。\n" \
                     f"4. 出力制限: 余計な前置き、挨拶、解説文、およびマークダウン表記(```html など)は一切出力せず、<body>の内側としてそのまま使えるHTMLコードのみを出力してください。\n\n" \
