@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>リビングに置きたくなる、才色兼備な一台。ブラザー「DCP-J529N」が変える、これからのホームプリント</title>
+    <style>
+        :root {
+            --primary-color: #1e40af;
+            --primary-hover: #1d4ed8;
+            --text-color: #1f2937;
+            --text-muted: #4b5563;
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+            --accent-color: #3b82f6;
+            --border-color: #e5e7eb;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Webメディア風ヘッダー */
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            color: var(--primary-color);
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .category {
+            font-size: 0.75rem;
+            font-weight: 700;
+            background-color: var(--accent-color);
+            color: #ffffff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            text-transform: uppercase;
+        }
+
+        /* メインコンテンツ */
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem 4rem;
+        }
+
+        /* ヒーローセクション */
+        .hero {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .post-date {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        h1 {
+            font-size: 2rem;
+            line-height: 1.4;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        .lead {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            text-align: justify;
+            margin-bottom: 2rem;
+        }
+
+        /* 記事本文 */
+        .content {
+            font-size: 1.05rem;
+            color: #374151;
+        }
+
+        .content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+            position: relative;
+        }
+
+        .content p {
+            margin-bottom: 1.75rem;
+            text-align: justify;
+        }
+
+        /* 特徴カード */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+        }
+
+        @media (min-width: 640px) {
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-card h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+            color: var(--text-muted);
+        }
+
+        /* 商品紹介・購入エリア */
+        .product-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 4rem 0 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        @media (min-width: 640px) {
+            .product-details {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+        }
+
+        .product-image-container {
+            flex-shrink: 0;
+            background-color: #ffffff;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 160px;
+            height: 160px;
+        }
+
+        .product-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .product-info {
+            flex-grow: 1;
+        }
+
+        .product-brand {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-name {
+            font-size: 1.25rem;
+            font-weight: 800;
+            line-height: 1.4;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .product-description {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .buy-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            background-color: var(--primary-color);
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+        }
+
+        .buy-button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .buy-button:active {
+            transform: translateY(1px);
+        }
+
+        /* フッター */
+        footer {
+            background-color: var(--text-color);
+            color: #ffffff;
+            padding: 3rem 1rem;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+
+        footer p {
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">LIFESTYLE &amp; TECH</a>
+            <span class="category">Review</span>
+        </div>
+    </header>
+
+    <main>
+        <article>
+            <div class="hero">
+                <span class="post-date">2024.10.24</span>
+                <h1>リビングに置きたくなる、才色兼備な一台。<br>ブラザー「DCP-J529N」が変えるこれからのホームプリント</h1>
+                <p class="lead">仕事の書類も、子どものプリントも、お気に入りの写真も。すべてを自宅でスマートに、美しく完結させたい。そんな現代のライフスタイルに寄り添う、コンパクトで妥協のない実力派プリンターをご紹介します。</p>
+            </div>
+
+            <div class="content">
+                <p>現在、プリンターに求められる価値は劇的に変化しています。かつてのような「ただ印刷できればいい」という時代は去り、今やインテリアに溶け込むコンパクトさ、誰もが迷わず使える高い操作性、そしてスマートフォンとのシームレスな連携が必須条件となりました。</p>
+                
+                <p>特にホームオフィスを構えるビジネスパーソンや、限られたリビングスペースを美しく保ちたいファミリー層にとって、大きくて無骨なプリンターは敬遠されがちです。そんな洗練された暮らしを求める人々の間で今、静かに、しかし確実に支持を集めているのが、ブラザーのA4インクジェット複合機「DCP-J529N」です。</p>
+
+                <h2>機能美を凝縮した、無駄のない佇まい</h2>
+                
+                <p>ブラザー「DCP-J529N」を前にしてまず驚くのは、その驚異的なコンパクトさです。プリント、コピー、スキャンという充実の基本機能を網羅しながらも、居住空間を圧迫しないミニマムな設計を実現しています。すっきりとした佇まいは、デスクの上はもちろん、リビングのシェルフに置いても違和感なく調和します。</p>
+                
+                <p>操作面においても妥協はありません。本体に搭載されたタッチパネル液晶は直感的な操作を可能にし、初めて使う人でもストレスフリーで扱えます。さらに、用紙コストをスマートに抑え、環境にも配慮できる自動両面印刷機能を標準搭載。まさに「これ一台で、すべてがスマートに整う」という言葉がふさわしい仕上がりです。</p>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>スマートな自動両面印刷</h3>
+                        <p>用紙の無駄を省き、かさばる資料もすっきりコンパクトに。エコロジーで経済的な選択を日常に提供します。</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>直感的なタッチパネル</h3>
+                        <p>スマートフォンのような感覚でスムーズに操作可能。迷うことのないシンプルなUIデザインが魅力です。</p>
+                    </div>
+                </div>
+
+                <h2>PCレスが当たり前。スマホとつながる新次元の快適さ</h2>
+                
+                <p>「プリントするために、わざわざパソコンを立ち上げる」そんな煩わしさは、このマシンが過去のものにしてくれます。ブラザー専用のスマホアプリ「Brother Mobile Connect」を使えば、手元のスマートフォンやタブレットに保存された写真やドキュメントを、タップひとつで瞬時にプリントできます。</p>
+                
+                <p>さらに画期的なのは、コミュニケーションアプリ「LINE」との連携です。公式アカウント「Brother プリント＆コネクト」を友だち追加するだけで、トーク画面から簡単にデータを出力可能。まるで友人にメッセージを送るような感覚で、日常のプリントアウトが完結します。世代を問わず、家族全員が「使いたいときに、すぐ使える」快適さがここにあります。</p>
+
+                <h2>日常の「もしも」に寄り添う、高い実用性</h2>
+                
+                <p>プリンターにありがちな「カラーインクが切れて、モノクロ印刷すらできなくなってしまった」という突然のトラブル。DCP-J529Nには、そんなユーザーの焦りを解消する「クロだけ印刷」機能が搭載されています。カラーインクが切れてしまっても、黒インクさえ残っていれば最長30日間はモノクロ印刷が可能です。大切なビジネス書類の提出前など、いざという時の安心感を提供してくれます。</p>
+                
+                <p>また、インク交換は4色独立のカートリッジタイプを採用。手を汚しにくい構造になっており、細かい部分にまでユーザーへの細やかな配慮が行き届いています。</p>
+
+                <div class="product-card">
+                    <div class="product-details">
+                        <div class="product-image-container">
+                            <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/yamada-denki/cabinet/a07000469/4792452016.jpg?_ex=128x128" alt="ブラザー DCP-J529N" class="product-image">
+                        </div>
+                        <div class="product-info">
+                            <span class="product-brand">BROTHER</span>
+                            <h3 class="product-name">ブラザー DCP-J529N プリンター A4インクジェット複合機</h3>
+                            <p class="product-description">自動両面印刷、Wi-Fi、スマート操作。現代のライフスタイルに完全にフィットする、洗練された多機能コンパクトモデル。</p>
+                            <a href="https://hb.afl.rakuten.co.jp/hgc/g00t3jpn.h9gned7c.g00t3jpn.h9gnff1d/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fyamada-denki%2F4792452016%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fyamada-denki%2Fi%2F10665043%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" class="buy-button" target="_blank" rel="noopener noreferrer">楽天市場で詳細を見る</a>
+                        </div>
+                    </div>
+                </div>
+
+                <p>暮らしに美しく馴染むデザインと、現代のライフスタイルに最適化された機能性。そのふたつを極めて高い次元で融合させた「DCP-J529N」は、あなたの暮らしをより軽やかで、よりクリエイティブなものへとアップデートしてくれるはずです。</p>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 LIFESTYLE &amp; TECH. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
