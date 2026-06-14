@@ -1,1 +1,5 @@
-
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # 💡 この1行（とインデント）を書き加えることで、APIからの起動を許可します
