@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>「落とす」から「肌を磨く」へ。アテニア「スキンクリア クレンズ オイル」が大人に選ばれ続ける理由</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #fcfbf9;
+            --color-text-main: #2c2a29;
+            --color-text-sub: #686461;
+            --color-accent-blue: #1d3d6f;
+            --color-accent-blue-hover: #112543;
+            --color-border: #e6e2de;
+            --font-serif: 'Noto Serif JP', serif;
+            --font-sans: 'Plus Jakarta Sans', "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text-main);
+            font-family: var(--font-sans);
+            line-height: 1.85;
+            letter-spacing: 0.03em;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+
+        @media (max-width: 768px) {
+            .wrapper {
+                padding: 40px 16px;
+            }
+        }
+
+        /* Header Area */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .category {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--color-accent-blue);
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        h1 {
+            font-family: var(--font-serif);
+            font-size: 2.2rem;
+            line-height: 1.45;
+            font-weight: 700;
+            color: var(--color-text-main);
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.65rem;
+            }
+        }
+
+        .lead-text {
+            font-size: 1.05rem;
+            color: var(--color-text-sub);
+            text-align: justify;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        /* Article Body */
+        .article-body {
+            font-size: 1rem;
+            color: var(--color-text-main);
+        }
+
+        .article-body p {
+            margin-bottom: 32px;
+            text-align: justify;
+        }
+
+        .article-body h2 {
+            font-family: var(--font-serif);
+            font-size: 1.6rem;
+            margin: 56px 0 24px 0;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--color-border);
+            color: var(--color-text-main);
+        }
+
+        @media (max-width: 768px) {
+            .article-body h2 {
+                font-size: 1.35rem;
+                margin: 40px 0 20px 0;
+            }
+        }
+
+        /* Ingredient Highlight Box */
+        .ingredient-box {
+            background-color: #f5f2ee;
+            border-left: 3px solid var(--color-accent-blue);
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .ingredient-box h3 {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--color-accent-blue);
+        }
+
+        .ingredient-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 576px) {
+            .ingredient-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .ingredient-item strong {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--color-text-main);
+        }
+
+        .ingredient-item span {
+            font-size: 0.85rem;
+            color: var(--color-text-sub);
+        }
+
+        /* Product Card */
+        .product-card {
+            background: #ffffff;
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 32px;
+            margin: 60px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .product-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 24px;
+                gap: 24px;
+            }
+        }
+
+        .product-image {
+            flex-shrink: 0;
+            width: 140px;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fbfbfb;
+            border: 1px solid #f0eeeb;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .product-info {
+            flex-grow: 1;
+        }
+
+        .product-brand {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-text-sub);
+            margin-bottom: 4px;
+        }
+
+        .product-title {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            line-height: 1.4;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--color-text-main);
+        }
+
+        .product-meta {
+            font-size: 0.9rem;
+            color: var(--color-text-sub);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-accent-blue);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .cta-button:hover {
+            background-color: var(--color-accent-blue-hover);
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .cta-button {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <header>
+        <span class="category">Skincare Essential</span>
+        <h1>「落とす」から「肌を磨く」へ。<br>アテニア「スキンクリア クレンズ オイル」が大人に選ばれ続ける理由</h1>
+        <div class="lead-text">
+            毎日のメイクオフを、単なるルーティンワークから極上のスキンケアタイムへ。いま、大人の肌に必要なのは、汚れを落とすだけでなく、美しさを引き出す高機能なクレンジングです。
+        </div>
+    </header>
+
+    <article class="article-body">
+        <p>
+            現代のスキンケアにおいて、クレンジングの役割は劇的な変化を遂げています。ただメイクを落とすだけの時代は終わり、現在は「いかに肌に負担をかけず、本来の輝きを引き出すか」が重視されるようになりました。数あるクレンジングの中でも、その圧倒的な実力から多くのスキンケア愛好家を魅了し続けているのが、アテニアの「スキンクリア クレンズ オイル」です。
+        </p>
+        <p>
+            シリーズ累計2,800万本（2025年11月時点）という驚異的なベストセラー実績を持つこのオイルは、大人の肌を暗く見せる要因にいち早く着目。洗顔のたびに無垢な明るさを呼び覚ますような、贅沢な使い心地を実現しています。
+        </p>
+
+        <h2>くすみの核心に迫る「8つのボタニカルオイル」</h2>
+        <p>
+            このクレンジングオイルが特別な存在であり続ける最大の理由は、厳選された8種類の植物美容オイルが織りなす多角的なアプローチにあります。それぞれのオイルが、大人特有の肌悩みにピンポイントで働きかけます。
+        </p>
+
+        <div class="ingredient-box">
+            <h3>美肌を育むための独自のオイルブレンド</h3>
+            <div class="ingredient-grid">
+                <div class="ingredient-item">
+                    <strong>フリーズ角質ケア</strong>
+                    <span>ククイナッツオイル、ホホバオイル</span>
+                </div>
+                <div class="ingredient-item">
+                    <strong>毛穴・角栓クリア</strong>
+                    <span>メドウフォームオイル、アルガンオイル</span>
+                </div>
+                <div class="ingredient-item">
+                    <strong>うるおい・柔軟化</strong>
+                    <span>インカオメガオイル</span>
+                </div>
+                <div class="ingredient-item">
+                    <strong>肌ステイン（※）ケア</strong>
+                    <span>珊瑚草オイル、ロックローズオイル、イモーテルオイル</span>
+                </div>
+            </div>
+        </div>
+
+        <p>
+            ※古い角質汚れのこと。
+        </p>
+        <p>
+            肌に負担をかけないよう徹底的に配慮された無着色、無鉱物油、パラベンフリー、アルコールフリーのやさしい設計。さらにノンコメド処方（ニキビのもとになりにくい設計）を採用しているため、デリケートな大人の肌でも安心してお使いいただけます。
+        </p>
+
+        <h2>ストレスフリーを追求した、至高の使用感</h2>
+        <p>
+            どれほど優れた成分が配合されていても、日々の使いやすさが伴わなければ、本当のスキンケアとは呼べません。「スキンクリア クレンズ オイル」は、手にとった瞬間に驚くほどの厚みと弾力を持つとろみテクスチャーが特徴です。このクッション性の高いオイルがメイクに素早く絡みつくため、肌をこすることなく「摩擦レス」でメイクオフが完了します。
+        </p>
+        <p>
+            さらに、忙しい日々に嬉しいのがその機能性です。手や顔が濡れた状態でも使用でき、面倒な乳化の手間もありません。ダブル洗顔が不要なだけでなく、まつ毛エクステンションを愛用されている方でもそのまま使えるなど、現代女性のライフスタイルに寄り添う快適さを極めています。
+        </p>
+
+        <h2>変わらないクオリティ、進化し続ける信頼</h2>
+        <p>
+            2026年6月に価格改定（1,980円から2,200円へ）を経たものの、その人気が衰える兆しはありません。むしろ、この価格をはるかに上回る贅沢な使用感と、確かな肌ごたえが「この1本でなければ」という強い信頼を生み出しています。アレルギーテスト済みであることも、安心して毎日のルーティンに組み込める大きな理由です。
+        </p>
+        <p>
+            明日、鏡を見た瞬間の肌の透明感。それを決めるのは、今夜のクレンジングです。「スキンクリア クレンズ オイル」で、至福の肌みがきを体感してみませんか。
+        </p>
+
+        <!-- Product Presentation -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/attenir/cabinet/thum/166011_main_2605.jpg?_ex=128x128" alt="スキンクリア クレンズ オイル">
+            </div>
+            <div class="product-info">
+                <div class="product-brand">Attenir / アテニア</div>
+                <div class="product-title">スキンクリア クレンズ オイル 175mL (4種)</div>
+                <div class="product-meta">
+                    毛穴・角栓・くすみまで一気になめらかに。濡れた手OK、W洗顔不要でまつ毛エクステにも対応した、大人のための実力派クレンジングオイル。
+                </div>
+                <a href="https://hb.afl.rakuten.co.jp/hgc/g00tna6n.h9gnea61.g00tna6n.h9gnf8c9/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fattenir%2F166011%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fattenir%2Fi%2F10000250%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" class="cta-button" target="_blank" rel="noopener">公式ストアで詳細を見る</a>
+            </div>
+        </div>
+    </article>
+</div>
+
+</body>
+</html>
