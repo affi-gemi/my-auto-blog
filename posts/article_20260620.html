@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【至高の贈りもの】老舗の技が光る、浜名湖産・極上国産うなぎ「でしこ」で心ほどける美味しさを届ける</title>
+    <style>
+        :root {
+            --primary-color: #0f2a4a; /* 深みのある藍色・和モダン */
+            --accent-color: #c99a3c;  /* 上品なゴールド */
+            --text-color: #2b2b2b;    /* 柔らかい黒 */
+            --bg-light: #f9f8f6;      /* 温かみのある生成り色 */
+            --btn-blue: #1d4ed8;      /* 洗練されたブルー */
+            --btn-blue-hover: #1e40af;
+            --border-color: #e5e5e5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-color);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--accent-color);
+        }
+
+        .header-tag {
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1.4;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            header h1 {
+                font-size: 2.4rem;
+            }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* 導入文 */
+        .lead-section {
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+            color: #3f3f46;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 20px;
+        }
+
+        /* メインビジュアル/商品カード */
+        .product-card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 50px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        @media (min-width: 600px) {
+            .product-card {
+                flex-direction: row;
+                text-align: left;
+                align-items: center;
+                gap: 30px;
+            }
+        }
+
+        .product-image-wrapper {
+            flex-shrink: 0;
+            background: #fdfdfd;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #eaeaea;
+            margin-bottom: 20px;
+            @media (min-width: 600px) {
+                margin-bottom: 0;
+            }
+        }
+
+        .product-image {
+            width: 128px;
+            height: 128px;
+            object-fit: cover;
+            display: block;
+            border-radius: 4px;
+        }
+
+        .product-info {
+            flex-grow: 1;
+        }
+
+        .product-badge {
+            background-color: #ef4444;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .product-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        /* CTA ボタン */
+        .btn-cta {
+            display: inline-block;
+            background-color: var(--btn-blue);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
+            text-align: center;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .btn-cta:hover {
+            background-color: var(--btn-blue-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(29, 78, 216, 0.4);
+        }
+
+        /* セクションスタイル */
+        section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 60px;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+
+        p {
+            margin-bottom: 20px;
+            color: #4b5563;
+        }
+
+        /* 魅力の深掘り */
+        .highlight-box {
+            background: #fff;
+            border-left: 4px solid var(--accent-color);
+            padding: 25px;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            margin-bottom: 30px;
+        }
+
+        .highlight-box h3 {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        /* 仕様テーブル */
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+        }
+
+        .spec-table th, .spec-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .spec-table th {
+            background-color: #f1f5f9;
+            color: var(--primary-color);
+            font-weight: 600;
+            width: 30%;
+        }
+
+        .spec-table td {
+            color: #4b5563;
+        }
+
+        /* フッター */
+        footer {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 80px;
+            font-size: 0.9rem;
+            border-top: 4px solid var(--accent-color);
+        }
+
+        .footer-logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="header-tag">Premium Gift Selection</span>
+        <h1>大切な日の記憶に残る。極上の浜名湖産うなぎ「でしこ」で感謝を伝えるひとときを</h1>
+    </header>
+
+    <div class="container">
+        
+        <div class="lead-section">
+            本当に喜ばれる贈り物とは、単なる「モノ」ではなく、そこから生まれる「贅沢な時間」そのものです。<br>
+            お世話になった方へ、あるいは日頃の感謝を伝えたいお父さんやご家族へ。心からの「ありがとう」を乗せて贈るにふさわしい、浜名湖産の最高峰国産うなぎギフト「でしこ」をご紹介します。
+        </div>
+
+        <!-- 注目カード（アフィリエイトリンク） -->
+        <div class="product-card">
+            <div class="product-image-wrapper">
+                <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/eel-tanaka/cabinet/kagofather/deshiko_kg01_15.jpg?_ex=128x128" alt="浜名湖産 うなぎ でしこ" class="product-image">
+            </div>
+            <div class="product-info">
+                <span class="product-badge">限定200円クーポン配布中</span>
+                <h3 class="product-title">浜名湖産 うなぎ でしこ（110〜120g / 1〜3枚）専用箱入</h3>
+                <p style="font-size: 0.9rem; margin-bottom: 15px;">匠の技術でふっくらと焼き上げた、静岡産の最高級うなぎ。感謝を伝える美しい化粧箱でお届けします。</p>
+                <a href="https://hb.afl.rakuten.co.jp/hgc/g00q21fn.h9gne34f.g00q21fn.h9gnf12f/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Feel-tanaka%2Fdeshiko%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Feel-tanaka%2Fi%2F10000624%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" class="btn-cta">
+                    詳細を楽天市場で見る
+                </a>
+            </div>
+        </div>
+
+        <section>
+            <h2>一口で違いがわかる、職人のこだわりと極上の食感</h2>
+            <p>
+                「でしこ」が多くの食通たちを唸らせている理由は、その圧倒的な「柔らかさ」と「香ばしさ」にあります。厳選された良質な浜名湖産の国産うなぎを使用し、熟練の職人が一本一本丁寧に手作業で仕上げています。
+            </p>
+            
+            <div class="highlight-box">
+                <h3>贅沢な美味しさを生む「深蒸し」の技法</h3>
+                <p style="margin-bottom: 0;">
+                    一度白焼きにしたうなぎを、時間をかけてじっくりと蒸し上げてから、秘伝のタレを重ねて焼き上げます。この職人技により、箸を入れた瞬間にほろりと崩れるほどの柔らかさと、お口の中でとろけるようなふっくらとした食感を実現しています。
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2>大切な贈り物にふさわしい、凛とした佇まい</h2>
+            <p>
+                どんなに美味しいものでも、ギフトとしての美しさが伴わなければ、本当の感動は生まれません。「でしこ」は、シックで格調高い「特製切り箱風デザインの専用紙箱」に収められて手元に届きます。
+            </p>
+            <p>
+                ヤマト運輸の冷凍便にて、最も美味しい状態を閉じ込めたまま産地からダイレクトに配送されるため、鮮度への心配も一切不要です。受け取った瞬間、箱を開けるときの高揚感、そして一口食べたときの驚きまで、すべてが緻密に計算された極上のギフト体験をお約束します。
+            </p>
+        </section>
+
+        <section>
+            <h2>あらゆる「ありがとう」のシーンに寄り添う</h2>
+            <p>
+                この至高の味わいは、男性・女性を問わず、また年代を超えて喜ばれる万能のギフトです。
+            </p>
+            <p>
+                いつも家族を支えてくれるお父さんへの「父の日」の感謝にはもちろん、夏の健康を願う「お中元・暑中見舞い」、大切な記念日、お誕生日など、特別な瞬間に華を添える一品として選ばれ続けています。言葉だけでは照れくさくて伝えきれない感謝の想いを、老舗の伝統の味に託して届けてみませんか。
+            </p>
+        </section>
+
+        <section>
+            <h2>商品ディテール</h2>
+            <table class="spec-table">
+                <tr>
+                    <th>商品名</th>
+                    <td>浜名湖産うなぎ「でしこ」</td>
+                </tr>
+                <tr>
+                    <th>内容量</th>
+                    <td>長蒲焼き または カット蒲焼き 1〜3本（枚）</td>
+                </tr>
+                <tr>
+                    <th>付属品</th>
+                    <td>特製タレ、香り高い山椒、お吸い物</td>
+                </tr>
+                <tr>
+                    <th>賞味期限</th>
+                    <td>冷蔵で7日間、冷凍で8月10日まで</td>
+                </tr>
+                <tr>
+                    <th>配送方法</th>
+                    <td>ヤマト運輸（冷凍便）</td>
+                </tr>
+                <tr>
+                    <th>製造者</th>
+                    <td>浜名湖うなぎのたなか（静岡県磐田市）</td>
+                </tr>
+            </table>
+        </section>
+
+        <section style="text-align: center; background: #fff; padding: 40px 20px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid var(--border-color);">
+            <h2 style="border: none; margin-bottom: 15px; font-size: 1.6rem; color: var(--primary-color);">今ならお得な200円オフクーポンも</h2>
+            <p style="max-width: 600px; margin: 0 auto 30px auto;">
+                老舗の職人が一本ずつ手作りする数量限定品のため、父の日やギフトシーズンが近づくと予約が混み合う可能性がございます。お早めのご準備をおすすめいたします。
+            </p>
+            <a href="https://hb.afl.rakuten.co.jp/hgc/g00q21fn.h9gne34f.g00q21fn.h9gnf12f/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Feel-tanaka%2Fdeshiko%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Feel-tanaka%2Fi%2F10000624%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" class="btn-cta" style="max-width: 400px; width: 85%;">
+                極上のうなぎ「でしこ」を贈る
+            </a>
+        </section>
+
+    </div>
+
+    <footer>
+        <div class="footer-logo">Premium Food & Life Media</div>
+        <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">&copy; Premium Food & Life Media. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
