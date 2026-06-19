@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最高の父の日を贈ろう！絶品国産うなぎ蒲焼きで感謝を伝える</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* 基本設定 */
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+            -webkit-text-size-adjust: 100%; /* Safariの文字サイズ調整無効化 */
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* ヘッダー */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: #2a64ad; /* メインの青 */
+            color: #fff;
+            margin-bottom: 30px;
+            border-radius: 8px 8px 0 0;
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            line-height: 1.3;
+        }
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* セクションタイトル */
+        h2 {
+            font-size: 1.8em;
+            color: #2a64ad;
+            border-bottom: 3px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        /* 段落 */
+        p {
+            margin-bottom: 1.5em;
+        }
+
+        /* メイン画像 */
+        .main-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 30px auto;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* リストスタイル */
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1.5em;
+        }
+        ul li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 15px;
+        }
+        ul li::before {
+            content: '✓'; /* チェックマーク */
+            color: #2a64ad;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.1em;
+        }
+        ul li strong {
+            color: #2a64ad;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.05em;
+        }
+
+        /* 商品情報ボックス */
+        .product-info-box {
+            background-color: #f2f7fc; /* 薄い青 */
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 40px;
+            border: 1px solid #d4e3f4;
+            word-wrap: break-word; /* 長いURLの折り返し */
+        }
+        .product-info-box h3 {
+            font-size: 1.5em;
+            color: #2a64ad;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+        }
+        .product-info-box p {
+            margin-bottom: 0.8em;
+        }
+        .product-info-box a {
+            color: #2a64ad;
+            text-decoration: none;
+            word-break: break-all; /* URLの途中で改行を許可 */
+        }
+        .product-info-box a:hover {
+            text-decoration: underline;
+        }
+
+        /* CTAボタン */
+        .cta-button {
+            display: block;
+            width: fit-content;
+            margin: 40px auto;
+            padding: 18px 35px;
+            background-color: #f77f00; /* オレンジ系で目立たせる */
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 30px;
+            font-size: 1.3em;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            line-height: 1.4;
+        }
+        .cta-button:hover {
+            background-color: #e07300;
+            transform: translateY(-2px);
+        }
+        .cta-button span {
+            display: block;
+            font-size: 0.7em;
+            font-weight: 400;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+
+        /* レスポンシブ対応 */
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+            header {
+                padding: 30px 15px;
+                margin-bottom: 20px;
+            }
+            header h1 {
+                font-size: 1.8em;
+            }
+            header p {
+                font-size: 1em;
+            }
+            h2 {
+                font-size: 1.5em;
+                margin-top: 30px;
+                margin-bottom: 20px;
+            }
+            .cta-button {
+                width: 90%;
+                max-width: 400px;
+                font-size: 1.1em;
+                padding: 15px 25px;
+            }
+        }
+        @media screen and (max-width: 480px) {
+            header h1 {
+                font-size: 1.5em;
+            }
+            header p {
+                font-size: 0.9em;
+            }
+            h2 {
+                font-size: 1.3em;
+            }
+            ul li {
+                padding-left: 25px;
+            }
+            ul li::before {
+                font-size: 0.9em;
+                top: 2px;
+            }
+            ul li strong {
+                font-size: 1em;
+            }
+            .cta-button {
+                font-size: 1em;
+                padding: 12px 20px;
+            }
+            .cta-button span {
+                font-size: 0.6em;
+                margin-top: 3px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>最高の父の日を贈ろう！<br>絶品国産うなぎ蒲焼きで感謝を伝える</h1>
+        <p>「ありがとう」の気持ちが、極上の味わいとともに伝わる特別な贈り物。</p>
+    </header>
+
+    <div class="container">
+        <p>毎年この時期になると、多くの方が父親への贈り物選びに頭を悩ませるのではないでしょうか。日頃の感謝を伝えたいけれど、何を贈れば本当に喜んでもらえるのか…悩みは尽きませんよね。</p>
+        <p>贈り物は、単なる品物ではありません。日頃の感謝や、なかなか伝えられない愛情を形にする、大切なメッセージです。そこで今回は、お父様を笑顔にする最高の選択肢として、贅沢な「国産うなぎ蒲焼き」をご紹介します。</p>
+
+        <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/toyohashiunagi/cabinet/04696286/f/imgrc0104390417.jpg?_ex=128x128" alt="父の日ギフト 国産うなぎ蒲焼き" class="main-image">
+
+        <h2>いま注目のギフトトレンド：なぜ「食」が選ばれるのか？</h2>
+        <p>近年のギフト市場では、「体験」や「食」にまつわるプレゼントが特に人気を集めています。中でも、国産の食材を使った高品質なグルメは、贈る側のセンスが光る贈り物として注目度抜群です。</p>
+        <p>栄養豊富で、老若男女問わず愛されるうなぎは、その筆頭。美味しいものを一緒に囲む時間は、何よりも豊かな体験になります。国産うなぎ蒲焼きは、まさに今のトレンドを押さえた、父の日にふさわしい特別な贈り物と言えるでしょう。</p>
+
+        <h2>このうなぎが喜ばれる理由：とっておきの4つの魅力</h2>
+        <p>大切な方へ贈るものだからこそ、こだわり抜いた一品を選びたい。この国産うなぎ蒲焼きには、お父様がきっと笑顔になる、嬉しい魅力がたくさん詰まっています。</p>
+        <ul>
+            <li>
+                <strong>安心の国産品質</strong><br>
+                豊かな自然の中で育った国産うなぎのみを使用。安全性はもちろん、その深い味わいには絶対の自信があります。
+            </li>
+            <li>
+                <strong>贈る喜び、開ける感動</strong><br>
+                上品なギフトボックスに加え、伝統的な風呂敷包みも選択可能。開けた瞬間の特別感を演出します。
+            </li>
+            <li>
+                <strong>美味しさをそのままご自宅へ</strong><br>
+                職人の技で焼き上げたうなぎをすぐに真空パック。冷凍保存で、いつでも最高の状態でお召し上がりいただけます。
+            </li>
+            <li>
+                <strong>選べる3つのサイズ</strong><br>
+                食べ応え十分な「中」、贅沢な「大」、そして圧巻の「特々大」。お父様の食欲やご家族の人数に合わせてお選びいただけます。
+            </li>
+        </ul>
+
+        <h2>他とは一線を画す、専門店ならではのこだわり</h2>
+        <p>数あるうなぎ商品の中でも、この国産うなぎ蒲焼きが特別な存在であるのには理由があります。それは、確かな品質と職人の情熱が込められているからです。</p>
+        <ul>
+            <li>
+                <strong>厳選された国産うなぎ</strong><br>
+                豊かな風味と肉厚な身が特徴の国産うなぎを厳選。安心と美味しさを追求しました。
+            </li>
+            <li>
+                <strong>愛知・豊橋の老舗の技</strong><br>
+                うなぎの美味しさを知り尽くした、愛知県豊橋市の専門店が一切妥協なく手作業で焼き上げています。秘伝のタレと絶妙な火加減で、ふっくらと香ばしく仕上げています。
+            </li>
+            <li>
+                <strong>心を込めた丁寧な梱包</strong><br>
+                大切な方への贈り物だからこそ、ギフトボックスや風呂敷での丁寧な梱包にもこだわりました。贈られた方が最高の気持ちになるよう、細部にまで気を配っています。
+            </li>
+        </ul>
+
+        <h2>お客様の声が物語る、確かな信頼と満足</h2>
+        <p>「本当に美味しかった！」「父がこんなに喜んでくれるとは！」――楽天市場では、多くのお客様から感動の声が多数届いています。その評価の高さが、このうなぎの確かな品質と、贈り物がもたらす喜びを証明しています。</p>
+        <p>製造を手がけるのは、うなぎの本場・愛知県豊橋市で長年愛される老舗『夏目商店』。熟練の職人たちが、一尾一尾に心を込めて、最高の蒲焼きを焼き上げています。安心と信頼の専門店品質を、ぜひお確かめください。</p>
+
+        <div class="product-info-box">
+            <h3>商品情報</h3>
+            <p><strong>商品名</strong>: 父の日 まだ間に合う 【P3倍→実質5,559円〜】ギフト プレゼントうなぎ 国産 蒲焼き 2尾選べるサイズ 中・大・特々大 約2人前〜約4人前送料無料 愛知県 専門店 誕生日 食べ物 真空パック 贈り物 内祝 60代 70代 80代 父の日当日到着可能</p>
+            <p><strong>商品URL</strong>: <a href="https://hb.afl.rakuten.co.jp/hgc/g00s3ben.h9gneddb.g00s3ben.h9gnfa2f/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Ftoyohashiunagi%2F06-563-01%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Ftoyohashiunagi%2Fi%2F10000108%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" rel="noopener noreferrer">https://hb.afl.rakuten.co.jp/hgc/g00s3ben.h9gneddb.g00s3ben.h9gnfa2f/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Ftoyohashiunagi%2F06-563-01%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Ftoyohashiunagi%2Fi%2F10000108%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9</a></p>
+            <p><strong>商品画像URL</strong>: <a href="https://thumbnail.image.rakuten.co.jp/@0_mall/toyohashiunagi/cabinet/04696286/f/imgrc0104390417.jpg?_ex=128x128" target="_blank" rel="noopener noreferrer">https://thumbnail.image.rakuten.co.jp/@0_mall/toyohashiunagi/cabinet/04696286/f/imgrc0104390417.jpg?_ex=128x128</a></p>
+        </div>
+
+        <a href="https://hb.afl.rakuten.co.jp/hgc/g00s3ben.h9gneddb.g00s3ben.h9gnfa2f/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Ftoyohashiunagi%2F06-563-01%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Ftoyohashiunagi%2Fi%2F10000108%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" rel="noopener noreferrer" class="cta-button">
+            楽天でこの絶品うなぎを今すぐ購入！
+            <span>まだ間に合う、父の日当日到着可能！</span>
+        </a>
+
+        <h2>今年の父の日は、最高の「ありがとう」を伝えませんか？</h2>
+        <p>今年の父の日は、ただのプレゼントではない、心に残る感動を贈りませんか？ 厳選された国産うなぎが織りなす極上の味わい、そして専門店が手がける確かな品質は、お父様の笑顔を約束します。</p>
+        <p>まだ間に合います。日頃の感謝を込めて、この絶品うなぎ蒲焼きを贈れば、きっと最高の思い出になるはずです。今すぐ詳細をチェックして、特別な父の日を計画しましょう。</p>
+
+        <a href="https://hb.afl.rakuten.co.jp/hgc/g00s3ben.h9gneddb.g00s3ben.h9gnfa2f/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Ftoyohashiunagi%2F06-563-01%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Ftoyohashiunagi%2Fi%2F10000108%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" rel="noopener noreferrer" class="cta-button">
+            お父さんに最高の感謝を贈る！<br>
+            楽天で詳細を見る
+        </a>
+    </div>
+</body>
+</html>
