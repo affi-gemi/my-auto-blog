@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>太陽を愛するすべての女性へ。妥協しない「美シルエット」と「絶対日焼け対策」を叶える万能5点セット</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Modern Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.8;
+            color: #2d3748;
+            background-color: #f7fafc;
+            -webkit-font-smoothing: antialiased;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Header Layout */
+        header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1.5rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: #1a365d;
+        }
+        .logo span {
+            color: #3182ce;
+        }
+
+        /* Main Visual */
+        .hero {
+            background: linear-gradient(135deg, #ebf8ff 0%, #cee9fc 100%);
+            padding: 4rem 1rem;
+            text-align: center;
+        }
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .category {
+            display: inline-block;
+            background-color: #3182ce;
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 1rem;
+            border-radius: 9999px;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.1em;
+        }
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.4;
+            color: #1a365d;
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Content Layout */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        /* Lead Paragraph */
+        .lead-text {
+            font-size: 1.1rem;
+            color: #4a5568;
+            margin-bottom: 3rem;
+            text-align: justify;
+        }
+
+        /* Product Card Area */
+        .product-card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .product-card {
+                flex-direction: column;
+                padding: 1.5rem;
+                text-align: center;
+            }
+        }
+        .product-image-wrapper {
+            flex-shrink: 0;
+            background-color: #f7fafc;
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #edf2f7;
+        }
+        .product-image {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+        .product-info {
+            flex-grow: 1;
+        }
+        .product-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1a365d;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+        .product-meta {
+            font-size: 0.85rem;
+            color: #718096;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Button Design */
+        .btn-primary {
+            display: inline-block;
+            background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%);
+            color: #ffffff;
+            font-weight: 700;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(49, 130, 206, 0.3);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+            box-shadow: 0 6px 20px rgba(49, 130, 206, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Article Body */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a365d;
+            margin: 3.5rem 0 1.5rem;
+            padding-left: 1rem;
+            border-left: 4px solid #3182ce;
+            line-height: 1.3;
+        }
+        p {
+            margin-bottom: 1.5rem;
+            color: #4a5568;
+            text-align: justify;
+        }
+        .highlight {
+            font-weight: 700;
+            color: #1a365d;
+            background: linear-gradient(transparent 70%, #bee3f8 70%);
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+        }
+        @media (max-width: 640px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .feature-item {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        .feature-item h4 {
+            font-size: 1.1rem;
+            color: #2b6cb0;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* Closing Call-to-action */
+        .cta-section {
+            background-color: #ebf8ff;
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        .cta-section h3 {
+            font-size: 1.5rem;
+            color: #1a365d;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .cta-section p {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a365d;
+            color: #a0aec0;
+            padding: 2rem 1rem;
+            text-align: center;
+            font-size: 0.85rem;
+            margin-top: 5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo">Web<span>Magazine</span></div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-container">
+            <span class="category">BEAUTY &amp; LIFE</span>
+            <h1>太陽を愛するすべての女性へ。<br>妥協しない「美シルエット」と「絶対日焼け対策」を叶える万能5点セット</h1>
+        </div>
+    </section>
+
+    <div class="container">
+        <p class="lead-text">
+            「夏のレジャーは全力で楽しみたいけれど、日焼けは絶対に防ぎたい。そして、いかにも『隠しています』という野暮ったいスタイルは避けたい……。」そんな大人の女性たちの切実なワガママに、美しく、そして完璧に応えてくれる水着セットに出会いました。デザインの美しさと圧倒的な機能性を両立し、目の肥えたユーザーが集まる楽天市場でも非常に高い支持を集めている注目のセットアップをご紹介します。
+        </p>
+
+        <!-- Product Presentation -->
+        <div class="product-card">
+            <div class="product-image-wrapper">
+                <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/dearcologne/cabinet/rs2/rs006set5.jpg?_ex=128x128" alt="フードなし ラッシュガード 水着 5点セット" class="product-image">
+            </div>
+            <div class="product-info">
+                <h2 class="product-title">フードなし ラッシュガード 水着 5点セット（レギンス付き・水陸両用）</h2>
+                <div class="product-meta">抜群の着痩せ効果と、UPF50+の確かな紫外線カットをこの一着で。</div>
+                <a href="https://hb.afl.rakuten.co.jp/hgc/g00tcj3n.h9gne70f.g00tcj3n.h9gnf04d/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fdearcologne%2Frs006set5%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fdearcologne%2Fi%2F10001168%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" class="btn-primary" target="_blank" rel="noopener">楽天市場で詳細を見る</a>
+            </div>
+        </div>
+
+        <h3 class="section-title">完璧なカバー力と、大人の品格を保つ美しいシルエット</h3>
+        <p>
+            これまでの機能性水着にありがちだった「スポーティーすぎて街中で浮いてしまう」「身体のラインを拾いすぎて落ち着かない」という不満。この5点セットは、そうしたストレスを徹底的に排除するデザインに仕上がっています。
+        </p>
+        <p>
+            絶妙なゆとりを持たせつつ、ストンとした縦のラインを強調するシルエットは、腰回りに不自然に張り付くことなく、気になる体型を自然に目立たなくしてくれます。さらに、裾にリブをあえて作らないことで、締め付け感のない洗練された佇まいを実現。大人の余裕を感じさせる上品なリラックス感を醸し出します。
+        </p>
+
+        <h3 class="section-title">シーンに合わせて着回し自由。すべてが揃う「5点フルセット」</h3>
+        <p>
+            このセットの最大の魅力は、その日のシチュエーションや気分に合わせて自由自在にコーディネートを組み替えられる点にあります。
+        </p>
+
+        <div class="feature-grid">
+            <div class="feature-item">
+                <h4>1. ラッシュガード（フードなし）</h4>
+                <p style="font-size: 0.9rem; margin-bottom: 0;">顔回りがすっきりと見え、大人のスタイリングに馴染むシンプルな長袖デザイン。濡れてもサッと乾き、冷えから肌を守ります。</p>
+            </div>
+            <div class="feature-item">
+                <h4>2. ショートパンツ＆レギンス</h4>
+                <p style="font-size: 0.9rem; margin-bottom: 0;">パンツは好みに合わせて3種類からセレクト可能。ウエストは幅広ゴム仕様で、優しくホールドしつつ細やかなサイズ調整が叶います。</p>
+            </div>
+            <div class="feature-item">
+                <h4>3. タンクトップ（上下）</h4>
+                <p style="font-size: 0.9rem; margin-bottom: 0;">インナーのタンクトップには、取り外し可能なブラパッドを完備。これ単体でも非常に優秀で、お手持ちの水着と合わせることも可能です。</p>
+            </div>
+            <div class="feature-item">
+                <h4>4. 接触冷感＆速乾ファブリック</h4>
+                <p style="font-size: 0.9rem; margin-bottom: 0;">肌に触れた瞬間に心地よいひんやり感を与える接触冷感素材。丈夫でありながら滑らかな肌触りのナイロン混紡生地を使用しています。</p>
+            </div>
+        </div>
+
+        <h3 class="section-title">美しさを守り抜く、最高峰のUVカット性能</h3>
+        <p>
+            日差しが気になる屋外でのアクティビティにおいて、最も重要なのが紫外線対策です。この製品には、世界基準の紫外線保護指数である<span class="highlight">「UPF50+」の検査をクリアした、UVカット率99.9%以上</span>の特殊な生地が採用されています。
+        </p>
+        <p>
+            首元から足首までをしっかりと覆うことができるため、日傘や日焼け止めを何度も塗り直す手間から解放され、夏の陽気を目いっぱい楽しむことができます。水陸両用なので、ビーチやプールサイドはもちろん、夏のキャンプ、ランニング、ヨガ、ジムでのワークアウトなど、あらゆるアクティブなシーンでその実力を発揮してくれます。
+        </p>
+
+        <h3 class="section-title">細部に宿る、使う人への優しい気配り</h3>
+        <p>
+            どんなに美しくても、着心地が悪ければ出番は減ってしまうもの。このセットアップは、肌当たりが良く伸縮性に富んだ「ナイロン82％・ポリウレタン18％」の上質なブレンド生地で仕立てられています。適度なホールド感がありつつも窮屈さがなく、長時間の着用でも一日中快適に過ごせます。
+        </p>
+        <p>
+            シンプルでいて洗練された無地ベースのデザインは、20代から大人の女性まで、世代を超えて美しく着こなしていただけます。「長く愛用できる本質的な水着が欲しい」という方に、まさにぴったりの名品です。
+        </p>
+
+        <!-- Final Call-to-action block -->
+        <div class="cta-section">
+            <h3>この夏、新しい自分と出会うために</h3>
+            <p>
+                確かな機能性、シーンを選ばない着回し力、そして何より自分を一番美しく見せてくれる洗練されたシルエット。この5点セットを味方につけて、太陽の下へ自信を持って出かけてみませんか？
+            </p>
+            <a href="https://hb.afl.rakuten.co.jp/hgc/g00tcj3n.h9gne70f.g00tcj3n.h9gnf04d/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fdearcologne%2Frs006set5%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fdearcologne%2Fi%2F10001168%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" class="btn-primary" target="_blank" rel="noopener">楽天市場で商品の詳細・カラーを見る</a>
+        </div>
+    </div>
+
+    <footer>
+        <p style="color: #a0aec0; font-size: 0.8rem; margin: 0;">&copy; WebMagazine. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
