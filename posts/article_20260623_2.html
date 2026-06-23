@@ -3,427 +3,267 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>食卓に笑顔を！【令和7年産入り】国内産『晴れの国米』で毎日のごはんをもっと美味しく！</title>
-    <meta name="description" content="安全性と美味しさを追求した国内産『晴れの国米（ブレンド米）』をご紹介。今なら250円OFFクーポン＆送料無料で、あなたの食卓を豊かに彩ります。">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <title>毎日の食卓を、もっと美味しく、もっとスマートに。今選ばれている「晴れの国米」が、家計と味覚の救世主になる理由。</title>
     <style>
-        :root {
-            --primary-color: #2a7e78; /* 深い青緑 */
-            --accent-color: #f79d3b; /* 鮮やかなオレンジ */
-            --text-color: #333;
-            --light-bg: #f8f8f8;
-            --white: #fff;
-            --border-color: #ddd;
-        }
-
-        body {
-            font-family: 'Noto Sans JP', sans-serif;
-            line-height: 1.7;
-            color: var(--text-color);
+        /* Modern Reset & Base Styles */
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: var(--light-bg);
+        }
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            background-color: #fcfcfc;
+            color: #2c3e50;
+            line-height: 1.8;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
-
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
-
         .container {
-            max-width: 960px;
+            max-width: 760px;
             margin: 0 auto;
-            padding: 0 1rem;
+            padding: 40px 20px;
         }
 
+        /* Header Style */
         header {
-            background-color: var(--primary-color);
-            color: var(--white);
-            padding: 2rem 0;
             text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 50px;
+            border-bottom: 1px solid #eaeaea;
+            padding-bottom: 30px;
+        }
+        .category-tag {
+            display: inline-block;
+            background-color: #e2e8f0;
+            color: #4a5568;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1.4;
+            color: #1a202c;
+            letter-spacing: -0.02em;
+        }
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 2.3rem;
+            }
         }
 
-        header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            line-height: 1.3;
-        }
-
-        header p {
+        /* Lead Text */
+        .lead {
             font-size: 1.1rem;
-            opacity: 0.9;
+            color: #4a5568;
+            margin-bottom: 40px;
+            text-align: justify;
         }
 
-        .hero {
-            background-color: var(--white);
-            padding: 2rem 0;
-            text-align: center;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid var(--border-color);
+        /* Main Content */
+        h2 {
+            font-size: 1.4rem;
+            color: #1a365d;
+            border-left: 4px solid #3182ce;
+            padding-left: 15px;
+            margin: 45px 0 20px 0;
+            font-weight: 700;
         }
-
-        .hero h2 {
-            font-size: 2rem;
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-            position: relative;
-            display: inline-block;
-            padding-bottom: 0.5rem;
-        }
-        .hero h2::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            bottom: 0;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background-color: var(--accent-color);
-        }
-
-        .product-main-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-top: 2rem;
-            margin-bottom: 2rem;
-            object-fit: contain;
-            width: 600px; /* 画像が大きすぎる場合に調整 */
-            max-height: 400px;
-        }
-
-        .price-info {
-            font-size: 1.8rem;
-            color: var(--accent-color);
-            font-weight: bold;
-            margin-top: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .price-info span {
-            font-size: 2.5rem;
-            color: #e53935; /* 赤 */
-            letter-spacing: -1px;
-        }
-
-        .discount-coupon {
-            display: inline-block;
-            background-color: #e53935; /* 赤 */
-            color: var(--white);
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            font-weight: bold;
-            margin-bottom: 0.8rem;
-            font-size: 1.2rem;
-        }
-        
-        .shipping-info {
-            font-size: 1rem;
-            color: #555;
-            margin-bottom: 1.5rem;
-        }
-
-        .button {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: var(--white);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.2rem;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            margin-top: 1rem;
-        }
-
-        .button:hover {
-            background-color: #216a65; /* 少し濃い色 */
-            transform: translateY(-2px);
-        }
-
-        section {
-            background-color: var(--white);
-            margin-bottom: 2rem;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        h3 {
-            font-size: 1.8rem;
-            color: var(--primary-color);
-            margin-top: 0;
-            margin-bottom: 1.5rem;
-            border-left: 5px solid var(--accent-color);
-            padding-left: 1rem;
-        }
-
         p {
-            margin-bottom: 1.2rem;
+            margin-bottom: 20px;
+            color: #4a5568;
+            text-align: justify;
+            font-size: 1rem;
+        }
+        strong {
+            color: #1a202c;
+            font-weight: 700;
         }
 
+        /* Highlight box */
         .highlight-box {
-            background-color: #e8f5e9; /* 薄い緑 */
-            border-left: 5px solid #4caf50; /* 緑 */
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-radius: 4px;
-        }
-
-        .list-style-check {
-            list-style: none;
-            padding-left: 0;
-            margin-top: 1rem;
-        }
-
-        .list-style-check li {
-            position: relative;
-            padding-left: 25px;
-            margin-bottom: 0.8rem;
-        }
-
-        .list-style-check li::before {
-            content: '✓';
-            color: #4caf50;
-            font-weight: bold;
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-
-        .customer-voices {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .voice-card {
-            background-color: var(--light-bg);
-            padding: 1.5rem;
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
             border-radius: 8px;
-            border: 1px solid var(--border-color);
-            flex: 1 1 calc(50% - 1.5rem); /* 2カラム */
-            min-width: 280px; /* 小さくなりすぎないように */
-            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+            padding: 25px;
+            margin: 35px 0;
+        }
+        .highlight-box h3 {
+            font-size: 1.1rem;
+            color: #2b6cb0;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .highlight-box p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+            color: #4a5568;
         }
 
-        .voice-card p {
-            font-style: italic;
-            margin-bottom: 0.5rem;
-            color: #555;
-        }
-        .voice-card p::before {
-            content: "“";
-            font-size: 1.5em;
-            color: var(--accent-color);
-            line-height: 0;
-            vertical-align: -0.2em;
-            margin-right: 0.1em;
-        }
-        .voice-card p::after {
-            content: "”";
-            font-size: 1.5em;
-            color: var(--accent-color);
-            line-height: 0;
-            vertical-align: -0.2em;
-            margin-left: 0.1em;
-        }
-
-        .voice-card small {
-            display: block;
-            text-align: right;
-            color: #777;
-            font-size: 0.9em;
-        }
-
-        .attention-box {
-            background-color: #fff3e0; /* 薄いオレンジ */
-            border-left: 5px solid var(--accent-color);
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            margin-bottom: 2rem;
-            border-radius: 4px;
-            color: #663c00;
-        }
-        .attention-box h4 {
-            color: var(--accent-color);
-            margin-top: 0;
-            margin-bottom: 0.8rem;
-            font-size: 1.2rem;
-        }
-        .attention-box ul {
-            list-style: disc;
-            margin-left: 1.5rem;
-            padding-left: 0;
-        }
-        .attention-box ul li {
-            margin-bottom: 0.5rem;
-        }
-
-        footer {
-            background-color: var(--primary-color);
-            color: var(--white);
+        /* Product Card */
+        .product-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 50px auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-            padding: 2rem 0;
-            margin-top: 3rem;
+            max-width: 580px;
+        }
+        @media (min-width: 576px) {
+            .product-card {
+                flex-direction: row;
+                text-align: left;
+                align-items: flex-start;
+            }
+        }
+        .product-image {
+            width: 128px;
+            height: 128px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #edf2f7;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+        }
+        @media (min-width: 576px) {
+            .product-image {
+                margin-bottom: 0;
+                margin-right: 25px;
+            }
+        }
+        .product-info {
+            flex-grow: 1;
+        }
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1a202c;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+        .product-meta {
+            font-size: 0.85rem;
+            color: #718096;
+            margin-bottom: 20px;
+            list-style: none;
+        }
+        .product-meta li {
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+        }
+        .product-meta li::before {
+            content: "•";
+            color: #3182ce;
+            font-weight: bold;
+            display: inline-block; 
+            width: 1em;
+            margin-left: -1em;
+            margin-right: 0.5em;
         }
 
-        footer p {
-            margin: 0;
-            font-size: 0.9rem;
+        /* CTA Button */
+        .btn-cta {
+            display: inline-block;
+            background-color: #3182ce;
+            color: #ffffff;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
+            text-align: center;
+            width: 100%;
+        }
+        @media (min-width: 576px) {
+            .btn-cta {
+                width: auto;
+            }
+        }
+        .btn-cta:hover {
+            background-color: #2b6cb0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(49, 130, 206, 0.4);
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2rem;
-            }
-            .hero h2 {
-                font-size: 1.7rem;
-            }
-            h3 {
-                font-size: 1.5rem;
-            }
-            .product-main-image {
-                width: 100%;
-                max-height: 300px;
-            }
-            .price-info {
-                font-size: 1.5rem;
-            }
-            .price-info span {
-                font-size: 2rem;
-            }
-            .discount-coupon {
-                font-size: 1rem;
-            }
-            .button {
-                padding: 0.8rem 1.5rem;
-                font-size: 1rem;
-            }
-            .customer-voices {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            .voice-card {
-                flex: 1 1 100%;
-            }
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid #eaeaea;
+            font-size: 0.8rem;
+            color: #a0aec0;
         }
     </style>
 </head>
 <body>
+
+<div class="container">
     <header>
-        <div class="container">
-            <h1>食卓に笑顔を！<br>【令和7年産入り】国内産『晴れの国米』で<br>毎日のごはんをもっと美味しく！</h1>
-            <p>安心と美味しさを追求した、家族みんなが喜ぶお米</p>
-        </div>
+        <span class="category-tag">LIFE STYLE & GOURMET</span>
+        <h1>毎日の食卓を、もっと美味しく、もっとスマートに。今選ばれている「晴れの国米」が、家計と味覚の救世主になる理由。</h1>
     </header>
 
-    <main class="container">
-        <section class="hero">
-            <h2>毎日食べたい、心と体が満たされるお米</h2>
-            <p>食品を選ぶ基準は、美味しさだけではありません。安全性、品質、そして環境への配慮。特に、毎日食卓に並ぶお米となれば、そのこだわりは一層深まるものです。</p>
-            <p>そんなあなたの期待に応えるべく、今、最も注目されているのが<br><strong>『令和7年産入り 国内産 晴れの国米（ブレンド米）』</strong>です。</p>
+    <main>
+        <p class="lead">
+            主食であるお米選びに、今、新しい風が吹いています。楽天市場の食品・お取り寄せグルメカテゴリで上位にランクインし、賢い生活者から熱い視線を浴びているのが、この「晴れの国米」です。毎日食べるお米だからこそ、「美味しさ」「安心」「圧倒的なコストパフォーマンス」のすべてを妥協したくない。そんな現代のリアルなニーズに、このブレンド米は見事に応えてくれます。
+        </p>
 
-            <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/skyfarm/cabinet/biiino/item/main-image/20260319122504_1.jpg?_ex=128x128" alt="令和7年産入り 国内産 晴れの国米（ブレンド米）の画像" class="product-main-image">
+        <h2>ブレンドの常識を変える、圧倒的なクオリティ</h2>
+        <p>
+            「ブレンド米」と聞いて、少し一歩引いてしまう方もいるかもしれません。しかし、この「晴れの国米」は、そうした古いイメージを鮮やかに覆します。日本の豊かな自然が育んだ100%国内産のお米を、熟練の技術で丁寧にブレンド。一粒一粒の個性を生かし、炊き上がりのふっくらとしたツヤ、そして冷めても損なわれないモチモチとした食感を見事に実現しています。
+        </p>
+        <p>
+            忙しい朝のお弁当作りから、家族が揃う夕食まで。どんなおかずにもそっと寄り添い、その味を引き立ててくれる柔軟さと確かな実力は、毎日の食卓を間違いなくワンランク上のものへと導いてくれます。
+        </p>
 
-            <div class="discount-coupon">＼250円OFFクーポン配布中！／</div>
-            <p class="price-info">今だけ <span>2,330円～</span></p>
-            <p class="shipping-info">さらに、嬉しい<strong>送料無料</strong>でお届け！</p>
+        <div class="highlight-box">
+            <h3>💡 お米を最後まで美味しく味わうための、スマートな保存のコツ</h3>
+            <p>
+                お米はデリケートな生鮮食品と同じです。温度や湿度、周囲のニオイを吸収しやすい性質を持っています。だからこそ、気温が上がる季節は冷蔵庫の野菜室を賢く活用するのが正解。<strong>4月〜10月は2週間、乾燥しがちな11月〜3月は1ヶ月</strong>を目安に、使い切れる分だけを新鮮なうちに味わう。このスマートな習慣が、炊き上がりのツヤと豊かな甘みをずっと長持ちさせてくれます。
+            </p>
+        </div>
 
-            <a href="https://hb.afl.rakuten.co.jp/hgc/g00t5kyn.h9gne47f.g00t5kyn.h9gnf972/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fskyfarm%2Fharenokuni%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fskyfarm%2Fi%2F10000407%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" rel="noopener noreferrer" class="button">
-                このお米を詳しく見る・購入する
-            </a>
-        </section>
+        <h2>家計に寄り添い、安心を届ける。選ばれるべくして選ばれた選択肢</h2>
+        <p>
+            物価高が続く現代において、毎日消費するお米のコストパフォーマンスは無視できないポイントです。「晴れの国米」は、国内産の厳格な基準に従って生産された安全なお米でありながら、驚くほどリーズナブル。重いお米を買いに行く手間を省き、玄関先まで送料無料で届く手軽さも、忙しい共働き世帯やシニア層に圧倒的な支持を得ている理由です。
+        </p>
+        <p>
+            楽天市場のレビューでも、「この価格でこの美味しさは本当に助かる」「毎日の主食に欠かせない定番になった」といったリアルな感動の声が多数寄せられています。健康志向が高まり、安心できる食材選びが当たり前になった今、このお米は私たちのスマートな食生活を支える最良のパートナーと言えるでしょう。
+        </p>
 
-        <section>
-            <h3>なぜ『晴れの国米』が選ばれるのか？<br>安心と美味しさを両立する3つの理由</h3>
-            <p>毎日食べるものだからこそ、こだわりたい。そんな想いに応える『晴れの国米』には、多くのご家庭から選ばれる明確な理由があります。</p>
-            <ul class="list-style-check">
-                <li><strong>信頼の「国内産」</strong>：輸入米では得られない、とれたての鮮度と厳格な品質管理。日本の豊かな大地で育まれたお米は、味も香りも格別です。</li>
-                <li><strong>こだわりの「令和7年産入り」</strong>：最新の栽培技術と、その年に収穫された特に良質な米を厳選。一粒一粒に作り手の情熱とこだわりが息づいています。</li>
-                <li><strong>食卓を彩る「最高の美味しさ」</strong>：ふっくらと炊きあがり、口に入れた瞬間に広がる甘みと豊かな香り。どんなおかずにも合う、バランスの取れた味わいです。</li>
-            </ul>
-        </section>
-
-        <section>
-            <h3>毎日の食卓がもっと豊かに！<br>『晴れの国米』がもたらす体験</h3>
-            <p>お米はただの主食ではありません。家族が集まる食卓の中心であり、毎日の食事の満足度を左右する大切な存在です。『晴れの国米』は、そんなあなたの食卓をより豊かに彩ります。</p>
-            <div class="highlight-box">
-                <p><strong>まるで料亭のようなふっくらとした炊きあがり</strong>を、ご家庭で簡単に再現できます。つやつやと輝く一粒一粒は、それだけで食欲をそそり、一口食べればその甘みと香りに感動するはず。冷めても美味しいので、お弁当やおにぎりにも最適です。</p>
-            </div>
-            <p>安心できる国内産でありながら、最新の産年のお米をブレンドすることで、年間を通じて安定した品質と美味しさをお届け。お米選びに迷ったら、『晴れの国米』を選べば間違いありません。</p>
-        </section>
-
-        <section>
-            <h3>購入者の声：実際に食べてみたお客様の評価</h3>
-            <div class="customer-voices">
-                <div class="voice-card">
-                    <p>「炊き上がりが本当にふっくらで、お米の甘みがしっかり感じられます。子どもも『今日のご飯美味しい！』と喜んで食べてくれます。国内産という安心感も大きいですね。」</p>
-                    <small>（30代女性・主婦）</small>
-                </div>
-                <div class="voice-card">
-                    <p>「これまで色々なお米を試してきましたが、この晴れの国米は味が格別です。お漬物だけでもご飯が進んでしまいます。送料無料なのも助かります。」</p>
-                    <small>（40代男性・会社員）</small>
-                </div>
-                <div class="voice-card">
-                    <p>「お米の保存方法に少し不安がありましたが、きちんと説明書が入っていて安心しました。教えていただいた通りに保存したら、最後まで美味しくいただけましたよ。」</p>
-                    <small>（60代女性・年金受給者）</small>
-                </div>
-                <div class="voice-card">
-                    <p>「クーポンと送料無料でこの品質のお米が手に入るのは本当に嬉しいです。リピート確定です！」</p>
-                    <small>（20代女性・一人暮らし）</small>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <h3>美味しさを長く保つために：『晴れの国米』の保存方法</h3>
-            <p>せっかくの美味しいお米、最後まで新鮮な状態で味わっていただくために、適切な保存が大切です。以下の点にご注意ください。</p>
-            <div class="attention-box">
-                <h4>⚠️ お米を美味しく保つコツ</h4>
-                <ul>
-                    <li><strong>高温多湿を避ける</strong>：気温が高く湿気が多い時期（4月～10月頃）は、冷蔵庫の野菜室での保管を強くおすすめします。</li>
-                    <li><strong>冷暗所で保管</strong>：常温で保存する場合は、直射日光が当たらず、涼しくて湿気の少ない場所を選びましょう。</li>
-                    <li><strong>密閉容器で保存</strong>：米びつやペットボトルなど、空気に触れにくい密閉容器に入れ替えることで、虫の発生やカビを防ぎ、品質を保てます。</li>
-                    <li><strong>目安の保存期間</strong>：
-                        <ul>
-                            <li>4月～10月：2週間程度</li>
-                            <li>11月～3月：1ヶ月程度</li>
-                        </ul>
-                        <small>※上記期間内で使い切れる量の購入をおすすめします。</small>
-                    </li>
+        <!-- Product Display Card -->
+        <div class="product-card">
+            <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/skyfarm/cabinet/biiino/item/main-image/20260319122504_1.jpg?_ex=128x128" alt="晴れの国米" class="product-image">
+            <div class="product-info">
+                <h3 class="product-title">＼250円OFFクーポンで2,330円～／令和7年産入り 国内産 晴れの国米（ブレンド米）送料無料</h3>
+                <ul class="product-meta">
+                    <li>日本全国送料無料でお届け</li>
+                    <li>安心の国内産100%ブレンド</li>
+                    <li>お得な特別クーポン配布中</li>
                 </ul>
-                <p>正しく保存することで、炊き立ての美味しさを長くお楽しみいただけます。</p>
+                <a href="https://hb.afl.rakuten.co.jp/hgc/g00t5kyn.h9gne47f.g00t5kyn.h9gnf972/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fskyfarm%2Fharenokuni%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fskyfarm%2Fi%2F10000407%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" class="btn-cta" target="_blank" rel="noopener">楽天市場で詳細を見る</a>
             </div>
-        </section>
-
-        <section class="cta-section">
-            <h3>今すぐ食卓に感動を！<br>『晴れの国米』をお得に手に入れるチャンス</h3>
-            <p>安心の国内産、令和7年産入りの高品質なお米で、毎日のごはんをもっと美味しくしませんか？</p>
-            <p>今なら<strong>250円OFFクーポン</strong>をご利用で、<strong>2,330円からの特別価格！</strong>さらに、全国どこでも<strong>送料無料</strong>でお届けします。</p>
-            <div class="attention-box">
-                <h4>🚚 ご注文時のご注意</h4>
-                <p>20kg以上のご注文の場合、北海道・沖縄へのお届けには別途送料1,000円が追加となります。予めご了承ください。</p>
-            </div>
-            <a href="https://hb.afl.rakuten.co.jp/hgc/g00t5kyn.h9gne47f.g00t5kyn.h9gnf972/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fskyfarm%2Fharenokuni%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fskyfarm%2Fi%2F10000407%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" rel="noopener noreferrer" class="button">
-                『晴れの国米』をクーポンで手に入れる！
-            </a>
-        </section>
+        </div>
     </main>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2024 Your Web Media. All rights reserved.</p>
-        </div>
+        <p>© Web Media Premium Select. All rights reserved.</p>
     </footer>
+</div>
+
 </body>
 </html>
