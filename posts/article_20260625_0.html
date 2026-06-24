@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【楽天年間1位！形状記憶特許品】完全遮光・超軽量240g 自動開閉日傘 | DeliToo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2196f3; /* 青色ベース */
+            --accent-color: #1976d2; /* ボタンや強調色に使う少し濃いめの青 */
+            --text-color: #333;
+            --light-bg: #f8f8f8;
+            --white: #fff;
+            --shadow-light: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--white);
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: var(--shadow-light);
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.2em;
+            color: var(--primary-color);
+            margin: 0;
+            padding: 0 10px;
+            line-height: 1.3;
+        }
+
+        header p {
+            font-size: 1.1em;
+            color: #666;
+            margin-top: 10px;
+            padding: 0 10px;
+        }
+
+        .hero {
+            position: relative;
+            margin-bottom: 40px;
+            background-color: var(--white);
+            box-shadow: var(--shadow-light);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .hero img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 20px auto;
+            border-radius: 8px;
+        }
+
+        .hero-caption {
+            text-align: center;
+            font-size: 1.6em;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .hero-sub-caption {
+            text-align: center;
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        .cta-button {
+            display: block;
+            width: fit-content;
+            margin: 0 auto 30px auto;
+            padding: 15px 30px;
+            background-color: var(--accent-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: 700;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background-color: #1565c0; /* ホバーでさらに濃い青 */
+            transform: translateY(-2px);
+        }
+
+        section {
+            background-color: var(--white);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-light);
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary-color);
+            padding-left: 10px;
+            line-height: 1.3;
+        }
+
+        h3 {
+            font-size: 1.4em;
+            color: var(--primary-color);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            border-bottom: 2px dashed #eee;
+            padding-bottom: 5px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        li::before {
+            content: '✓'; /* チェックマーク */
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+            font-weight: 700;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-item {
+            background-color: var(--light-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .feature-item h4 {
+            color: var(--primary-color);
+            font-size: 1.2em;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .feature-item p {
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .price-info {
+            background-color: #e3f2fd; /* 明るい青系 */
+            color: var(--text-color);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .price-info strong {
+            font-size: 1.8em;
+            color: var(--accent-color);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .price-info p {
+            font-size: 1.1em;
+            margin: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-size: 0.9em;
+            border-radius: 8px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            .hero-caption {
+                font-size: 1.4em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+            h3 {
+                font-size: 1.2em;
+            }
+            .cta-button {
+                font-size: 1.1em;
+                padding: 12px 25px;
+            }
+            section {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.5em;
+            }
+            .hero-caption {
+                font-size: 1.2em;
+            }
+            h2 {
+                font-size: 1.3em;
+            }
+            h3 {
+                font-size: 1.1em;
+            }
+            .container {
+                padding: 15px;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>太陽の下、もっと自由に。</h1>
+            <p>機能と美しさが融合した、新時代の高機能日傘。</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <p class="hero-caption">
+                【楽天年間1位！形状記憶特許品】<br>
+                完全遮光・遮熱59%・超軽量240g<br>
+                自動開閉日傘「DeliToo」
+            </p>
+            <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/azusa/cabinet/6san/imgrc0171182741.jpg?_ex=128x128" alt="【楽天年間1位！形状記憶特許品】DeliToo 自動開閉日傘" class="main-product-image">
+            <p class="hero-sub-caption">
+                驚きの機能性と洗練されたデザインで、あなたの毎日をもっと快適に、もっと輝かせます。
+            </p>
+            <a href="https://hb.afl.rakuten.co.jp/hgc/g00tyy9n.h9gneb67.g00tyy9n.h9gnf0f5/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fazusa%2Fb16gcq%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fazusa%2Fi%2F10000109%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" class="cta-button" target="_blank" rel="noopener noreferrer">
+                楽天で今すぐチェック！
+            </a>
+        </section>
+
+        <section>
+            <h2>日差しが気になる季節も、笑顔で過ごしたいあなたへ。</h2>
+            <p>
+                うだるような夏の暑さ、容赦なく降り注ぐ紫外線。日傘はもはや、女性だけでなく男性にとっても欠かせないマストアイテムです。しかし、「本当に使える日傘」は、一体どんな日傘でしょう？重くて持ち運びが億劫になったり、開閉がスムーズにいかなかったり、デザインがいまいちだったり…。そんな日傘への不満を、私たちは知っています。
+            </p>
+            <p>
+                今回ご紹介するのは、そんな日傘の常識を覆す、<strong>機能性とデザインを両立させた次世代日傘「DeliToo」</strong>。まるで肌を守る魔法のベールのように、あなたを紫外線や暑さから解放し、毎日を快適で幸せなものに変えてくれるでしょう。
+            </p>
+        </section>
+
+        <section>
+            <h2>DeliToo日傘が選ばれる理由：驚きの高機能が詰まった一本</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h4>完璧な遮光で、肌も心も守る</h4>
+                    <p>
+                        JIS認証済みの<strong>完全遮光生地</strong>が、強い日差しを徹底的にシャットアウト。日傘の下はまるで木陰にいるような涼しさで、シミやシワの原因となる紫外線からあなたの肌を徹底的に守ります。
+                    </p>
+                </div>
+                <div class="feature-item">
+                    <h4>体感温度をグッと下げる遮熱効果</h4>
+                    <p>
+                        特殊コーティングにより<strong>遮熱率59%</strong>を実現。日傘を差すだけで、ジリジリとした不快な暑さが和らぎ、体感温度を大幅にダウン。真夏の外出も快適に過ごせます。
+                    </p>
+                </div>
+                <div class="feature-item">
+                    <h4>スマートに開閉、ストレスフリー</h4>
+                    <p>
+                        ワンプッシュで簡単に開閉できる<strong>自動開閉機能</strong>を搭載。荷物が多い時や、急な雨に降られた時でも片手でスマートに対応。もう、開閉に手間取ることはありません。
+                    </p>
+                </div>
+                <div class="feature-item">
+                    <h4>毎日持ち歩ける、奇跡の軽さ</h4>
+                    <p>
+                        驚くほど軽い<strong>わずか240g</strong>。まるでスマホ一本のような軽さなので、バッグに入れても負担になりません。毎日持ち歩きたくなる、究極のポータブル性を実現しました。
+                    </p>
+                </div>
+                <div class="feature-item">
+                    <h4>徹底UVカットで安心を</h4>
+                    <p>
+                        <strong>UVカットUPF 50+</strong>の最高基準をクリア。有害な紫外線を99%以上カットし、日焼けや光老化からあなたの肌を強力にガード。一年中、安心して使えます。
+                    </p>
+                </div>
+                <div class="feature-item">
+                    <h4>信頼の証：形状記憶特許品＆JIS認証</h4>
+                    <p>
+                        品質と耐久性を追求した<strong>形状記憶特許品</strong>で、長く美しく使えます。さらに<strong>JIS認証済</strong>という確かな品質は、他製品にはない安心感を与えてくれるでしょう。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>細部までこだわり抜いた、あなたに寄り添うデザイン</h2>
+            <ul>
+                <li><strong>豊富な13色のカラーバリエーション:</strong> 定番カラーから、ファッションのアクセントになるトレンドカラーまで、どんなスタイルにも合わせやすい13色をご用意。男女問わず、あなたの個性にぴったりの一本が見つかります。</li>
+                <li><strong>晴雨兼用で一年中活躍:</strong> 撥水加工が施されているため、突然の雨にも対応可能。日傘としても雨傘としても使えるので、天気予報に左右されず、いつでもバッグに忍ばせておけます。</li>
+                <li><strong>コンパクトな6本骨設計:</strong> 持ち運びに便利なコンパクトなサイズ感でありながら、しっかりとした6本骨で風にも強く、安定した使い心地を実現しました。</li>
+            </ul>
+        </section>
+
+        <section class="price-info">
+            <h2>今だけの特別価格！お見逃しなく！</h2>
+            <p>楽天年間1位の実績を持つこの高機能日傘が、クーポン利用で</p>
+            <strong>1,788円〜</strong>
+            <p>という驚きの価格で手に入るチャンス！</p>
+            <p>さらに、購入後も安心の<strong>1年間保証付き</strong>。この機会にぜひ、最高の体験を。</p>
+            <a href="https://hb.afl.rakuten.co.jp/hgc/g00tyy9n.h9gneb67.g00tyy9n.h9gnf0f5/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fazusa%2Fb16gcq%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fazusa%2Fi%2F10000109%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" class="cta-button" target="_blank" rel="noopener noreferrer">
+                お得なクーポンを使って購入する！
+            </a>
+            <p style="font-size: 0.85em; color: #666; margin-top: 15px;">※価格は変動する可能性があります。詳細は販売ページでご確認ください。</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 [Webメディア名] All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
