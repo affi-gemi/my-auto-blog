@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>まとうだけで、深く整う。AOKI「リカバリーケアプラス」がもたらす極上の休息時間</title>
+    <style>
+        :root {
+            --primary: #0a1931;
+            --accent: #15305b;
+            --cta: #0056b3;
+            --cta-hover: #003d82;
+            --text-main: #222222;
+            --text-sub: #555555;
+            --bg-light: #f4f6f9;
+            --border-color: #e1e8ed;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            line-height: 1.8;
+            color: var(--text-main);
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            background: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        /* ヒーロービジュアル */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: #ffffff;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .hero-tag {
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #93c5fd;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1.4;
+            margin: 0 0 20px 0;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-lead {
+            font-size: 1.05rem;
+            color: #e2e8f0;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* コンテンツエリア */
+        .content {
+            padding: 40px;
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            line-height: 1.85;
+            color: var(--text-main);
+            margin-bottom: 40px;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-top: 45px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--text-sub);
+        }
+
+        /* 特徴・ベネフィットセクション */
+        .feature-box {
+            background-color: var(--bg-light);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .feature-box h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-box h4::before {
+            content: "◆";
+            color: var(--cta);
+            margin-right: 8px;
+            font-size: 0.9rem;
+        }
+
+        .feature-box p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        /* 商品カード */
+        .product-card {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .product-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+        }
+
+        .product-img-wrapper {
+            flex-shrink: 0;
+            width: 128px;
+            height: 128px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .product-info {
+            flex-grow: 1;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0 0 10px 0;
+            line-height: 1.4;
+        }
+
+        .product-price-badge {
+            display: inline-block;
+            background-color: #e11d48;
+            color: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        /* リンクボタン */
+        .cta-button {
+            display: block;
+            text-align: center;
+            background-color: var(--cta);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 16px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 86, 179, 0.25);
+            margin: 25px 0 10px 0;
+        }
+
+        .cta-button:hover {
+            background-color: var(--cta-hover);
+            transform: translateY(-1px);
+        }
+
+        /* フッター調の締め */
+        .closing {
+            border-top: 1px solid var(--border-color);
+            padding-top: 30px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .closing p {
+            font-size: 1rem;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 40px 20px;
+            }
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- ヒーローセクション -->
+    <header class="hero">
+        <span class="hero-tag">New Standard of Relax</span>
+        <h1>着て、眠る。ただそれだけで、<br>明日のパフォーマンスは変わる。</h1>
+        <p class="hero-lead">ビジネスウェアを極めたAOKIが提案する、サイエンスに基づく最先端の休息体験。</p>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="content">
+        <p class="intro-text">
+            オンとオフの境界線が曖昧になりがちな現代において、一流のビジネスパーソンほど「休息の質」に妥協しません。ただ横になるだけでなく、いかに効率よく身体の緊張を解きほぐすか。今、知的な大人たちの間で密かなブームとなっているのが、着るだけでリカバリーを促す機能性ウェアです。中でも、ビジネスウェアの老舗であるAOKIが開発した「リカバリーケアプラス」は、その確かな実力と圧倒的な日常への溶け込みやすさから、すでに多くの支持を集めています。
+        </p>
+
+        <h2>テクノロジーがもたらす、至高のめぐり</h2>
+        <p>
+            「リカバリーケアプラス」は、単なる着心地の良いパジャマではありません。その本質は、科学的に設計された「一般医療機器」という事実。高純度のセラミック繊維が、身体から放出される自然な遠赤外線エネルギーを吸収し、再び身体へと輻射。これにより、自律神経に優しくアプローチしながら健康的なリカバリーサイクルを生み出します。
+        </p>
+
+        <div class="feature-box">
+            <h4>深部からアプローチする血行促進</h4>
+            <p>体温を効率的に利用した遠赤外線の働きにより、全身の血流をスムーズに整えます。手足の冷えが気になる季節だけでなく、夏の冷房下でも健やかなコンディションを維持します。</p>
+        </div>
+
+        <div class="feature-box">
+            <h4>蓄積された疲労の確かなリセット</h4>
+            <p>日々のデスクワークや移動によって緊張し続けた身体のリカバリーをサポート。翌朝、目覚めた瞬間に驚くような軽やかさを実感していただけます。</p>
+        </div>
+
+        <div class="feature-box">
+            <h4>凝り固まった筋肉のコリを解きほぐす</h4>
+            <p>首まわりや肩、腰の筋肉のハリ・コリを軽減。締め付け感のない極上の着心地が、緊張した身体と心をゆっくりと解放へと導きます。</p>
+        </div>
+
+        <h2>妥協のない着心地。日常に寄り添うディテール</h2>
+        <p>
+            どんなに優れたテクノロジーを搭載していても、肌触りやシルエットにストレスがあっては意味がありません。AOKIは長年の服作りで培ったノウハウを惜しみなく投入し、コットンブレンドの滑らかで極上に優しい肌触りと、動きに追従する優れたストレッチ性を実現しました。
+        </p>
+        <p>
+            絶妙なゆとりを持たせたリラックスシルエットは、寝返りを妨げず、家でのくつろぎ時間にも洗練された印象を与えます。さらに、気になるニオイを抑える消臭機能や、自宅の洗濯機で気兼ねなく洗える実用性など、毎日の着用に欠かせない細やかな配慮が息づいています。
+        </p>
+
+        <!-- 商品カード (CTA) -->
+        <div class="product-card">
+            <div class="product-img-wrapper">
+                <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/r-aoki/cabinet/p_01n2zssz.jpg?_ex=128x128" alt="AOKI リカバリーケアプラス" class="product-img">
+            </div>
+            <div class="product-info">
+                <span class="product-price-badge">10％OFF実施中</span>
+                <h3 class="product-title">AOKI リカバリーケアプラス<br>（五分袖・七分丈パンツ 上下セット）</h3>
+                <p style="margin-bottom: 10px; font-size: 0.9rem;">家庭用遠赤外線血行促進用衣として認定された、男女兼用の本格リカバリーウェア。</p>
+                <a href="https://hb.afl.rakuten.co.jp/hgc/g00t1cyn.h9gne821.g00t1cyn.h9gnffbc/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fr-aoki%2F2312001%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fr-aoki%2Fi%2F10000523%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" class="cta-button">
+                    公式ストアで商品を見る
+                </a>
+            </div>
+        </div>
+
+        <!-- 締めくくり -->
+        <section class="closing">
+            <p>忙しい毎日を送る大人にこそ必要な、睡眠時間のアップデート。</p>
+            <p style="font-size: 0.95rem; color: var(--text-sub);">
+                質の高い休息は、最大の自己投資です。AOKIの「リカバリーケアプラス」をまとい、未体験の心地よさと翌朝のスッキリとした目覚めを、今すぐ体感してみませんか。
+            </p>
+        </section>
+    </main>
+</div>
+
+</body>
+</html>
