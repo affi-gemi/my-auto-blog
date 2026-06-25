@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今日の食卓が、未来のあなたを変える。Mamiさんの抗酸化ごはんレシピ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db; /* 青色ベース */
+            --accent-color: #2980b9; /* 濃い青 */
+            --text-color: #333;
+            --light-gray: #f8f8f8;
+            --border-color: #e0e0e0;
+            --max-width: 800px;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            background-color: #fff; /* 背景は白を基調に */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: var(--light-gray);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        header p.lead {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .product-image-wrapper {
+            margin: 40px auto;
+            text-align: center;
+        }
+        .product-image {
+            max-width: 350px; /* 画像サイズを調整 */
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .product-image:hover {
+            transform: translateY(-5px);
+        }
+
+        section {
+            background-color: #fff;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        h2 {
+            font-size: 2em;
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        p {
+            margin-bottom: 1em;
+            font-size: 1.05em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-left: 20px;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 10px;
+            font-size: 1.05em;
+        }
+
+        ul li::before {
+            content: '✓';
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .button:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            background-color: var(--light-gray);
+            color: #777;
+            font-size: 0.9em;
+        }
+
+        /* レスポンシブ対応 */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            header p.lead {
+                font-size: 1em;
+            }
+            h2 {
+                font-size: 1.7em;
+            }
+            .container {
+                padding: 15px;
+            }
+            .button {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            header p.lead {
+                font-size: 0.9em;
+            }
+            h2 {
+                font-size: 1.5em;
+                margin-bottom: 20px;
+            }
+            p, ul li {
+                font-size: 0.95em;
+            }
+            .button {
+                width: 90%;
+                box-sizing: border-box;
+                margin: 0 auto;
+                display: block;
+            }
+            section {
+                padding: 20px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="fade-in">今日の食卓が、未来のあなたを変える。</h1>
+            <p class="lead fade-in delay-1">Mamiさんの抗酸化ごはんレシピで、内側から輝く毎日を手に入れませんか？</p>
+            <div class="product-image-wrapper">
+                <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/1867/9784043301867_1_2.jpg?_ex=128x128" alt="未来のわたしは今日の台所でつくる。 まいにちの抗酸化ごはん [ Mami ]" class="product-image">
+            </div>
+            <p class="product-title fade-in delay-2">書籍名：未来のわたしは今日の台所でつくる。 まいにちの抗酸化ごはん [ Mami ]</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section>
+            <h2>健康と美しさは、毎日の食卓から</h2>
+            <p>最近、体の中から健やかになりたい、そう願う人が増えています。特に注目されているのが、毎日の食事。抗酸化作用に富んだ食材を取り入れることで、単なる表面的な美しさだけでなく、内側から満ち足りた健康と幸福を手に入れようとするムーブメントが広がっています。</p>
+            <p>そんな時代のニーズに応えるべく、今、一冊の料理本が大きな話題を呼んでいます。それが『未来のわたしは今日の台所でつくる。 まいにちの抗酸化ごはん [ Mami ]』です。</p>
+        </section>
+
+        <section>
+            <h2>Mamiさんのレシピが叶える、新しいわたし</h2>
+            <p>この本が届けるのは、まさにそんな願いを叶える、抗酸化ごはんのレシピ集。体の中で増えすぎると厄介な「活性酸素」を穏やかにしてくれるのが抗酸化作用。細胞のダメージを防ぎ、若々しさを保つだけでなく、将来の健康リスクを遠ざける力も秘めているのです。</p>
+            <p>難解な栄養学の知識は一切不要。Mamiさんが提案するのは、誰でもすぐに、しかも無理なく実践できる、とっておきのレシピばかりです。日々の食事に抗酸化作用を意識して取り入れることで、いつの間にか健康的な生活習慣があなたのものに。毎日食べても飽きがこない、驚くほど豊かなバリエーションで、心も体も喜ぶ食生活をずっと続けられます。</p>
+            <ul>
+                <li>複雑な栄養学なしで、手軽に抗酸化作用を食卓に。</li>
+                <li>活性酸素対策で、細胞レベルから若々しさをサポート。</li>
+                <li>飽きずに続けられる豊富なバリエーションで、健康的習慣が定着。</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>他のレシピ本とは一線を画す、実践力</h2>
+            <p>巷には健康や抗酸化に関する本が溢れていますが、Mamiさんのこの一冊は「実践のしやすさ」と「わかりやすさ」で頭一つ抜きん出ています。多くの健康関連本は、理論ばかりで肝心の「どうすればいいの？」が置き去りにされがちな中、この本は具体的なレシピと実践的なアドバイスで、あなたの疑問にまっすぐ応えます。</p>
+            <p>抗酸化作用の高い食材をどう料理に取り入れるか、その具体的な方法が丁寧に紹介されているから、今日からすぐに始められると評判です。料理初心者さんから、レパートリーを広げたいベテランさんまで。どんな方でも、食卓に喜びと健康を呼び込むヒントがきっと見つかるはずです。</p>
+            <ul>
+                <li>理論だけでなく、具体的な「実践方法」を豊富に掲載。</li>
+                <li>抗酸化食材の活用法が、一目でわかる。</li>
+                <li>料理経験問わず、幅広い層がすぐに活用できる。</li>
+            </ul>
+        </section>
+
+        <section class="text-center">
+            <h2>今日から始める、未来の食卓</h2>
+            <p>Mamiさんの料理哲学が詰まったこの本は、ただのレシピ集ではありません。日々の食卓を通じて、あなたの「未来の健康」を育むための、心強いパートナーとなるでしょう。健康的な食事を心がけたい方、いつまでも若々しく、内側から輝く毎日を送りたいと願う方に、心からおすすめします。</p>
+            <p>この一冊を手に、あなたの台所で、新しい未来を創造しませんか？</p>
+            <a href="https://hb.afl.rakuten.co.jp/hgc/g00q072n.h9gne383.g00q072n.h9gnf66d/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fbook%2F18683254%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fbook%2Fi%2F22003642%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" rel="noopener noreferrer" class="button">今すぐMamiさんのレシピを始める</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 [Webメディア名] All rights reserved.</p>
+    </footer>
+</body>
+</html>
