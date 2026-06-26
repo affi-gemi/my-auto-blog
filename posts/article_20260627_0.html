@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>スマホじゃ届かない一瞬を、その手に。Canon PowerShot SX740 HSが日常を映画に変える | GEAR &amp; GRAPH</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* Reset & Base Styles */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Noto Sans JP', 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.8;
+      color: #2d3748;
+      background-color: #f7fafc;
+      -webkit-font-smoothing: antialiased;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Media Header */
+    .media-header {
+      background-color: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .media-header-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .media-logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: #1a202c;
+      text-transform: uppercase;
+    }
+    .media-logo span {
+      color: #3182ce;
+    }
+
+    /* Article Container */
+    .article-wrapper {
+      max-width: 800px;
+      margin: 2rem auto 5rem;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      overflow: hidden;
+    }
+    .article-content {
+      padding: 3rem 4rem;
+    }
+    @media (max-width: 768px) {
+      .article-wrapper {
+        margin: 0;
+        border-radius: 0;
+      }
+      .article-content {
+        padding: 2rem 1.5rem;
+      }
+    }
+
+    /* Typography */
+    .article-tag {
+      display: inline-block;
+      background-color: #ebf8ff;
+      color: #2b6cb0;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .article-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      line-height: 1.35;
+      color: #1a202c;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 768px) {
+      .article-title {
+        font-size: 1.75rem;
+      }
+    }
+    .article-lead {
+      font-size: 1.1rem;
+      color: #4a5568;
+      font-weight: 400;
+      border-left: 4px solid #3182ce;
+      padding-left: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Paragraphs & Subheadings */
+    p {
+      margin-bottom: 1.75rem;
+      font-size: 1.05rem;
+      color: #2d3748;
+    }
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a202c;
+      margin-top: 3rem;
+      margin-bottom: 1.25rem;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    h2::before {
+      content: '';
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background-color: #3182ce;
+      border-radius: 50%;
+      margin-right: 0.75rem;
+    }
+
+    /* Product Highlight Card */
+    .product-card {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 3rem 0;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    @media (max-width: 768px) {
+      .product-card {
+        flex-direction: column;
+        padding: 1.5rem;
+        text-align: center;
+      }
+    }
+    .product-image-container {
+      flex-shrink: 0;
+      width: 180px;
+      height: 180px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      border: 1px solid #edf2f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .product-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .product-info {
+      flex-grow: 1;
+    }
+    .product-category {
+      font-size: 0.8rem;
+      color: #718096;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+    .product-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #1a202c;
+      line-height: 1.4;
+      margin-bottom: 0.75rem;
+    }
+    .product-status {
+      display: inline-block;
+      font-size: 0.85rem;
+      color: #dd6b20;
+      background-color: #fffaf0;
+      border: 1px solid #fbd38d;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .cta-button {
+      display: inline-block;
+      background-color: #3182ce;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 6px rgba(49, 130, 206, 0.2);
+      text-align: center;
+    }
+    .cta-button:hover {
+      background-color: #2b6cb0;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(49, 130, 206, 0.3);
+    }
+
+    /* Key Benefits Block */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 2.5rem 0;
+    }
+    @media (max-width: 640px) {
+      .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .benefit-item {
+      background-color: #f7fafc;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border-left: 3px solid #3182ce;
+    }
+    .benefit-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #1a202c;
+      margin-bottom: 0.5rem;
+    }
+    .benefit-text {
+      font-size: 0.95rem;
+      color: #4a5568;
+      margin-bottom: 0;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    .media-footer {
+      background-color: #1a202c;
+      color: #a0aec0;
+      padding: 3rem 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    .media-footer p {
+      color: #a0aec0;
+      margin-bottom: 1rem;
+    }
+    .media-footer-logo {
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="media-header">
+    <div class="media-header-container">
+      <div class="media-logo">GEAR<span>&amp;</span>GRAPH</div>
+    </div>
+  </header>
+
+  <!-- Main Article -->
+  <main class="article-wrapper">
+    <article class="article-content">
+      <span class="article-tag">Gadget Review</span>
+      <h1 class="article-title">スマホじゃ届かない、その一瞬を美しく。手のひらサイズで世界を引き寄せる「Canon PowerShot SX740 HS」</h1>
+      
+      <p class="article-lead">
+        スマートフォンのカメラが驚異的な進化を遂げる現代。それでもなお、私たちが「カメラ」という独立した道具を手に取る理由はどこにあるのでしょうか。その最適解を提示してくれるのが、キヤノンの実力派コンパクト「PowerShot SX740 HS」です。
+      </p>
+
+      <p>
+        日常の記録から、大切な旅行の思い出、そして決定的なスポーツのワンシーンまで。スマホのズーム機能で画質が荒れてしまい、悔しい思いをした経験は誰にでもあるはずです。「PowerShot SX740 HS」は、ポケットにすっぽり収まるコンパクトボディでありながら、一眼レフをも脅かす圧巻の光学ズームと快適な撮影機能を備え、私たちの「撮りたい」という情熱にどこまでも応えてくれます。
+      </p>
+
+      <h2>風景も、表情も。すべてをありのままに捉える「光学40倍ズーム」の魔法</h2>
+      <p>
+        この小さなカメラの最大の武器は、広角24mmから超望遠960mm相当までをカバーする「光学40倍ズーム」です。さらに、高解像度のままズームアップできるプログレッシブファインズームを活用すれば、最大約1920mm相当という信じられない領域まで被写体に近づくことができます。
+      </p>
+      <p>
+        遥か遠くにいる野鳥の羽の一枚一枚から、スタジアムを駆け抜けるアスリートの表情、さらには夜空に浮かぶ月のディテールまで。これまであきらめていた美しい光景が、レンズの向こう側に鮮明に浮かび上がります。高性能映像エンジン「DIGIC 8」による俊敏なフォーカスと最高約10.0コマ/秒の高速連写が、ブレを抑え、決定的な瞬間を逃さず空気感ごと切り取ります。
+      </p>
+
+      <!-- Benefits Highlight Section -->
+      <div class="benefits-grid">
+        <div class="benefit-item">
+          <div class="benefit-title">驚異の超ズーム性能</div>
+          <p class="benefit-text">光学40倍、デジタル領域を含めば最大80倍（1920mm相当）のズームを、この手のひらサイズで実現。</p>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-title">心揺さぶる一瞬を逃さない</div>
+          <p class="benefit-text">最高約10コマ/秒の高速連写と優秀なオートフォーカスが、スポーツや動物の素早い動きを補足します。</p>
+        </div>
+      </div>
+
+      <h2>映画のワンシーンを描き出す、高精細4K動画と「フレーム切り出し」</h2>
+      <p>
+        美しく残したいのは静止画だけではありません。「PowerShot SX740 HS」はフルHDの4倍の解像度を誇る「4K動画撮影」に対応。風の音や光の揺らめきまで、映画のようなクオリティで記録します。
+      </p>
+      <p>
+        さらに秀逸なのが、撮影した4K動画からお気に入りの一瞬を、カメラ内で約830万画素の静止画として切り出せる「4Kフレーム切り出し」機能。予測不可能な子どもの笑顔や、ペットの愛くるしいジャンプなど、動画を回しておくだけで、後から最高の一瞬を「写真」として選び取ることができます。これこそ、失敗しない撮影の新しいカタチです。
+      </p>
+
+      <h2>自分らしく、自由に。日常に寄り添う快適な自撮りとスマート連携</h2>
+      <p>
+        旅行先での記念写真や、気の置けない仲間とのセルフィー。上方向に約180度回転する「チルト式液晶モニター」は、アングルを自在にコントロールしながら思い通りの構図を作れます。美肌効果や背景のぼかし具合を細かく調整できる「自分撮りモード」を併用すれば、どんなシーンでもあなた自身の輝きを自然に引き出してくれます。
+      </p>
+      <p>
+        また、撮影後のフローも極めてスマート。BluetoothとWi-Fiを介して、カメラをバッグに入れたままスマートフォンへ画像を自動転送することが可能です。旅先で感動した景色を、その場ですぐにSNSでシェアする。そんな軽快なライフスタイルが当たり前になります。
+      </p>
+
+      <!-- Dynamic Product Card with original assets -->
+      <div class="product-card">
+        <div class="product-image-container">
+          <img class="product-image" src="https://thumbnail.image.rakuten.co.jp/@0_mall/emedama/cabinet/9060/4549292119060_1.jpg?_ex=128x128" alt="キヤノン PowerShot SX740 HS シルバー">
+        </div>
+        <div class="product-info">
+          <span class="product-category">Compact Digital Camera</span>
+          <h3 class="product-name">キヤノン PowerShot SX740 HS シルバー</h3>
+          <span class="product-status">人気商品：納期約1－2週間</span>
+          <p class="benefit-text" style="margin-bottom: 1rem; font-size: 0.9rem; color: #718096;">
+            光学40倍ズーム、4K動画、180度チルト液晶を搭載。スマートデバイスとの快適な接続で、日常のあらゆる感動を鮮明に残す最高のパートナー。
+          </p>
+          <a href="https://hb.afl.rakuten.co.jp/hgc/g00q3omn.h9gne0f5.g00q3omn.h9gnf957/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Femedama%2F4549292119060%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Femedama%2Fi%2F11167662%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" class="cta-button" target="_blank" rel="noopener noreferrer">
+            楽天市場で詳細を見る
+          </a>
+        </div>
+      </div>
+
+      <h2>ただの記録ではない。毎日をもっと愛おしくするための1台</h2>
+      <p>
+        ただそこにある日常が、カメラのレンズを通すことで特別な物語へと変わる。キヤノン「PowerShot SX740 HS」は、単なる道具の枠を超えて、あなたの暮らしに新しい彩りをもたらしてくれる存在です。
+      </p>
+      <p>
+        どこへ行くにも、ポケットに忍ばせられるこの相棒があれば、何気ない景色も、大切な人との時間も、二度と戻らない特別な瞬間として鮮やかに残り続けます。これからの毎日に、カメラがあるからこそ出会える「新しい幸せ」をプラスしてみませんか。
+      </p>
+
+      <p style="font-size: 0.85rem; color: #718096; margin-top: 3rem; border-top: 1px solid #edf2f7; padding-top: 1.5rem;">
+        ※掲載されている商品情報は、楽天市場店にて取り扱われている内容です。ご購入の際は、お持ちの機器との互換性や商品仕様等をご確認の上、ご検討ください。
+      </p>
+
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="media-footer">
+    <div class="media-footer-logo">GEAR &amp; GRAPH</div>
+    <p>Premium Web Magazine for Aesthetic Gear</p>
+    <p style="font-size: 0.75rem; color: #718096; margin-top: 2rem;">&copy; GEAR &amp; GRAPH. All Rights Reserved.</p>
+  </footer>
+
+</body>
+</html>
