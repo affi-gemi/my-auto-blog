@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>極上の甘みと、罪悪感ゼロの贅沢。いま「茨城県産・紅はるか干し芋」が選ばれる理由 | Premium Life Media</title>
+    <style>
+        /* -----------------------------------------
+           Reset & Base Styles
+        ----------------------------------------- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            background-color: #f8f9fa;
+            color: #333333;
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+        a {
+            color: #1a365d;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #2b6cb0;
+        }
+
+        /* -----------------------------------------
+           Header & Navigation
+        ----------------------------------------- */
+        header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            color: #1a365d;
+            text-transform: uppercase;
+        }
+        .nav-tag {
+            font-size: 0.75rem;
+            background-color: #ebf8ff;
+            color: #2b6cb0;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+
+        /* -----------------------------------------
+           Main Content Layout
+        ----------------------------------------- */
+        .container {
+            max-width: 760px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Article Header */
+        .category {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #b91c1c;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+        h1 {
+            font-size: 2rem;
+            line-height: 1.4;
+            color: #111827;
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+        }
+        .meta-info {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Body Copy Styling */
+        .article-body p {
+            margin-bottom: 24px;
+            font-size: 1.05rem;
+            color: #374151;
+            text-align: justify;
+        }
+        .article-body strong {
+            color: #111827;
+            background: linear-gradient(transparent 70%, #fef3c7 70%);
+        }
+
+        /* Headings within body */
+        h2 {
+            font-size: 1.5rem;
+            color: #1a365d;
+            margin: 48px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        h3 {
+            font-size: 1.25rem;
+            color: #2d3748;
+            margin: 32px 0 16px;
+            font-weight: 700;
+        }
+
+        /* Lead Paragraph */
+        .lead {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: #1f2937;
+            border-left: 4px solid #1a365d;
+            padding-left: 20px;
+            margin-bottom: 36px;
+            line-height: 1.8;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background-color: #f7fafc;
+            border: 1px dashed #cbd5e0;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 32px 0;
+        }
+        .highlight-box h4 {
+            font-size: 1.1rem;
+            color: #2b6cb0;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        /* -----------------------------------------
+           Product Card (CTA)
+        ----------------------------------------- */
+        .product-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            margin: 48px 0;
+            padding: 32px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .product-badge {
+            display: inline-block;
+            background-color: #b91c1c;
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            letter-spacing: 0.05em;
+        }
+        .product-layout {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
+        @media (max-width: 640px) {
+            .product-layout {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+        .product-image-container {
+            flex-shrink: 0;
+            border: 1px solid #edf2f7;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #f7fafc;
+            width: 140px;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        .product-info {
+            flex-grow: 1;
+        }
+        .product-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #1f2937;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+        .product-meta-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        .product-meta-list li {
+            font-size: 0.9rem;
+            color: #4a5568;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .product-meta-list li::before {
+            content: "✓";
+            color: #319795;
+            font-weight: bold;
+        }
+
+        /* CTA Button */
+        .btn-cta {
+            display: block;
+            background: linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%);
+            color: #ffffff !important;
+            text-align: center;
+            padding: 16px 24px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(43, 108, 176, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-cta:hover {
+            background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(43, 108, 176, 0.4);
+        }
+        .btn-subtext {
+            display: block;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #718096;
+            margin-top: 10px;
+        }
+
+        /* -----------------------------------------
+           Footer
+        ----------------------------------------- */
+        footer {
+            background-color: #1a365d;
+            color: #a0aec0;
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 0.85rem;
+            margin-top: 80px;
+        }
+        footer p {
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo">Premium Life</div>
+            <span class="nav-tag">お取り寄せ & ギフト</span>
+        </div>
+    </header>
+
+    <main class="container">
+        <article>
+            <div class="category">Premium Food Trend</div>
+            <h1>甘みは、自然からの贈り物。いま大人たちが「茨城県産・紅はるか干し芋」に夢中になる理由</h1>
+            
+            <div class="meta-info">
+                <span>プレミアムライフ編集部</span>
+                <span>•</span>
+                <span>アップデート: 2024.05.28</span>
+            </div>
+
+            <div class="article-body">
+                <p class="lead">現代のライフスタイルにおいて、おやつやスイーツ選びの基準は変わりつつあります。単に甘くて美味しいだけでなく、「体にやさしいこと」「素材の力をそのまま感じられること」。そんな健康志向とプチ贅沢を両立させるものとして、日本の伝統和菓子である「干し芋」が、高感度な人々から熱い視線を浴びています。</p>
+
+                <p>数あるさつまいもの品種の中でも、圧倒的な糖度とねっとりとした極上の食感で知られるのが、茨城県産の<strong>「紅はるか」</strong>です。今回は、ご自宅用としてはもちろん、特別な日の贈り物としても多くの支持を集める最高峰の干し芋をご紹介します。</p>
+
+                <h2>1. 「紅はるか」がもたらす、罪悪感のない贅沢なひととき</h2>
+                <p>「本当に砂糖を使っていないの？」と驚くほど濃厚な甘み。それが紅はるか干し芋の最大の魅力です。一口かじれば、さつまいも本来の芳醇な風味が口いっぱいに広がり、上品な余韻を残します。</p>
+                <p>しかも、この甘みでありながら<strong>完全無添加、無着色、保存料不使用</strong>。自然の恵みだけで作られているため、食物繊維やビタミンなどの栄養素がぎゅっと凝縮されています。トレーニング中のエネルギー補給や、美意識の高い方のヘルシーなおやつ、そして小さなお子様がいるご家庭でも安心してお召し上がりいただけます。</p>
+
+                <h2>2. 贅沢な1kgボリューム。「訳あり」だからこその日常使い</h2>
+                <p>今回ご紹介する商品は、製造過程でどうしても出てしまう「切り落とし」を含んだ「訳あり」仕様。しかし、味わいや品質は一級品の紅はるかそのものです。形が少し不揃いなだけで、普段使いには十分すぎるほどの贅沢な味わい。それが<strong>大容量1kg</strong>という大満足のボリューム感で届きます。</p>
+                <p>そのまま食べてねっとり感を愉しむのはもちろん、少しトースターで温めると香ばしさが引き立ち、まるで焼き芋のようなとろける食感に。バターを少し添えてアレンジするなど、毎日のティータイムが特別な時間に変わります。</p>
+
+                <h2>3. 大切な人へ贈る、健やかさを願うギフト</h2>
+                <p>健康を気遣うからこそ、本当に良いものを贈りたい。父の日のプレゼントや、お世話になった方への季節のお祝いなど、相手の健康的な生活を願うギフトとしても干し芋は完璧な選択です。</p>
+                <p>丁寧な仕上がりと圧倒的な美味しさは、年齢を問わずどなたにも喜ばれます。素朴ながらも洗練された「体にいい贈り物」として、あなたの温かい心遣いがまっすぐに伝わるはずです。</p>
+
+                <div class="highlight-box">
+                    <h4>編集部のおすすめの食べ方</h4>
+                    <p>冷凍庫で冷やして「ひんやりスイーツ」として楽しむのもトレンド。自然な甘みが引き締まり、まるで極上和菓子のような上品な冷涼デザートに変化します。ぜひ一度お試しください。</p>
+                </div>
+
+                <h2>他とは違う、茨城県産ブランドとしての絶対的信頼</h2>
+                <p>市場には数多くの干し芋が出回っていますが、本場・茨城県で育まれた紅はるかは別格です。肥沃な大地と特有の気候が、さつまいもの甘みを最大限に引き出します。混じり気のない「本物の干し芋」が持つ、深く優しい味わいをぜひご堪能ください。</p>
+            </div>
+
+            <!-- Product Showcase Section (CTA) -->
+            <div class="product-card">
+                <span class="product-badge">おすすめセレクト</span>
+                <div class="product-layout">
+                    <div class="product-image-container">
+                        <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/imokuniya/cabinet/08486723/tb3/0626_tb_up_n1.jpg?_ex=128x128" alt="茨城県産 紅はるか 干し芋 1kg" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">【P10倍！】＼定期購入で1000ポイントGET！／父の日 ギフト 干し芋 茨城県産 紅はるか 訳あり 1kg</h3>
+                        <ul class="product-meta-list">
+                            <li><strong>本場・茨城県産紅はるか使用</strong>（圧倒的な甘みとねっとり食感）</li>
+                            <li><strong>安心の完全無添加</strong>（お子様やダイエット中の方にもおすすめ）</li>
+                            <li><strong>たっぷり1kg大容量</strong>（切り落としでお得な訳ありプライス）</li>
+                            <li>全国どこでも<strong>送料無料</strong>でお届け</li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="margin-top: 24px;">
+                    <a href="https://hb.afl.rakuten.co.jp/hgc/g00tzq1n.h9gnedff.g00tzq1n.h9gnfe63/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fimokuniya%2F10000012%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fimokuniya%2Fi%2F10000012%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" class="btn-cta" target="_blank" rel="noopener noreferrer">
+                        楽天市場で詳細を見る・購入する
+                    </a>
+                    <span class="btn-subtext">※人気商品の利便性に配慮し、定期購入プラン（1000ポイント進呈）もご用意しています。</span>
+                </div>
+            </div>
+
+            <div class="article-body">
+                <p>健やかで贅沢な毎日は、日々の小さな選択から始まります。この機会に、自然が育んだ最高の「紅はるか干し芋」で、美味しく豊かな時間をお楽しみください。</p>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; Premium Life Media. All rights reserved.<br>自然の素材を活かした上質なライフスタイルを提案するWebマガジンです。</p>
+    </footer>
+
+</body>
+</html>
