@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>毎日がもっと輝く！未来を手にするスマートウォッチ『NexMate』の驚くべき機能とは？</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007bff; /* 青系 */
+            --primary-hover-color: #0056b3;
+            --text-color: #333;
+            --background-color: #f8f9fa;
+            --card-background: #fff;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-top: 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #28a745; /* 緑系で目立たせる */
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-top: 25px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        .product-info {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .product-info img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-info h2 {
+            font-size: 1.8em;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .price-badge {
+            background-color: #ffc107; /* 黄色系 */
+            color: #333;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+        }
+
+        .price-badge span {
+            font-size: 1.5em;
+            font-weight: 900;
+            color: #dc3545; /* 赤系 */
+        }
+
+        section {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        section h2 {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            line-height: 1.2;
+        }
+
+        section h3 {
+            color: #555;
+            font-size: 1.4em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: var(--background-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        ul li::before {
+            content: "✓";
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+
+        .note {
+            background-color: #fff3cd; /* 警告色 */
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin-top: 25px;
+            border-radius: 5px;
+            color: #856404;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-item {
+            background-color: var(--background-color);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-item h3 {
+            color: var(--primary-color);
+            font-size: 1.3em;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .feature-item p {
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9em;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            header p {
+                font-size: 1em;
+            }
+            section h2 {
+                font-size: 1.5em;
+            }
+            .price-badge {
+                font-size: 1.1em;
+                padding: 8px 15px;
+            }
+            .price-badge span {
+                font-size: 1.3em;
+            }
+            .cta-button {
+                font-size: 1em;
+                padding: 12px 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            header p {
+                font-size: 0.9em;
+            }
+            section {
+                padding: 20px;
+            }
+            section h2 {
+                font-size: 1.3em;
+                padding-bottom: 8px;
+            }
+            .product-info {
+                padding: 20px;
+            }
+            .price-badge {
+                font-size: 1em;
+                padding: 7px 12px;
+            }
+            .price-badge span {
+                font-size: 1.2em;
+            }
+            .cta-button {
+                font-size: 0.95em;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>毎日がもっと輝く！未来を手にするスマートウォッチ<br>『NexMate』の驚くべき機能とは？</h1>
+            <p>健康管理、コミュニケーション、そして個性。あなたの日常を劇的に変える最先端スマートウォッチが、今ここに。</p>
+            <a href="https://hb.afl.rakuten.co.jp/hgc/g00ty4nn.h9gne24a.g00ty4nn.h9gnf63e/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fenterb%2Fnexmate-1%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fenterb%2Fi%2F10000100%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" rel="noopener noreferrer" class="cta-button">
+                今すぐNexMateの魅力を体験する
+            </a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="product-info">
+            <div class="price-badge">
+                クーポン利用で最安 <span>2,680円</span>～！<br>
+                <small>★2025年楽天年間1位受賞★</small>
+            </div>
+            <a href="https://hb.afl.rakuten.co.jp/hgc/g00ty4nn.h9gne24a.g00ty4nn.h9gnf63e/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fenterb%2Fnexmate-1%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fenterb%2Fi%2F10000100%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" rel="noopener noreferrer">
+                <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/enterb/cabinet/event/url1/nexmate---2680.jpg?_ex=128x128" alt="NexMateスマートウォッチのメイン画像">
+            </a>
+            <h2>スマートウォッチ通話機能付 1.96インチ大画面 Bluetooth5.4最新型『NexMate』</h2>
+            <p>24時間健康管理、皮膚温変動検知、血中酸素濃度、心拍数測定、IP68防水、長時間待機、着信通知、GPS運動記録など、あなたの毎日を豊かにする多機能腕時計。</p>
+            <a href="https://hb.afl.rakuten.co.jp/hgc/g00ty4nn.h9gne24a.g00ty4nn.h9gnf63e/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fenterb%2Fnexmate-1%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fenterb%2Fi%2F10000100%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" rel="noopener noreferrer" class="cta-button">
+                このスマートウォッチを詳しく見る
+            </a>
+        </section>
+
+        <section>
+            <h2>なぜ今、スマートウォッチが選ばれるのか？</h2>
+            <p>現代において、スマートウォッチは単なる時計ではありません。あなたの健康、コミュニケーション、そして日々の活動をシームレスにサポートする、もはや手放せない存在です。最新のBluetooth 5.4技術を搭載したモデルは、これまでの常識を覆す高速データ伝送と驚くほどの安定接続を実現し、ユーザー体験を次のレベルへと引き上げています。</p>
+        </section>
+
+        <section>
+            <h2>『NexMate』があなたの生活を変える5つの理由</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h3>1. 息をのむ美しさ：1.96インチ大画面＆カスタム文字盤</h3>
+                    <p>1.96インチのフルタッチスクリーンは、高精細で色彩豊かな視覚体験と、指に吸い付くような滑らかな操作感を提供します。さらに、アプリから100種類以上の文字盤を選べるだけでなく、お気に入りの写真を設定して、その日の気分やスタイルに合わせてウォッチをカスタマイズ。あなたの個性を輝かせます。</p>
+                </div>
+                <div class="feature-item">
+                    <h3>2. 24時間あなたの健康を見守る、先進の健康管理</h3>
+                    <p>皮膚温変動、血中酸素濃度、心拍数を24時間リアルタイムでモニタリング。あなたの体のわずかな変化も逃さず検知し、健康状態を常に把握できます。運動記録、睡眠モニター機能も充実しており、より健康的で充実した毎日をサポートします。</p>
+                </div>
+                <div class="feature-item">
+                    <h3>3. クリアな通話と確実な通知で、大切な瞬間を逃さない</h3>
+                    <p>最新のBluetooth 5.4による高速・安定接続で、手元での通話も驚くほどクリア。さらに、LINE、Twitter、Facebook、Instagram、そして着信通知まで、大切な連絡はバイブレーションで確実にあなたに届けられます。もうスマホを見逃す心配はありません。</p>
+                </div>
+                <div class="feature-item">
+                    <h3>4. どんなシーンも安心！IP68等級の優れた耐久性</h3>
+                    <p>IP68等級の防水・防塵性能を誇るNexMateは、日常の汗や雨、水しぶきはもちろん、様々な環境下でも安心して使用できます。アクティブなライフスタイルを送るあなたにぴったりの頼れるパートナーです。</p>
+                    <div class="note">
+                        <strong>※ご注意ください：</strong> お風呂、サウナ、温泉水、温泉の湯気、高い水圧は故障の原因となるため、ご使用をお控えください。
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <h3>5. スマートライフを彩る、多彩な便利機能</h3>
+                    <p>音楽制御、天気予報、スマホ探し、目覚まし時計、座りがち注意など、日常をさらに便利にする機能が満載。これ一つで、あなたの生活の質は格段に向上するでしょう。</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>『NexMate』はこんな方におすすめです！</h2>
+            <ul>
+                <li><strong>日々の健康を意識したい方：</strong> 24時間体制の健康モニタリングで、体の変化にいち早く気づきたい。</li>
+                <li><strong>アクティブなライフスタイルを送る方：</strong> 運動記録やGPS機能で、スポーツやアウトドアをもっと楽しみたい。</li>
+                <li><strong>大切な連絡を見逃したくない方：</strong> スマホが手元になくても、着信やメッセージ通知をすぐに確認したい。</li>
+                <li><strong>自分らしいスタイルを表現したい方：</strong> カスタマイズ可能な文字盤で、ファッションの一部としてスマートウォッチを楽しみたい。</li>
+                <li><strong>最新テクノロジーを体験したい方：</strong> Bluetooth 5.4の高速・安定接続で、ストレスフリーなスマートウォッチ体験をしたい。</li>
+            </ul>
+            <p>『NexMate』は、あなたのあらゆるニーズに応え、より便利で、より健康的な、そしてより個性的な毎日を実現するための最高のツールとなるでしょう。</p>
+        </section>
+
+        <section class="final-cta">
+            <h2>さあ、新しい自分に出会う準備はできていますか？</h2>
+            <p>これまでのスマートウォッチでは体験できなかった、先進の機能と洗練されたデザインが詰まった『NexMate』。あなたの手元で、未来のスマートライフが今、始まります。</p>
+            <a href="https://hb.afl.rakuten.co.jp/hgc/g00ty4nn.h9gne24a.g00ty4nn.h9gnf63e/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fenterb%2Fnexmate-1%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fenterb%2Fi%2F10000100%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" rel="noopener noreferrer" class="cta-button">
+                今すぐ『NexMate』を手に入れる
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Web Media. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
