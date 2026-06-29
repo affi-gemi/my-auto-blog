@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>キッチンの美しさを永遠に保つ。「スターフィルター」で叶える、油汚れのない暮らし | Modern Living & Style</title>
+    <style>
+        /* 基準となるスタイル */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            color: #333333;
+            background-color: #fcfcfc;
+            line-height: 1.85;
+            letter-spacing: 0.03em;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* ヘッダー */
+        header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #eaeaea;
+            padding: 20px 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-logo {
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            color: #111111;
+            text-transform: uppercase;
+        }
+        .header-logo span {
+            color: #0056b3;
+        }
+
+        /* メインコンテナ */
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 40px 20px 100px;
+        }
+
+        /* アイキャッチ・記事ヘッダー */
+        .article-category {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #0056b3;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        .article-title {
+            font-size: 1.85rem;
+            line-height: 1.4;
+            font-weight: 700;
+            color: #111111;
+            margin-bottom: 25px;
+        }
+        @media (min-width: 768px) {
+            .article-title {
+                font-size: 2.3rem;
+            }
+        }
+        .article-meta {
+            font-size: 0.85rem;
+            color: #777777;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #eaeaea;
+            padding-bottom: 20px;
+        }
+
+        /* 本文スタイル */
+        p {
+            margin-bottom: 28px;
+            font-size: 1.05rem;
+            color: #444444;
+        }
+        p strong {
+            color: #111111;
+            font-weight: 700;
+        }
+
+        /* 見出し */
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #111111;
+            margin: 55px 0 25px;
+            padding-left: 15px;
+            border-left: 4px solid #0056b3;
+            line-height: 1.3;
+        }
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #222222;
+            margin: 35px 0 15px;
+        }
+
+        /* 特徴リスト・カード */
+        .highlight-box {
+            background-color: #f4f7fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 35px 0;
+            border-left: 4px solid #0056b3;
+        }
+        .highlight-box h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #111111;
+            font-weight: 700;
+        }
+        .highlight-box p {
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+
+        /* 商品紹介カード（マイクロコンバージョン） */
+        .product-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 50px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        @media (min-width: 576px) {
+            .product-card {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+        .product-image {
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 10px;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto;
+        }
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .product-info {
+            flex-grow: 1;
+        }
+        .product-badge {
+            display: inline-block;
+            background-color: #e53e3e;
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        .product-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            line-height: 1.4;
+            color: #111111;
+            margin-bottom: 15px;
+        }
+        
+        /* ボタン */
+        .cta-button {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(135deg, #0066cc, #004080);
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            padding: 16px 24px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
+            margin-top: 10px;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.3);
+            background: linear-gradient(135deg, #0077ee, #0052a3);
+        }
+
+        /* 信頼性フッター */
+        .editorial-note {
+            font-size: 0.9rem;
+            color: #666666;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 60px;
+            border: 1px dashed #dddddd;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-logo">Kurasu <span>&amp;</span> Style</div>
+    </header>
+
+    <div class="container">
+        <article>
+            <span class="article-category">Kitchen Lifestyle</span>
+            <h1 class="article-title">キッチンの油汚れ、諦めていませんか？ 圧倒的な除去率を誇る「スターフィルター」で叶える、ずっと美しい暮らし</h1>
+            <div class="article-meta">
+                <span>Updated on 2024.11</span>
+            </div>
+
+            <p>毎日の美味しい料理を作るキッチン。しかし、その裏で避けて通れないのが「レンジフード（換気扇）のギトギトした油汚れ」です。気づいたときには手遅れになりがちなベタつき汚れは、お掃除にかかる手間も時間も膨大になります。</p>
+
+            <p>いま、暮らしをスマートに整えたい人たちの間で圧倒的な支持を得ているのが、不燃性ガラス繊維を使用した高品質換気扇フィルター<strong>「スターフィルター」</strong>です。楽天市場の総合ランキングで1位を獲得したこの実力派アイテムが、なぜこれほどまでに選ばれるのか、その秘密を探ります。</p>
+
+            <h2>1. 一般的な不織布フィルターの「1.5倍」の油煙除去パワー</h2>
+            <p>従来の不織布タイプのフィルターを使用している時、「結局レンジフードの内部まで油でベタベタになっていた」という経験はありませんか？</p>
+
+            <p>スターフィルターは、独自に開発された特殊三層構造の不燃性ガラス繊維を採用。これにより、従来の一般的なフィルターと比べて<strong>約1.5倍の油煙除去率</strong>を実現しました。特厚1cmの圧倒的なボリュームが、油汚れの侵入を徹底的にガードします。</p>
+
+            <div class="highlight-box">
+                <h4>極めて高い安全性も実証済み</h4>
+                <p>「ガラス繊維」と聞くと扱いが心配になる方もいるかもしれませんが、スターフィルターで使用されている素材は安全性が十分に確認された、発がん性のない安心素材です。ご家庭で安心してお使いいただけます。</p>
+            </div>
+
+            <h2>2. 暮らしをもっと軽やかに。「掃除不要」の快適さというベネフィット</h2>
+            <p>スターフィルターを導入する最大のメリットは、レンジフード内部の「大掃除」から解放される点にあります。油煙を入り口でシャットアウトするため、ファンやレンジフード内部は常にクリアな状態をキープ。</p>
+            
+            <p>定期的な交換作業も驚くほどシンプルで、汚れたらサッと取り替えるだけ。お料理中の煙やニオイもしっかり低減され、キッチンの空気質そのものが向上します。</p>
+            
+            <p>新築やリフォーム後の美しい状態をいつまでも守りたい方、引越しを機にキレイな生活習慣をスタートしたい方、一人暮らしで家事の負担を極限まで減らしたい方に、自信を持っておすすめできる生活必需品です。</p>
+
+            <h2>3. 訪問販売と同等以上のクオリティを、スマートな直売価格で</h2>
+            <p>ダスキンなどの大手訪問販売でも採用されている高品質なガラス繊維フィルター。これまでは少しハードルが高かったプロ品質のフィルターを、スターフィルターは「通販限定・メーカー直販」にすることで、非常にリーズナブルな価格で提供しています。</p>
+            
+            <p>現在お使いの他社製フィルター枠をお持ちの方でも、サイズが合えば交換用のフィルターのみの注文でそのままご活用いただけます。手軽に、そして賢くコストパフォーマンスの高い快適空間を維持できる仕組みが整っています。</p>
+
+            <!-- 商品紹介カード -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/starfilter/cabinet/item/main/imgrc0133123250.jpg?_ex=128x128" alt="スターフィルター スターターセット">
+                </div>
+                <div class="product-info">
+                    <span class="product-badge">楽天市場 総合1位</span>
+                    <h3 class="product-title">スターフィルター レンジフードフィルター スターターセット (強力マグネット + 交換フィルター3枚)</h3>
+                    <p style="font-size: 0.9rem; color: #666; margin-bottom: 12px; line-height: 1.4;">
+                        不燃性ガラス繊維タイプで、驚異の油煙除去率。新生活や新築、一人暮らしのキレイ維持に欠かせない、マグネット付きの安心スターターセットです。
+                    </p>
+                    <a href="https://hb.afl.rakuten.co.jp/hgc/g00s1l0n.h9gne550.g00s1l0n.h9gnf2c9/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fstarfilter%2Fsfsetm03%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fstarfilter%2Fi%2F10000112%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" class="cta-button" target="_blank" rel="noopener">楽天市場で詳細を見る</a>
+                </div>
+            </div>
+
+            <h2>毎日を美しく、心地よく暮らすために</h2>
+            <p>一度使うと、その圧倒的な汚れガード力にもう手放せなくなる「スターフィルター」。年末の大掃除で苦労する前に、引っ越したばかりの綺麗な状態を失う前に、ぜひ本物の「プロ仕様」の効果を実感してみてください。あなたのキッチンライフが、もっと新しく、清々しいものになるはずです。</p>
+
+            <div class="editorial-note">
+                <strong>編集部より：</strong><br>
+                レンジフードの汚れを「防ぐ」アプローチは、家事の時間を減らして大切な時間を増やす最高の選択肢です。スターターセットなら、設置に必要なマグネットも一式揃っているため届いたその日からご使用いただけます。
+            </div>
+        </article>
+    </div>
+
+</body>
+</html>
