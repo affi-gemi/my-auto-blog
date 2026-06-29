@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【半額クーポン】楽天1位*獲得！ミレダ パウダーファンデーション | 美容大国発の実力派</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3B82F6; /* 青色ベース */
+            --secondary-color: #60A5FA;
+            --text-color: #333;
+            --light-gray: #F8F8F8;
+            --border-color: #E0E0E0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            background-color: #FFFFFF;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        header h1 {
+            font-size: 2.2em;
+            margin: 0;
+            padding: 0 15px;
+            line-height: 1.3;
+        }
+        header p {
+            font-size: 1.1em;
+            margin-top: 10px;
+            padding: 0 15px;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 30px 0;
+            background-color: var(--light-gray);
+        }
+
+        .hero-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            margin-bottom: 20px;
+        }
+
+        .hero-section .product-name {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .hero-section .product-description {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 15px;
+        }
+
+        .call-to-action {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 18px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.3em;
+            font-weight: 700;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+            letter-spacing: 0.05em;
+        }
+
+        .cta-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        section {
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+            margin: 10px auto 0;
+        }
+
+        h3 {
+            font-size: 1.4em;
+            color: var(--text-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-left: 5px solid var(--primary-color);
+            padding-left: 10px;
+        }
+
+        p {
+            margin-bottom: 1em;
+            text-align: justify;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        ul li {
+            background-color: var(--light-gray);
+            border-left: 5px solid var(--secondary-color);
+            margin-bottom: 10px;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .testimonial-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            position: relative;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .testimonial-card::before {
+            content: "“";
+            font-size: 4em;
+            color: var(--secondary-color);
+            position: absolute;
+            top: 5px;
+            left: 15px;
+            opacity: 0.3;
+            line-height: 1;
+        }
+        .testimonial-card::after {
+            content: "”";
+            font-size: 4em;
+            color: var(--secondary-color);
+            position: absolute;
+            bottom: -15px;
+            right: 15px;
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.05em;
+            color: #555;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .testimonial-card .author {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 0.9em;
+            text-align: right;
+            display: block;
+        }
+
+        .caution-box {
+            background-color: #FFFBEB; /* 黄色ベース */
+            border-left: 5px solid #F59E0B; /* オレンジ */
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+            color: #78350F; /* ダークブラウン */
+            font-size: 0.95em;
+        }
+        .caution-box p {
+            margin: 0;
+        }
+
+        footer {
+            background-color: var(--text-color);
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.85em;
+            margin-top: 50px;
+        }
+
+        footer p {
+            margin: 0;
+            padding: 0 15px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            .hero-section .product-name {
+                font-size: 1.5em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+            h3 {
+                font-size: 1.2em;
+            }
+            .cta-button {
+                font-size: 1.1em;
+                padding: 15px 30px;
+            }
+            .container {
+                padding: 15px;
+            }
+            section {
+                padding: 30px 0;
+            }
+            .testimonial-card::before, .testimonial-card::after {
+                font-size: 3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>【半額クーポン祭】リピ続出！楽天ランキング1位*獲得<br>ミレダ パウダーファンデーション</h1>
+            <p>もう、厚塗りで隠さない。素肌感あふれる、羨望の陶器肌へ。</p>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="container">
+                <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/and-a-me/cabinet/anks/f-mileda/rank_fande.jpg?_ex=128x128" alt="mileda ミレダ パウダーファンデーション 商品画像" width="400" height="400">
+                <p class="product-name">mileda パウダーファンデーション</p>
+                <p class="product-description">
+                    今の私たちが本当に欲しいのは、素肌そのものが輝くような、健康的で自信に満ちた肌。<br>
+                    長時間崩れず、しかも乾燥しないメイクアップはもはやマスト。
+                    忙しい毎日を送る20代から50代の女性たちにとって、美しさと肌への優しさを両立させることは、賢い選択です。
+                    そんな願いを叶える、美容大国韓国発の『ミレダ パウダーファンデーション』が今、注目を集めています。
+                </p>
+                <div class="call-to-action">
+                    <a href="https://hb.afl.rakuten.co.jp/hgc/g00ukvin.h9gne3e0.g00ukvin.h9gnf1d6/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fand-a-me%2F992%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fand-a-me%2Fi%2F10000006%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" rel="noopener noreferrer" class="cta-button">
+                        半額クーポンで今すぐ体験する！
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2>ミレダが選ばれる3つの理由</h2>
+                <ul>
+                    <li>
+                        <h3>1. 自然な輝きを叶える「毛穴レス・マット肌」</h3>
+                        <p>
+                            厚塗りで隠すのではなく、肌本来の美しさを引き出すパウダーファンデーション。
+                            毛穴や肌の凹凸をなめらかにカバーし、まるで素肌がそのまま美しいかのような、上品なマット肌に仕上げます。
+                            テカリを抑えながらも、内側から発光するような自然な輝きを長時間キープします。
+                        </p>
+                    </li>
+                    <li>
+                        <h3>2. ずっと触れていたい「しっとり潤い肌」</h3>
+                        <p>
+                            「パウダーファンデは乾燥する」という常識を覆します。
+                            高分子・低分子ヒアルロン酸に加え、オリーブ果実油といった贅沢な保湿成分を惜しみなく配合。
+                            メイクしながら肌に潤いを与え続け、日中の乾燥から肌を守ります。一日中、しっとりとした心地よさが続きます。
+                        </p>
+                    </li>
+                    <li>
+                        <h3>3. 美容大国発の実力「透明感UP＆肌荒れ防止」</h3>
+                        <p>
+                            美容大国韓国発だからこそ実現できた、先進のフォーミュラ。
+                            上品なパール成分が光を操り、肌に透明感あふれる輝きを引き出します。
+                            さらに、話題のCICA（ツボクサエキス）が肌荒れを防ぎ、メイク中のデリケートな肌を優しくケア。
+                            使うほどに自信が持てる、健やかな肌へと導きます。
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2>愛用者から喜びの声が続々！</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <p>「マスクプルーフで崩れにくいのに、乾燥しない！本当に感動しました。夕方までくすみ知らずで、メイク直しがほとんどいりません。」</p>
+                        <span class="author">30代 乾燥肌</span>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>「毛穴が目立たなくなり、肌が綺麗に見えると言われるようになりました。素肌っぽく仕上がるのに、しっかりカバーしてくれるのが嬉しいです。」</p>
+                        <span class="author">40代 混合肌</span>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>「プチプラなのにこの品質はすごい！敏感肌の私でも安心して使えました。リピ確定です！」</p>
+                        <span class="author">20代 敏感肌</span>
+                    </div>
+                </div>
+                <div class="call-to-action">
+                    <a href="https://hb.afl.rakuten.co.jp/hgc/g00ukvin.h9gne3e0.g00ukvin.h9gnf1d6/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fand-a-me%2F992%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fand-a-me%2Fi%2F10000006%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" rel="noopener noreferrer" class="cta-button">
+                        この輝きを、あなたの肌で。今すぐチェック！
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <h2>商品情報</h2>
+                <p>
+                    <strong>商品名：</strong>【半額クーポン祭】 リピ続出中！楽天ランキング1位獲得 送料無料 mileda パウダーファンデーション 韓国コスメマット肌毛穴レス保湿乾燥肌テカリ防止 20代 30代 40代 50代 ／ mileda ミレダ 1C m-992
+                </p>
+                <div class="caution-box">
+                    <p><strong>【ご使用上の注意】</strong></p>
+                    <p>●お肌に異常が生じていないかよく注意して使用してください。</p>
+                    <p>●お肌に合わないとき、即ち次のような場合には使用を中止してください。そのまま使用を続けますと症状を悪化させることがありますので、皮膚科専門医等にご相談されることをおすすめします。</p>
+                    <p>　(1)使用中、赤み、はれ、かゆみ、刺激、色抜け(白斑等)や黒ずみ等の異常があらわれた場合</p>
+                    <p>　(2)使用したお肌に、直射日光があたって上記のような異常があらわれた場合</p>
+                    <p>●傷やはれもの、しっしん等、異常のある部位には使用しないでください。</p>
+                    <p>●乳幼児の手の届かないところに保管してください。</p>
+                    <p>●直射日光のあたる場所、極端に高温または低温の場所には保管しないでください。</p>
+                </div>
+                <div class="call-to-action">
+                    <a href="https://hb.afl.rakuten.co.jp/hgc/g00ukvin.h9gne3e0.g00ukvin.h9gnf1d6/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fand-a-me%2F992%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fand-a-me%2Fi%2F10000006%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" rel="noopener noreferrer" class="cta-button">
+                        半額クーポンで、あなたの肌も劇的チェンジ！
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>*楽天ランキング1位：該当カテゴリにおける過去の実績です。詳細は商品ページをご確認ください。</p>
+            <p>&copy; 2023 [Webメディア名] All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
