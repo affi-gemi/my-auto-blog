@@ -3,201 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>【感動の実力】もう手放せない！BRAmone Basic Volume+で叶える、自信あふれる私</title>
+    <title>【TENTIAL BAKUNE Dry】疲労回復を次のレベルへ！究極のリカバリーウェアがあなたの毎日を変える</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        /* 基本設定 */
+        :root {
+            --primary-color: #2a64c4; /* TENTIALのブランドカラーを意識した青 */
+            --primary-dark: #1e4b93;
+            --accent-color: #00b8d4;
+            --text-color: #333;
+            --light-gray: #f9f9f9;
+            --border-color: #eee;
+            --white: #fff;
+        }
+
         body {
             font-family: 'Noto Sans JP', sans-serif;
             line-height: 1.7;
-            color: #333;
-            background-color: #f8f8f8;
+            color: var(--text-color);
             margin: 0;
             padding: 0;
+            background-color: var(--light-gray);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
             max-width: 960px;
-            margin: 30px auto;
-            padding: 30px;
-            background-color: #fff;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            border-radius: 12px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--white);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            margin-top: 20px;
+            margin-bottom: 20px;
         }
 
-        /* ヘッダー */
         header {
             text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
+            padding: 30px 0;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            margin-bottom: 30px;
+            border-radius: 8px 8px 0 0;
         }
 
-        h1 {
-            font-size: 2.4em;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-weight: 700;
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
             line-height: 1.3;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            padding: 0 15px;
         }
 
         h2 {
             font-size: 1.8em;
-            color: #34495e;
+            color: var(--primary-color);
             margin-top: 40px;
             margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent-color);
+            position: relative;
             font-weight: 700;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #e0e0e0;
+        }
+
+        h2::before {
+            content: "";
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
         }
 
         h3 {
             font-size: 1.4em;
-            color: #2980b9;
+            color: var(--primary-dark);
             margin-top: 30px;
             margin-bottom: 15px;
+            border-left: 5px solid var(--primary-color);
+            padding-left: 10px;
             font-weight: 700;
         }
 
         p {
-            margin-bottom: 1.2em;
+            margin-bottom: 1em;
+            text-align: justify;
         }
 
-        /* 画像 */
-        .product-main-image {
-            display: block;
-            max-width: 80%;
+        .product-image-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .product-image {
+            max-width: 100%;
             height: auto;
-            margin: 30px auto 40px auto;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
 
-        /* リスト */
-        ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        ul li {
-            position: relative;
-            margin-bottom: 15px;
-            padding-left: 30px;
-            font-size: 1.05em;
-        }
-
-        ul li::before {
-            content: '✓';
-            color: #2980b9;
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-
-        .feature-item strong {
-            color: #2980b9;
-            display: block;
-            margin-bottom: 5px;
-            font-size: 1.1em;
-        }
-
-        /* CTAボタン */
         .cta-button {
             display: block;
             width: fit-content;
-            margin: 40px auto;
-            padding: 18px 35px;
-            background-color: #2980b9;
-            color: #fff;
+            margin: 30px auto;
+            padding: 15px 30px;
+            background-color: var(--primary-color);
+            color: var(--white);
             text-decoration: none;
-            border-radius: 30px;
             font-size: 1.3em;
             font-weight: 700;
-            text-align: center;
+            border-radius: 50px;
             transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 10px rgba(41, 128, 185, 0.4);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            letter-spacing: 0.05em;
+            text-align: center;
         }
 
         .cta-button:hover {
-            background-color: #3498db;
+            background-color: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(41, 128, 185, 0.5);
         }
 
-        .cta-button span {
-            display: block;
-            font-size: 0.7em;
-            font-weight: 400;
-            margin-top: 5px;
-            opacity: 0.9;
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-left: 20px;
         }
 
-        /* 商品情報テーブル */
-        .product-spec {
-            width: 100%;
-            border-collapse: collapse;
+        ul li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        ul li::before {
+            content: "✓"; /* チェックマーク */
+            color: var(--accent-color);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.2em;
+        }
+
+        .highlight {
+            background-color: #e3f2fd; /* 薄い青の背景 */
+            padding: 15px 20px;
+            border-left: 5px solid var(--primary-color);
+            margin: 30px 0;
+            border-radius: 5px;
+        }
+
+        .section-separator {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+            margin: 50px 0;
+        }
+
+        .product-info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
             margin-top: 30px;
+            padding: 20px;
+            background-color: var(--light-gray);
+            border-radius: 8px;
         }
 
-        .product-spec th, .product-spec td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-
-        .product-spec th {
-            background-color: #f2f2f2;
+        .product-info-grid dt {
             font-weight: 700;
-            color: #555;
-            width: 30%;
+            color: var(--primary-color);
+            margin-bottom: 5px;
         }
 
-        /* フッター */
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            color: #777;
-            font-size: 0.9em;
+        .product-info-grid dd {
+            margin-left: 0;
+            margin-bottom: 15px;
+        }
+
+        small {
+            font-size: 0.8em;
+            color: #666;
         }
 
         /* レスポンシブデザイン */
         @media (max-width: 768px) {
             .container {
-                margin: 15px;
-                padding: 20px;
+                margin: 10px auto;
+                padding: 15px;
+                border-radius: 0;
+                box-shadow: none;
             }
 
-            h1 {
+            header {
+                border-radius: 0;
+                margin-bottom: 15px;
+                padding: 20px 0;
+            }
+
+            header h1 {
                 font-size: 1.8em;
             }
 
             h2 {
                 font-size: 1.5em;
+                margin-top: 30px;
+                margin-bottom: 15px;
             }
 
             h3 {
                 font-size: 1.2em;
-            }
-
-            .product-main-image {
-                max-width: 100%;
+                margin-top: 25px;
+                margin-bottom: 10px;
             }
 
             .cta-button {
-                padding: 15px 25px;
                 font-size: 1.1em;
-            }
-
-            .product-spec th, .product-spec td {
-                display: block;
-                width: 100%;
+                padding: 12px 25px;
+                width: 90%; /* スマホでは幅を広げる */
                 box-sizing: border-box;
             }
 
-            .product-spec th {
-                background-color: #e9e9e9;
+            ul li {
+                padding-left: 25px;
+            }
+
+            ul li::before {
+                font-size: 1.1em;
             }
         }
     </style>
@@ -205,99 +242,93 @@
 <body>
     <div class="container">
         <header>
-            <h1>もう手放せない！BRAmone Basic Volume+で叶える、<br>自信あふれる私</h1>
-            <p>バストの悩みを解消し、どんなシーンも快適に美しく過ごしたい——。<br>現代を生きる女性たちの切なる願いに応える、特別なブラトップが誕生しました。</p>
+            <h1>【TENTIAL BAKUNE Dry】疲労回復を次のレベルへ！<br>究極のリカバリーウェアがあなたの毎日を変える</h1>
         </header>
 
-        <main>
-            <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/tu-hacci/cabinet/tu-hacci/sku/90368g_bkv_2502.jpg?_ex=128x128" alt="BRAmone Basic Volume+ ブラトップ 深V型/U型" class="product-main-image">
-
-            <section>
-                <h2>なぜ今、BRAmone Basic Volume+が選ばれるのか？</h2>
-                <p>現代の女性は、かつてないほど多様なライフスタイルを謳歌しています。オフィスで集中する日も、カフェでくつろぐ休日も、ワークアウトで汗を流す時間も、どんな瞬間も自分らしく輝きたい。そんな願いを叶えるには、身につけるもの、特にインナーには、快適さと機能性、そしてスタイルアップ効果が不可欠です。</p>
-                <p>ブラとインナーを別々に着る煩わしさ、バストの形崩れや下垂の悩み、そしてインナー特有の「いかにも」なデザイン…。これまでのブラトップでは解決できなかった悩みを、tu-hacciの「BRAmone Basic Volume+」がスマートに解決します。</p>
-            </section>
-
-            <section>
-                <h2>驚きの機能、自信をくれる秘密</h2>
-                <p>「BRAmone Basic Volume+」があなたの日常にもたらすのは、ただの快適さだけではありません。バストへの自信、着こなしの幅、そして何より「自分らしい美しさ」を手に入れるサポートをします。</p>
-                <ul>
-                    <li class="feature-item">
-                        <strong>憧れのふっくらバストへ！自然に2カップアップを叶える秘密のパッド</strong><br>
-                        驚くほどバストラインを美しく整え、自信あふれるデコルテを演出。計算し尽くされた下厚パッドは、ただ盛るだけでなく、まるで元々そうであったかのような、丸みを帯びた自然なバストを作り出します。
-                    </li>
-                    <li class="feature-item">
-                        <strong>ブラの常識を覆す、一体型インナー</strong><br>
-                        もう、ブラとインナーを重ね着する必要はありません。一枚で驚くほどのホールド感と安定性を提供し、どんな動きも快適にサポート。ズレや垂れの心配なく、日中からリラックスしたおうち時間まで、一日中あなたのバストを守り抜きます。
-                    </li>
-                    <li class="feature-item">
-                        <strong>つけているのを忘れるほど快適！進化したソフトワイヤー</strong><br>
-                        ワイヤー入りなのに、締め付け感はゼロ。肌に優しいソフトワイヤーが、バストをしっかり支えながらも、まるでノーブラのような解放感を実現しました。長時間着用しても食い込みや痛みが気にならず、あなたの快適さを最優先に考え抜かれた設計です。
-                    </li>
-                    <li class="feature-item">
-                        <strong>あなただけのフィット感を見つけるサイズ展開</strong><br>
-                        アンダーとカップサイズを細かく選べることで、一人ひとりの体に最適なフィット感を提供。さらに、取り外し可能なパッドは、左右のバスト差にも柔軟に対応し、いつでも理想のシルエットを叶えます。
-                    </li>
-                </ul>
-                <p>「バストボリュームが足りない…」「下垂や型崩れが気になる」「いかにもインナーっぽいデザインは苦手」といったお悩みを抱える方、そして大きいサイズのカップ付きインナーをお探しの方にも、心からおすすめしたい一枚です。</p>
-            </section>
-
-            <section>
-                <h2>他にはない、BRAmone Basic Volume+だけのこだわり</h2>
-                <p>数あるブラトップの中で、なぜ「BRAmone Basic Volume+」が特別なのか。それは、細部にまでこだわり抜かれた独自の設計にあります。</p>
-                <p>デコルテを美しく見せる「深V型」と、谷間をさりげなくカバーする「U型」の2タイプ展開で、アウターやシーンに合わせて選べる柔軟性も魅力です。ストラップの取り外しや調節が可能なので、オフショルダーや背中見せファッションにも対応。パッドも取り外せるから、お手入れも簡単。あなたのライフスタイルに寄り添い、どんな時も最高の状態をサポートします。</p>
-            </section>
-
-            <section>
-                <h2>確かな品質、信頼の証</h2>
-                <p>「BRAmone Basic Volume+」は、多くの女性から支持されるインナーウェアブランド「tu-hacci（ツーハッチ）」から生まれた製品です。その品質と信頼性は、公式サイトやレビューサイトに寄せられる熱い声が証明しています。</p>
-                <p>実際に着用した方々からの「想像以上に盛れるのに自然！」「一日中つけても快適」「もう他のブラトップには戻れない」といった喜びの声は、このブラトップがあなたの期待を超える価値を提供する証です。</p>
-            </section>
-
-            <section>
-                <h2>あなたへ贈る、BRAmone Basic Volume+ 詳細</h2>
-                <table class="product-spec">
-                    <tr>
-                        <th>商品名</th>
-                        <td>ブラトップ 深V型/U型《BRAmone Basic Volume+》</td>
-                    </tr>
-                    <tr>
-                        <th>カテゴリ</th>
-                        <td>ブラトップ、キャミソール、カップ付きインナー</td>
-                    </tr>
-                    <tr>
-                        <th>セット内容</th>
-                        <td>カップ付きインナー単品</td>
-                    </tr>
-                    <tr>
-                        <th>取り扱いサイズ</th>
-                        <td>AB65/AB70/AB75/AB80, CD65/CD70/CD75/CD80, EF65/EF70/EF75/EF80</td>
-                    </tr>
-                    <tr>
-                        <th>素材</th>
-                        <td>ナイロン、ポリウレタン、他</td>
-                    </tr>
-                    <tr>
-                        <th>注意事項</th>
-                        <td>モニター環境により色味が実際の商品と若干異なる場合があります。洗濯の際は洗濯表示の取扱い絵表示と注意事項をご確認ください。</td>
-                    </tr>
-                </table>
-            </section>
-
-            <a href="https://hb.afl.rakuten.co.jp/hgc/g00qztsn.h9gne8e5.g00qztsn.h9gnfb86/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Ftu-hacci%2F90368bmtg%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" class="cta-button" target="_blank" rel="noopener noreferrer">
-                今すぐBRAmone Basic Volume+を体験する<br><span>バストへの自信と最高の快適さをあなたに</span>
+        <div class="product-image-section">
+            <a href="https://hb.afl.rakuten.co.jp/hgc/g00thbmn.h9gne97f.g00thbmn.h9gnfe10/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Ftential%2Fbakune-dry-m-set_25ss%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" rel="noopener noreferrer">
+                <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/tential/cabinet/13316722/imgrc0134701392.jpg?_ex=128x128" alt="TENTIAL BAKUNE Dry Men's リカバリーウェア" class="product-image">
             </a>
+        </div>
 
-            <section>
-                <h2>さあ、新しい私に出会う準備を。</h2>
-                <p>「BRAmone Basic Volume+」は、単なるインナーではありません。あなたのバストを美しく見せ、一日中快適に保ち、どんなファッションも自信を持って楽しめるよう、力強くサポートするパートナーです。</p>
-                <p>今日から、ブラのストレスから解放され、心からリラックスできる毎日を始めませんか？深V型とU型、あなたにぴったりのタイプを見つけて、新しい自分の魅力を最大限に引き出してください。この感動を、ぜひご自身の肌で実感してください。</p>
-            </section>
-        </main>
+        <p>現代社会は、私たちに多くのものを要求します。仕事、家事、育児…気づけば心も体もへとへとに。十分な休息を取っているはずなのに、なぜか疲れが取れないと感じていませんか？</p>
+        <p>そんな現代人の悩みに、科学的アプローチで応えるのが「リカバリーウェア」です。中でも、TENTIALが誇る「BAKUNE Dry Men's」は、ただのパジャマではありません。まるで着る医療機器のように、あなたの体と心に深い安らぎと活力を取り戻すでしょう。このBAKUNE Dryが、いかにあなたの疲労回復と健康をサポートするのか、その秘密を深く掘り下げていきます。</p>
 
-        <footer>
-            <p>&copy; tu-hacci. All rights reserved.</p>
-        </footer>
+        <a href="https://hb.afl.rakuten.co.jp/hgc/g00thbmn.h9gne97f.g00thbmn.h9gnfe10/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Ftential%2Fbakune-dry-m-set_25ss%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" rel="noopener noreferrer" class="cta-button">
+            BAKUNE Dryで疲労回復を体感する
+        </a>
+
+        <h2>リカバリーウェアが必要な理由</h2>
+        <p>日々のストレス、不規則な生活リズム、運動不足。これらは現代人の疲労を深刻なものにしています。単に眠るだけでは、蓄積された疲労から完全に回復するのは難しいのが現状です。そこで注目されているのが、体の回復力を高めることを目的としたリカバリーウェアです。</p>
+        <p>BAKUNE Dryは、遠赤外線の力を利用して血行を促進し、私たちが本来持っている疲労回復力を最大限に引き出すことを目指します。</p>
+
+        <h2>BAKUNE Dryの驚くべき特徴</h2>
+        <p>「BAKUNE Dry Men's」は、ただのルームウェアではありません。その革新的なテクノロジーと快適な着心地が、あなたの睡眠と休息の質を劇的に向上させます。</p>
+
+        <h3>特許技術「SELFLAME™」素材が血行を促進</h3>
+        <p>このリカバリーウェアには、特許技術<sup>*</sup>「SELFLAME™」という特殊な機能繊維が採用されています。この素材は、身体から放出される微量の遠赤外線を効率的に輻射（再放射）することで、体内の血行を促進。これにより、筋肉のコリや疲労物質の滞りを緩和し、深いリラックス状態へと導きます。<small>*医療機器認証番号：13B2X10314000007</small></p>
+
+        <h3>吸汗速乾性と通気性で最高の着心地を</h3>
+        <p>素材はポリエステル100%。吸汗速乾性に優れているため、寝汗をかいてもベタつきにくく、常にサラサラとした快適な肌触りを保ちます。また、高い通気性により、体温がこもりにくく、蒸し暑い夜でも心地よく着用できます。まさに、一年を通して手放せない究極のルームウェアとなるでしょう。</p>
+
+        <div class="highlight">
+            <h3>BAKUNE Dryがもたらす確かな効果・効能</h3>
+            <ul>
+                <li><strong>疲労軽減:</strong> 遠赤外線作用で血行が促進され、日々の疲労が和らぎます。</li>
+                <li><strong>筋肉のコリ改善:</strong> 血行が良くなることで、肩や首、腰などの頑固な筋肉のコリが緩和されます。</li>
+                <li><strong>深い疲労回復:</strong> 睡眠中やリラックスタイムに着用するだけで、効率的な疲労回復を力強くサポートします。</li>
+            </ul>
+        </div>
+
+        <hr class="section-separator">
+
+        <h2>なぜBAKUNE Dryを選ぶべきなのか？</h2>
+        <p>市場にあふれる数多のリカバリーウェアの中で、なぜTENTIALのBAKUNE Dryが選ばれ続けるのか？その圧倒的な優位性を、ぜひ知ってください。</p>
+        <ul>
+            <li><strong>独自技術の結集:</strong> ただ遠赤外線を発するだけでなく、特許技術「SELFLAME™」が最大限の効果を発揮。他の追随を許さない品質です。</li>
+            <li><strong>極上の快適さ:</strong> 吸汗速乾性と通気性を兼ね備えた生地は、どんな季節でも肌に優しく、蒸れ知らず。着用していることを忘れるほどの快適さを実現しました。</li>
+            <li><strong>多様な体型に対応:</strong> XSから2XLまで幅広いサイズ展開。ご自身の体にぴったりの一枚が見つかるから、最高のパフォーマンスを引き出せます。</li>
+        </ul>
+
+        <hr class="section-separator">
+
+        <h2>BAKUNE Dryはこんなあなたにおすすめ</h2>
+        <ul>
+            <li>デスクワークで肩や首のコリに悩まされている方</li>
+            <li>スポーツやトレーニングで体を酷使している方</li>
+            <li>日々のパフォーマンスを向上させたいビジネスパーソン</li>
+            <li>質の高い睡眠と深い休息を求めている方</li>
+            <li>大切な人へ「疲れを癒やす時間」をプレゼントしたい方（父の日、誕生日、記念日など）</li>
+        </ul>
+
+        <h2>使い方と保管方法</h2>
+        <h3>使い方</h3>
+        <p>寝る前に着用することで、睡眠中の疲労回復を効果的にサポートします。また、ご自宅でのリラックスタイムやルームウェアとしても最適です。</p>
+        <h3>保管方法</h3>
+        <p>直射日光や高温多湿を避け、風通しの良い場所で保管してください。しばらく使用しない場合は、清潔に洗濯・乾燥させた後、湿気のない場所で保管することをおすすめします。</p>
+
+        <hr class="section-separator">
+
+        <h2>まとめ</h2>
+        <p>【TENTIAL 公式】リカバリーウェア BAKUNE Dry Men'sは、あなたの疲労回復と健康維持を力強くサポートする、まさに現代人のための画期的なアイテムです。特許技術「SELFLAME™」による血行促進効果、そして吸汗速乾性と通気性に優れた快適な着心地は、日々のパフォーマンス向上に不可欠な質の高い休息を提供します。</p>
+        <p>もう、疲れを引きずって一日を始める必要はありません。BAKUNE Dryを身につけ、目覚めるたびに体が軽くなる感動を、ぜひご自身で体験してください。</p>
+
+        <a href="https://hb.afl.rakuten.co.jp/hgc/g00thbmn.h9gne97f.g00thbmn.h9gnfe10/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Ftential%2Fbakune-dry-m-set_25ss%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" rel="noopener noreferrer" class="cta-button">
+            今すぐBAKUNE Dryを試す
+        </a>
+
+        <hr class="section-separator">
+
+        <h2>商品情報</h2>
+        <dl class="product-info-grid">
+            <dt>商品名</dt>
+            <dd>【TENTIAL 公式】リカバリーウェア BAKUNE Dry Men's</dd>
+            <dt>販売サイト</dt>
+            <dd><a href="https://hb.afl.rakuten.co.jp/hgc/g00thbmn.h9gne97f.g00thbmn.h9gnfe10/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Ftential%2Fbakune-dry-m-set_25ss%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" target="_blank" rel="noopener noreferrer">楽天 TENTIAL 公式ストアで詳細を見る</a></dd>
+            <dt>関連情報</dt>
+            <dd>疲労回復 パジャマ メンズ 上下セット 半袖 bakune リカバリーウエア テンシャル バクネ ドライ ルームウェア 部屋着 プレゼント ギフト 父の日 一般医療機器 血行促進</dd>
+        </dl>
+
     </div>
 </body>
 </html>
