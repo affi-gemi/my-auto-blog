@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猛暑をスマートに乗り切る、大人の最適解。涼しさと美シルエットを両立する「超伸縮・接触冷感エアパンツ」の実力</title>
+    <style>
+        :root {
+            --primary-color: #0052cc;
+            --primary-hover: #003d99;
+            --bg-light: #f4f7fa;
+            --text-dark: #2c3e50;
+            --text-muted: #657786;
+            --accent-blue: #e8f0fe;
+            --border-color: #e1e8ed;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans JP", sans-serif;
+            color: var(--text-dark);
+            background-color: #ffffff;
+            line-height: 1.8;
+            letter-spacing: 0.03em;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .category {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: var(--primary-color);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            line-height: 1.4;
+            font-weight: 800;
+            color: #111111;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.7rem;
+            }
+        }
+
+        .lead {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            text-align: justify;
+        }
+
+        .main-image-container {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .main-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #111111;
+            margin: 50px 0 24px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            position: relative;
+        }
+
+        p {
+            margin-bottom: 24px;
+            font-size: 1.05rem;
+            text-align: justify;
+        }
+
+        /* 特徴リスト */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--bg-light);
+            border-radius: 12px;
+            padding: 24px;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: #111111;
+        }
+
+        /* 利用シーンのセクション */
+        .scene-container {
+            background-color: var(--bg-light);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 40px 0;
+        }
+
+        .scene-item {
+            margin-bottom: 20px;
+        }
+
+        .scene-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .scene-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+
+        /* ユーザーの声 */
+        .testimonial-container {
+            margin: 40px 0;
+        }
+
+        .testimonial-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+        }
+
+        .testimonial-author {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: right;
+            font-weight: 600;
+        }
+
+        /* 商品紹介ボックス（購買導線） */
+        .product-box {
+            background: #ffffff;
+            border: 2px solid var(--primary-color);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 50px 0;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            box-shadow: 0 15px 35px rgba(0, 82, 204, 0.08);
+        }
+
+        @media (max-width: 768px) {
+            .product-box {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+        }
+
+        .product-image-wrapper {
+            flex-shrink: 0;
+            width: 140px;
+            height: 140px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+        }
+
+        .product-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .product-info {
+            flex-grow: 1;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #111111;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .product-details {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 82, 204, 0.3);
+            width: 100%;
+        }
+
+        .cta-button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 82, 204, 0.4);
+        }
+
+        .color-tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .color-tag {
+            font-size: 0.75rem;
+            background-color: #f0f2f5;
+            color: #4a5568;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <span class="category">Summer Essentials</span>
+            <h1>猛暑をスマートに乗り切る、大人の最適解。<br>涼しさと美シルエットを両立する「超伸縮・接触冷感エアパンツ」</h1>
+        </header>
+
+        <p class="lead">
+            厳しい暑さが続く日本の夏。大人の男のコーディネートにおいて、今や「快適さ」と「清潔感」の両立は必須条件です。涼しさを優先するあまり、ルーズすぎるスタイルになってしまっては台無し。そんな夏特有の服選びのストレスに終止符を打つ、画期的な1本をご紹介します。
+        </p>
+
+        <div class="main-image-container">
+            <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/geneless/cabinet/shouhin01/04line/mny_01/04-0074n-000.jpg?_ex=128x128" alt="接触冷感 メンズ パンツ" class="main-image" style="width: 250px; height: 250px; object-fit: cover;">
+        </div>
+
+        <h2>纏った瞬間に感じる、驚きの「冷感」と「開放感」</h2>
+        <p>
+            この「エアパンツ」の最大の特徴は、脚を通した瞬間にひんやりと肌を包み込む「接触冷感技術」にあります。熱を素早く逃がす特殊構造により、不快な熱や湿気がこもりにくく、猛暑日でも驚くほど爽快な着用感をキープ。
+        </p>
+        <p>
+            さらに、ポリエステルとポリウレタンの黄金比（ポリエステル97%、ポリウレタン3%）が生み出す超伸縮素材を使用。体の動きに合わせて自在に伸び縮みするため、細身のスタイリッシュなシルエットでありながら、窮屈感は一切ありません。
+        </p>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>肌を滑るような独自の冷感テクノロジー</h3>
+                <p style="margin-bottom:0; font-size: 0.95rem;">触れた瞬間、心地よい冷たさが広がる最先端の素材。一日中穿いていても持続するその涼しさは、従来の綿パンツとは一線を画します。</p>
+            </div>
+            <div class="feature-card">
+                <h3>ノンストレスを追求した「超伸縮」ストレッチ</h3>
+                <p style="margin-bottom:0; font-size: 0.95rem;">立ち座りの動作はもちろん、アクティブな動きにもしっかりと追従。膝の突っ張り感から完全に解放されます。</p>
+            </div>
+        </div>
+
+        <h2>オンからオフまで、大人の日常すべてに馴染む実用性</h2>
+        <p>
+            シンプルで無駄のない洗練されたデザインは、スタイリングの幅を大きく広げてくれます。カジュアルな休日スタイルから、大人のビジカジ、さらにはアクティブなシーンまで、これ1本でスマートに完結します。
+        </p>
+
+        <div class="scene-container">
+            <div class="scene-item">
+                <div class="scene-title">
+                    <span>■ ビジネス＆テレワーク</span>
+                </div>
+                <p style="margin-bottom:0; font-size: 0.95rem;">シャツやポロシャツと合わせれば、オフィスでも違和感のない上品なビジカジスタイルが完成。自宅での長時間の座り仕事も快適です。</p>
+            </div>
+            <hr style="border: none; border-top: 1px solid #e1e8ed; margin: 16px 0;">
+            <div class="scene-item">
+                <div class="scene-title">
+                    <span>■ ゴルフ＆スポーツシーン</span>
+                </div>
+                <p style="margin-bottom:0; font-size: 0.95rem;">優れたストレッチ性と吸汗性により、ゴルフのラウンドやアクティブな趣味にも対応。動きやすさと涼しさが、ベストパフォーマンスを支えます。</p>
+            </div>
+            <hr style="border: none; border-top: 1px solid #e1e8ed; margin: 16px 0;">
+            <div class="scene-item">
+                <div class="scene-title">
+                    <span>■ 週末のプライベートタイム</span>
+                </div>
+                <p style="margin-bottom:0; font-size: 0.95rem;">リラックスしたい休日のお出かけや、軽い散歩にも最適。洗練されたシルエットなので、急な来客や近所への外出もスマートに対応できます。</p>
+            </div>
+        </div>
+
+        <h2>圧倒的なバリエーションで、スタイルに合わせて自由自在</h2>
+        <p>
+            定番のブラックやネイビーはもちろん、シックなカーキやチャコール、爽やかなホワイト、さらには個性を演出するバンダナ柄やペイズリー柄まで。シーンや手持ちのアイテムに合わせて選べる多彩なバリエーションが魅力です。サイズもSから3Lまで幅広く揃い、あなたにぴったりの美しいフィッティングが見つかります。
+        </p>
+
+        <h2>リアルな愛用者の声</h2>
+        <div class="testimonial-container">
+            <div class="testimonial-card">
+                <div class="testimonial-text">「夏のゴルフに穿いていきましたが、本当に涼しくてスイング時も全く突っ張りません。普段使い用にもう1本追加で購入しました。」</div>
+                <div class="testimonial-author">40代・男性（趣味：ゴルフ）</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-text">「テレワーク時の定番になりました。エアコンの効いた室内でもさらっと気持ちよく、そのまま子供の送り迎えに出かけてもサマになるのが嬉しいですね。」</div>
+                <div class="testimonial-author">30代・男性（IT企業勤務）</div>
+            </div>
+        </div>
+
+        <!-- 購買導線エリア -->
+        <div class="product-box">
+            <div class="product-image-wrapper">
+                <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/geneless/cabinet/shouhin01/04line/mny_01/04-0074n-000.jpg?_ex=128x128" alt="接触冷感メンズパンツ" class="product-image">
+            </div>
+            <div class="product-info">
+                <div class="product-title">接触冷感 超伸縮メンズイージーエアパンツ</div>
+                <div class="product-details">
+                    <div><strong>サイズ：</strong>S / M / L / LL / XL / XXL / 3L</div>
+                    <div class="color-tag-container">
+                        <span class="color-tag">ブラック</span>
+                        <span class="color-tag">ネイビー</span>
+                        <span class="color-tag">ベージュ</span>
+                        <span class="color-tag">カーキ</span>
+                        <span class="color-tag">チャコール</span>
+                        <span class="color-tag">バンダナ柄</span>
+                        <span class="color-tag">ペイズリー</span>
+                    </div>
+                </div>
+                <a href="https://hb.afl.rakuten.co.jp/hgc/g00slrwn.h9gne34c.g00slrwn.h9gnfe19/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fgeneless%2F04-0074my%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fgeneless%2Fi%2F10001230%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" class="cta-button" target="_blank" rel="noopener noreferrer">
+                    商品を詳しく見る・購入する
+                </a>
+            </div>
+        </div>
+
+        <p>
+            機能性だけを追い求めてデザインを妥協する時代は、もう終わりです。この「超伸縮・接触冷感エアパンツ」をクローゼットに迎え、驚くほど快適で、驚くほどスマートな大人の夏を満喫してください。
+        </p>
+
+        <footer>
+            <p style="text-align: center; font-size: 0.8rem; margin: 0;">&copy; Summer Style Premium Web Magazine. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+</body>
+</html>
