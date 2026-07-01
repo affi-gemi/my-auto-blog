@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>明日に疲れを残さない。一流が選ぶリカバリーウェア「BAKUNE Dry」で極上の休養を</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+
+    :root {
+      --color-primary: #1e3a8a;
+      --color-primary-hover: #1d4ed8;
+      --color-bg-dark: #0f172a;
+      --color-bg-light: #f8fafc;
+      --color-text-main: #1e293b;
+      --color-text-sub: #64748b;
+      --color-accent: #3b82f6;
+      --font-sans: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      color: var(--color-text-main);
+      background-color: var(--color-bg-light);
+      line-height: 1.8;
+      letter-spacing: 0.03em;
+    }
+
+    /* Webメディア風ヘッダー */
+    header {
+      background-color: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 1.25rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    .header-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--color-bg-dark);
+      letter-spacing: 0.1em;
+    }
+
+    .logo span {
+      color: var(--color-accent);
+    }
+
+    .category-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      background-color: var(--color-bg-dark);
+      color: #ffffff;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+    }
+
+    /* メインコンテンツ */
+    main {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    /* 記事ヘッダー */
+    .article-header {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .article-meta {
+      font-size: 0.875rem;
+      color: var(--color-text-sub);
+      margin-bottom: 1rem;
+    }
+
+    .article-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--color-bg-dark);
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .article-title {
+        font-size: 1.75rem;
+      }
+    }
+
+    /* リード文 */
+    .lead-text {
+      font-size: 1.125rem;
+      color: #334155;
+      text-align: justify;
+      border-left: 4px solid var(--color-accent);
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    /* 商品プレビューカード */
+    .product-hero-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+      margin: 3rem 0;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      border: 1px solid #f1f5f9;
+    }
+
+    @media (max-width: 640px) {
+      .product-hero-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+      }
+    }
+
+    .product-img-wrapper {
+      flex-shrink: 0;
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 160px;
+      height: 160px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .product-img-wrapper img {
+      width: 128px;
+      height: 128px;
+      object-fit: contain;
+    }
+
+    .product-info {
+      flex-grow: 1;
+    }
+
+    .product-brand {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      margin-bottom: 0.25rem;
+    }
+
+    .product-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--color-bg-dark);
+      margin-bottom: 1rem;
+    }
+
+    /* 章立てスタイリング */
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-bg-dark);
+      margin: 3.5rem 0 1.5rem 0;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e2e8f0;
+      position: relative;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 60px;
+      height: 2px;
+      background-color: var(--color-accent);
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--color-bg-dark);
+      margin: 2rem 0 1rem 0;
+    }
+
+    p {
+      margin-bottom: 1.5rem;
+      color: #334155;
+      text-align: justify;
+    }
+
+    /* 機能特長グリッド */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .feature-card {
+      background: #ffffff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    .feature-title {
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .feature-title::before {
+      content: '✓';
+      color: var(--color-accent);
+      font-weight: 900;
+    }
+
+    /* 注意書きセクション */
+    .caution-box {
+      background-color: #fef2f2;
+      border-left: 4px solid #f87171;
+      padding: 1.25rem 1.5rem;
+      border-radius: 0 8px 8px 0;
+      margin: 2rem 0;
+    }
+
+    .caution-title {
+      font-weight: 700;
+      color: #991b1b;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .caution-list {
+      list-style-type: none;
+      font-size: 0.875rem;
+      color: #7f1d1d;
+    }
+
+    .caution-list li {
+      margin-bottom: 0.25rem;
+      position: relative;
+      padding-left: 1rem;
+    }
+
+    .caution-list li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: #f87171;
+    }
+
+    /* 比較・信頼性アピール */
+    .highlight-box {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin: 2.5rem 0;
+    }
+
+    .highlight-title {
+      font-weight: 700;
+      color: #166534;
+      margin-bottom: 0.75rem;
+    }
+
+    /* アクションボタン (CTA) */
+    .cta-area {
+      text-align: center;
+      margin: 4rem 0 2rem 0;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-primary) 100%);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1.125rem;
+      padding: 1.125rem 3rem;
+      border-radius: 9999px;
+      text-decoration: none;
+      box-shadow: 0 10px 20px -10px rgba(59, 130, 246, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 25px -10px rgba(59, 130, 246, 0.6);
+      filter: brightness(1.1);
+    }
+
+    .cta-subtext {
+      font-size: 0.85rem;
+      color: var(--color-text-sub);
+      margin-top: 1rem;
+    }
+
+    /* フッター */
+    footer {
+      background-color: var(--color-bg-dark);
+      color: #94a3b8;
+      padding: 3rem 1.5rem;
+      text-align: center;
+      font-size: 0.875rem;
+      margin-top: 5rem;
+    }
+
+    footer p {
+      color: #94a3b8;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <div class="logo">LIFE<span>WELL</span></div>
+      <div class="category-tag">Wellness</div>
+    </div>
+  </header>
+
+  <main>
+    <article>
+      <div class="article-header">
+        <div class="article-meta">Wellness Lifestyle / Gear</div>
+        <h1 class="article-title">明日に疲れを残さない。一流が選ぶリカバリーウェア「BAKUNE Dry」で、極上の休養を手に入れる</h1>
+      </div>
+
+      <p class="lead-text">
+        目覚めた瞬間から、体がすっきりと軽い。そんな清々しい朝を、最後に迎えたのはいつでしょうか。忙しい日々の中でデスクワークをこなし、常にフル回転で働く現代人にとって、最も必要なのは単なる睡眠ではなく「積極的な疲労回復」です。今、ウェルネス感度の高い人々から絶大な支持を集める高機能リカバリーウェア「BAKUNE Dry」の魅力に迫ります。
+      </p>
+
+      <h2>休養を科学する、リカバリーウェアの最新潮流</h2>
+      <p>
+        健康への自己投資が当たり前となった現代。パジャマや部屋着の選び方にも大きな変化が訪れています。これまでの「ただ心地よいだけの衣服」から、一歩進んで「能動的に身体のリカバリーをサポートするギア」としての役割が求められるようになりました。
+      </p>
+      <p>
+        その中でも注目を集めているのが、遠赤外線作用によって血行を促進し、筋肉の緊張をほぐすテクノロジー。質の高い休息は、翌日の高いパフォーマンスへの何よりの原動力となります。
+      </p>
+
+      <!-- 商品紹介カード -->
+      <div class="product-hero-card">
+        <div class="product-img-wrapper">
+          <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/tential/cabinet/13316722/imgrc0134701392.jpg?_ex=128x128" alt="BAKUNE Dry リカバリーウェア">
+        </div>
+        <div class="product-info">
+          <div class="product-brand">TENTIAL（テンシャル）</div>
+          <h3 class="product-name">【TENTIAL 公式】リカバリーウェア BAKUNE Dry Men's</h3>
+          <p style="font-size: 0.9rem; color: var(--color-text-sub); margin-bottom: 0;">特殊機能繊維「SELFLAME®」を採用し、吸汗速乾性と極上の着心地を両立した、夏場でも快適なプレミアム・リカバリーウェア。</p>
+        </div>
+      </div>
+
+      <h2>身体の熱を味方にする。BAKUNE Dryを支える独自素材「SELFLAME®」</h2>
+      <p>
+        BAKUNE Dryの最大の特徴は、自社開発の特殊機能繊維「SELFLAME®（セルフレイム）」にあります。この繊維が身体から放射される遠赤外線を吸収し、熱を自らの身体へと輻射。この絶え間ないサイクルが温熱効果をもたらし、全身の血行を優しく促進します。
+      </p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-title">着るだけの疲労軽減</div>
+          <p style="font-size: 0.9rem; margin: 0; color: #475569;">特殊繊維による血行促進効果で、寝ている間やリラックスタイムに効率よく全身の疲労蓄積をリセットします。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-title">筋肉のこりを優しくほぐす</div>
+          <p style="font-size: 0.9rem; margin: 0; color: #475569;">血流がスムーズになることで、首や肩、腰まわりの凝り固まった筋肉のコリをじんわりと和らげます。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-title">快適をキープする吸汗速乾性</div>
+          <p style="font-size: 0.9rem; margin: 0; color: #475569;">優れた吸汗速乾テクノロジーを搭載。ベタつきを抑え、寝苦しい季節でも一晩中サラリとした至高の肌触りが続きます。</p>
+        </div>
+      </div>
+
+      <h2>一般医療機器としての確かな信頼性</h2>
+      <div class="highlight-box">
+        <div class="highlight-title">医学的なアプローチに基づく機能設計</div>
+        <p style="margin-bottom: 0; font-size: 0.95rem; color: #14532d;">
+          BAKUNE Dryは、科学的根拠に基づき「一般医療機器」としての届出が完了している製品です。単なる心地よさにとどまらず、身体の調子を整える確実な機能性と安全性が担保されています。この裏付けがあるからこそ、多くのトップアスリートやビジネスエグゼクティブに愛用されています。
+        </p>
+      </div>
+
+      <h2>安心してご愛用いただくために</h2>
+      <p>
+        その確かな効果を安全に、そして長く体験していただくために、以下の点にご留意ください。
+      </p>
+      <div class="caution-box">
+        <div class="caution-title">使用上のご案内</div>
+        <ul class="caution-list">
+          <li>湿疹や、かぶれ、傷口など皮膚に異常がある部位へのご使用はお控えください。</li>
+          <li>使用中に万が一、体調に異変や異常を感じた場合は直ちに使用を中止してください。</li>
+          <li>デリケートな機能性素材を守るため、直射日光や高温多湿を避けた場所での保管を推奨します。</li>
+        </ul>
+      </div>
+
+      <h2>新しい「眠りの新習慣」で、明日をもっと美しく、エネルギッシュに</h2>
+      <p>
+        一日の1/3を占める睡眠時間。この時間をただの「休息」から「積極的なコンディショニング」へとアップグレードすること。それこそが、現代のスマートなセルフケアです。
+      </p>
+      <p>
+        極上の軽さと、身体を優しく包み込む温熱効果をまとう。明日、目覚めた瞬間の圧倒的なすっきり感を、ぜひあなたの身体で体感してください。
+      </p>
+
+      <!-- 決定打となるCTAセクション -->
+      <div class="cta-area">
+        <a href="https://hb.afl.rakuten.co.jp/hgc/g00thbmn.h9gne97f.g00thbmn.h9gnfe10/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Ftential%2Fbakune-dry-m-set_25ss%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Ftential%2Fi%2F10000290%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" class="cta-button" target="_blank" rel="noopener noreferrer">
+          BAKUNE Dryを公式サイトでチェックする
+        </a>
+        <p class="cta-subtext">※TENTIAL公式販売ページ（楽天市場）へ遷移します</p>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; LIFEWELL Media. All Rights Reserved. Specializing in Wellness &amp; Performance Design.</p>
+  </footer>
+
+</body>
+</html>
