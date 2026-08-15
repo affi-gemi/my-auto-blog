@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日常を、もっと軽やかに。私たちが「い・ろ・は・す ラベルレス」を選ぶ本当の理由</title>
+    
+    <!-- OGP メタタグ（SNSシェア最適化） -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:title" content="日常を、もっと軽やかに。私たちが「い・ろ・は・す ラベルレス」を選ぶ本当の理由">
+    <meta property="og:description" content="ただの水分補給を超えて、暮らしの質を高めてくれる水。厳選された日本の天然水と、ゴミを極限まで減らすスマートなボトルデザイン。私たちが今選ぶべき、美しくて心地よい選択肢。">
+    <meta property="og:image" content="https://thumbnail.image.rakuten.co.jp/@0_mall/kenkocom/cabinet/410/4902102139410.jpg?_ex=128x128">
+    <meta property="og:url" content="https://affi-gemi.github.io/my-auto-blog/posts/article_20260815_1.html">
+    <meta property="og:type" content="article">
+
+    <style>
+        /* デザイントレンドを取り入れた最先端のミニマルスタイル */
+        :root {
+            --primary-color: #0076df;
+            --primary-hover: #0056a3;
+            --text-main: #1a2a3a;
+            --text-sub: #5a6b7c;
+            --bg-light: #f4f8fc;
+            --border-color: #e2e8f0;
+            --font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            color: var(--text-main);
+            background-color: #ffffff;
+            line-height: 1.8;
+            letter-spacing: 0.03em;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--primary-color);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* ヒーローセクション */
+        .hero {
+            margin-bottom: 60px;
+        }
+
+        .category {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            line-height: 1.4;
+            letter-spacing: -0.01em;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        .lead-text {
+            font-size: 1.15rem;
+            color: var(--text-sub);
+            font-weight: 400;
+            margin-bottom: 40px;
+        }
+
+        /* 本文スタイリング */
+        .content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 50px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--bg-light);
+            position: relative;
+        }
+
+        .content h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .content p {
+            font-size: 1.05rem;
+            margin-bottom: 30px;
+            color: #2d3748;
+        }
+
+        .content p strong {
+            color: var(--primary-color);
+        }
+
+        /* プロダクトショーケース（カードデザイン） */
+        .product-card {
+            background-color: var(--bg-light);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 60px 0;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            border: 1px solid rgba(0, 118, 223, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .product-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px 20px;
+            }
+        }
+
+        .product-image-container {
+            flex-shrink: 0;
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .product-image {
+            display: block;
+            max-width: 128px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .product-info {
+            flex-grow: 1;
+        }
+
+        .product-tag {
+            font-size: 0.75rem;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .product-name {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .product-specs {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .product-specs li {
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+        }
+
+        .product-specs li::before {
+            content: "•";
+            color: var(--primary-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        /* 洗練されたコンバージョンボタン */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            padding: 16px 32px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 118, 223, 0.3);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 118, 223, 0.4);
+        }
+
+        /* フッター */
+        footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            padding: 60px 0;
+            font-size: 0.85rem;
+            border-top: 1px solid #1e293b;
+        }
+
+        .footer-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            color: #ffffff;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            margin-bottom: 20px;
+        }
+
+        .copyright {
+            margin-top: 30px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo">The Modern Life Journal</div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 記事ヒーローエリア -->
+        <article class="hero">
+            <span class="category">Well-being & Eco</span>
+            <h1>身体が求める、嘘のない水。<br>私たちが今「い・ろ・は・す ラベルレス」を選ぶ本当の理由</h1>
+            <p class="lead-text">
+                ただ喉を潤すためだけではなく、自分の身体と、私たちが暮らす美しい環境のために。毎日飲むものだからこそ、もっとスマートで、もっと心地いい選択をしてみませんか？
+            </p>
+        </article>
+
+        <!-- 本文セクション -->
+        <div class="content">
+            <p>
+                私たちの日常において、「水を飲む」という行為は、最もシンプルで欠かすことのできないセルフケアです。近年の健康意識の高まりとともに、私たちが身体に取り入れるものへの基準は、かつてないほど洗練されてきました。
+            </p>
+            <p>
+                その中で、ただ「体に良いもの」を選ぶ段階から、<strong>「これからの地球にとっても優しいもの」</strong>を選ぶという、新しいライフスタイルへのシフトが自然な流れとなっています。
+            </p>
+
+            <h2>日本各地の厳選された名水が、毎日のコンディションを整える</h2>
+            <p>
+                「い・ろ・は・す 天然水」は、日本各地の厳選された名水地から採水された、どこまでも澄みきった美味しい地元の天然水です。厳しい品質管理をクリアした安心のクオリティは、口にした瞬間にすっと身体に染み渡るような、やわらかな優しさを届けてくれます。
+            </p>
+            <p>
+                身体のコンディションを維持するために不可欠なナトリウム、カルシウム、マグネシウムなどの天然ミネラル成分が、理想的なバランスで溶け込んでおり、仕事中のリフレッシュやスポーツ後の水分補給、そして目覚めの一杯として、日々の暮らしに美しく寄り添います。
+            </p>
+
+            <h2>「引き算」がもたらす、驚くほどの快適さと心地よさ</h2>
+            <p>
+                このプロダクトの本当の価値は、実は「引いたこと」にあります。それが、<strong>ラベルレスボトル</strong>という選択です。
+            </p>
+            <p>
+                飲み終わるたびに、小さなラベルをわざわざ剥がして分別する——そんな日常のほんの少しのストレスから解放されるだけで、ゴミ出しの時間は驚くほどスムーズになります。余計なデザインを削ぎ落とした透明なボトルは、インテリアにも美しく調和し、デスクの上でも極めてスマート。
+            </p>
+            <p>
+                さらに、100％再生素材で作られた未来志向のボトルは、飲み干したあとに驚くほど簡単に小さく折りたたむことができます。暮らしの中で、楽しく美しく資源リサイクルに貢献できる。これこそが、最先端のサスティナブルな暮らしのカタチです。
+            </p>
+
+            <h2>厳しい基準をクリアした、裏付けのある「安全性」</h2>
+            <p>
+                直接口にするものだからこそ、ブランドの信頼性は最も重要視されるべきポイントです。「い・ろ・は・す 天然水」は、日本コカ・コーラ社が誇る非常に厳格な安全・品質管理体制のもと、一本一本が大切にボトリングされています。
+            </p>
+            <p>
+                小さなお子様からご高齢の方まで、家族みんながいつでも安心して飲めるクオリティを維持し続けること。それが「い・ろ・は・す」が長年にわたり多くの人々に愛され、選ばれ続けている何よりの証拠なのです。
+            </p>
+
+            <!-- プロダクトカード -->
+            <section class="product-card">
+                <div class="product-image-container">
+                    <img src="https://thumbnail.image.rakuten.co.jp/@0_mall/kenkocom/cabinet/410/4902102139410.jpg?_ex=128x128" alt="い・ろ・は・す 天然水 PET ラベルレス" class="product-image">
+                </div>
+                <div class="product-info">
+                    <span class="product-tag">RECOMMENDED</span>
+                    <h3 class="product-name">い・ろ・は・す 天然水 PET ラベルレス (1箱24本入 / 1本560ml)</h3>
+                    <ul class="product-specs">
+                        <li>厳選された日本の名水100%</li>
+                        <li>剥がす手間のない「ラベルレス」でスマートゴミ分別</li>
+                        <li>飲んだあとに楽しく畳める、軽量100%リサイクルペットボトル</li>
+                    </ul>
+                    <a href="https://hb.afl.rakuten.co.jp/hgc/g00pl1pn.h9gne17f.g00pl1pn.h9gnf634/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fkenkocom%2F4902102139410%2F&rafcid=wsc_i_ra_3e5f8052-7951-47bf-88c3-f96fee18d0e9" class="btn-primary" target="_blank" rel="noopener">
+                        楽天市場で詳細を見る
+                    </a>
+                </div>
+            </section>
+
+            <p>
+                毎日の「水」を変えるだけで、自分の身体が喜び、ゴミ出しの小さな手間でさえも心地よい手応えに変わっていきます。
+            </p>
+            <p>
+                重たいケースは、オンラインでスマートに自宅まで配送してもらうのが現代のセオリー。ぜひ、この快適で新しい水分補給の習慣を、あなたの美しい日常に取り入れてみてください。
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">The Modern Life Journal</div>
+            <p>洗練されたライフスタイル、健康、そして未来のためのエコデザインを提案するWebメディアです。</p>
+            <p class="copyright">&copy; 2026 The Modern Life Journal. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
